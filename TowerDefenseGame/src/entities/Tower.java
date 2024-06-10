@@ -10,6 +10,8 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
+import utils.Path;
+
 public class Tower extends Entity{
 	private Image image;
 	private Weapon weapon; 
@@ -29,11 +31,9 @@ public class Tower extends Entity{
 	        try {
 	        	URI uri = null;
 	        	if(super.isFriendly()) {
-	        		uri = new URI("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-		        			+ "tower_defense_game/TowerDefenseGame/img/cave_tower_01.png");
+	        		uri = new URI(Path.IMAGE_CAVE_TOWER_PLAYER.getName());
 	        	}else {
-	        		uri = new URI("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-		        			+ "tower_defense_game/TowerDefenseGame/img/cave_tower_02.png");
+	        		uri = new URI(Path.IMAGE_CAVE_TOWER_ENEMY.getName());
 		           
 	        	}
 	            image = ImageIO.read(uri.toURL());

@@ -18,6 +18,7 @@ import entities.Base;
 import entities.Cave;
 import entities.LivingBeing;
 import entities.Tower;
+import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {
 
@@ -27,24 +28,34 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<LivingBeing> livingBeings;
     private Dimension screenSize; 
     private Image backgroundImage;
+    private int baseWidth;
+    private int baseHeight;
+    private int towerWidth;
+    private int towerHeight;
+    private LinkedList<Tower>towersPlayer; 
+    private LinkedList<Tower>towersEnemy; 
     
     public GamePanel(Dimension screenSize,int baseWidth,int baseHeight,int towerWidth,int towerHeight) {
     	this.screenSize=screenSize;
+    	this.baseHeight=baseWidth;
+    	this.baseHeight=baseHeight;
+    	this.baseHeight=towerHeight;
+    	this.baseHeight=towerWidth;
     	this.setPreferredSize(this.screenSize);
         bases = new LinkedList<>();
         livingBeings = new LinkedList<>();
-        LinkedList<Tower> towersA = new LinkedList<>();
-        LinkedList<Tower> towersB = new LinkedList<>();
+        towersPlayer = new LinkedList<>();
+        towersEnemy = new LinkedList<>();
         loadBackgroundImage();
-        towersA.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
+        towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
         		towerHeight,1000,true));
-        towersB.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
+        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
         		(towerHeight+baseHeight),towerWidth,towerHeight,
         		1000,true,Color.PINK));
         addBaseBases(new Cave(0,this.screenSize.height-baseHeight,baseWidth,baseHeight,1000,true),
-        		towersA);
+        		towersPlayer);
         addBaseBases(new Cave(this.screenSize.width-baseWidth,this.screenSize.height-baseHeight,baseWidth,baseHeight
-        		,1000,false,Color.RED),towersB);
+        		,1000,false,Color.RED),towersEnemy);
    
         timer = new Timer(1200, this);
         timer.start();
@@ -61,9 +72,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private void loadBackgroundImage() {
     	try {
         	URI uri = null;
-        	
-        	uri = new URI("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-	        			+ "tower_defense_game/TowerDefenseGame/img/background_01.png");
+    
+        	uri = new URI(Path.IMAGE_BACKGROUND.getName());
 	           
         	
         	backgroundImage = ImageIO.read(uri.toURL());
@@ -98,6 +108,7 @@ public class GamePanel extends JPanel implements ActionListener {
             	tower.update();
             }
         }
+        
     }
 	
 	

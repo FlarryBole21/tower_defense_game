@@ -12,6 +12,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import utils.Path;
+
 public class Cave extends Base{
 	private Image image;
 
@@ -30,11 +32,9 @@ public class Cave extends Base{
 	        try {
 	        	URI uri = null;
 	        	if(super.isFriendly()) {
-	        		uri = new URI("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-		        			+ "tower_defense_game/TowerDefenseGame/img/cave_01.png");
+	        		uri = new URI(Path.IMAGE_CAVE_PLAYER.getName());
 	        	}else {
-	        		uri = new URI("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-		        			+ "tower_defense_game/TowerDefenseGame/img/cave_02.png");
+	        		uri = new URI(Path.IMAGE_CAVE_ENEMY.getName());
 		           
 	        	}
 	            image = ImageIO.read(uri.toURL());

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ui.GamePanel;
-import utils.PanelSetter;
+import ui.PanelSetter;
 
 
 public class Main {
