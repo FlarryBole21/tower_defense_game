@@ -1,9 +1,14 @@
 package entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Soldier extends LivingBeing{
 	
+	
+	public Soldier(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly,Color color) {
+		super(xPos, yPos, width,height, attack, health,friendly,color);
+	}
 
 	public Soldier(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);

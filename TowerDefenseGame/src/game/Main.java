@@ -38,11 +38,12 @@ public class Main {
 	private void initialize() {
 		frame = new JFrame();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		GamePanel gamePanel = new GamePanel(screenSize);
+		GamePanel gamePanel = new GamePanel(screenSize,170,170,100,20);
 		PanelSetter.setPanel(frame,gamePanel,Color.decode("#66CED6"));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack(); 
-        frame.setLocationRelativeTo(null); 
+        frame.setLocationRelativeTo(null);
+        frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 		gamePanel.requestFocus();
 	

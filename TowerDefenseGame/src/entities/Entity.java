@@ -1,5 +1,7 @@
 package entities;
 
+import java.awt.Color;
+
 import utils.Clearable;
 import utils.Drawable;
 import utils.Rectangle;
@@ -10,6 +12,12 @@ public abstract class Entity implements Updateable, Drawable, Clearable {
 	private Rectangle rect; 
 	private int health;
 	private boolean friendly;
+	
+	public Entity(int xPos, int yPos, int width, int height, int health, boolean friendly,Color color) {
+		rect = new Rectangle(xPos,yPos,width,height,color);
+		this.health = health;
+		this.friendly=friendly;
+	}
 	
 	
 	public Entity(int xPos, int yPos, int width, int height, int health, boolean friendly) {
