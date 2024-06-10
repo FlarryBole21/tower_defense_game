@@ -6,5 +6,15 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/verwaltung_repos/Verwaltungsanwendung/sql/mysql-connector-java-8.0.29.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/verwaltung_repos/Verwaltungsanwendung/sql/sqlite-jdbc-3.42.0.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
