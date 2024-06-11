@@ -16,16 +16,10 @@ public class Tower extends Entity{
 	private Image image;
 	private Weapon weapon; 
 	
-	public Tower(int xPos, int yPos, int width, int height, int health, boolean friendly, Color color) {
-		super(xPos, yPos, width, height, health, friendly,color);
-		loadImage();
-	}
-
 	public Tower(int xPos, int yPos, int width, int height, int health, boolean friendly) {
 		super(xPos, yPos, width, height, health, friendly);
 		loadImage();
 	}
-	
 	
 	 private void loadImage() {
 	        try {
@@ -62,8 +56,6 @@ public class Tower extends Entity{
 		if (image != null) {
             g.drawImage(image, super.getRect().getX(), super.getRect().getY(), null);
         }
-		//super.getRect().draw(g);
-		
 	}
 
 	@Override

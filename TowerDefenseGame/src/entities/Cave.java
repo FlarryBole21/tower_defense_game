@@ -17,11 +17,6 @@ import utils.Path;
 public class Cave extends Base{
 	private Image image;
 
-	
-	public Cave(int xPos, int yPos, int width, int height, int health,boolean friendly,Color color) {
-		super(xPos, yPos, width, height, health,friendly,color);
-		loadImage();
-	}
 
 	public Cave(int xPos, int yPos, int width, int height, int health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
@@ -54,8 +49,6 @@ public class Cave extends Base{
 		if (image != null) {
             g.drawImage(image, super.getRect().getX(), super.getRect().getY(), null);
         }
-		//super.getRect().draw(g);
-		
 	}
 
 	@Override

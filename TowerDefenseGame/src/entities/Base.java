@@ -7,11 +7,6 @@ public abstract class Base extends Entity{
 	
 	private LinkedList<Tower> towers;
 
-	public Base(int xPos, int yPos, int width, int height, int health,boolean friendly,Color color) {
-		super(xPos, yPos, width, height, health,friendly,color);
-		towers = new LinkedList<>();
-	}
-
 	public Base(int xPos, int yPos, int width, int height, int health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
 		towers = new LinkedList<>();
