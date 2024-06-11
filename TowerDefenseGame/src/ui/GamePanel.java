@@ -9,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -19,6 +22,8 @@ import entities.Cave;
 import entities.LivingBeing;
 import entities.Lizard;
 import entities.Tower;
+import entities.spawner.LizardSpawner;
+import entities.spawner.Spawner;
 import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -27,6 +32,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private Timer timer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> livingBeings;
+    private LinkedList<LivingBeing> newBeings;
     private Dimension screenSize; 
     private Image backgroundImage;
     private int baseWidth;
@@ -35,10 +41,12 @@ public class GamePanel extends JPanel implements ActionListener {
     private int towerHeight;
     private LinkedList<Tower>towersPlayer; 
     private LinkedList<Tower>towersEnemy; 
+    private Spawner friendlySpawner;
     
     {
     	bases = new LinkedList<>();
         livingBeings = new LinkedList<>();
+        newBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
         towersEnemy = new LinkedList<>();
   
@@ -56,6 +64,8 @@ public class GamePanel extends JPanel implements ActionListener {
         loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
+        friendlySpawner = new LizardSpawner(6000,this);
+        friendlySpawner.startSpawning();
     }
     
     
@@ -81,9 +91,36 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
     
-    private void loadBeings() {
+ 
+    public Dimension getScreenSize() {
+		return screenSize;
+	}
+    
+
+	public int getBaseWidth() {
+		return baseWidth;
+	}
+
+
+	public int getBaseHeight() {
+		return baseHeight;
+	}
+
+
+	public LinkedList<LivingBeing> getLivingBeings() {
+		return livingBeings;
+	}
+    
+    
+    public LinkedList<LivingBeing> getNewBeings() {
+		return newBeings;
+	}
+
+
+	private void loadBeings() {
         // Example to add a friendly and an enemy lizard
     	livingBeings.add(new Lizard(100, 550, 100, 100, 10, 100, true));
+    	livingBeings.add(new Lizard(this.screenSize.width-baseWidth-50, 550, 100, 100, 10, 100, false));
     	//livingBeings.add(new Lizard(200, 550, 100, 100, 10, 100, false));
     }
     
@@ -120,18 +157,34 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	private void updateGame() {
         for (Base base : bases) {
-            base.update();
+            base.update(this);
             LinkedList<Tower> towers = base.getTowers();
             for(Tower tower: towers) {
-            	tower.update();
+            	tower.update(this);
             }
         }
         
-        livingBeings.removeIf(LivingBeing::isDead);
         
-        for (LivingBeing being : livingBeings) {
-            being.update();
+        
+        Iterator<LivingBeing> iterator = livingBeings.iterator();
+        while (iterator.hasNext()) {
+            LivingBeing being = iterator.next();
+            being.update(this);
+            
+            if (being.isDead()) {
+                
+                iterator.remove();
+                break;
+                
+                //newBeings.add(new Lizard(100, 550, 100, 100, 10, 100, true));
+                
+            }
         }
+        
+        livingBeings.addAll(newBeings);
+        
+        newBeings.clear();
+        
         
     }
 	

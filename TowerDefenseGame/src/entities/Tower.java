@@ -9,7 +9,9 @@ import java.net.URISyntaxException;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
+import ui.GamePanel;
 import utils.Path;
 
 public class Tower extends Entity{
@@ -46,8 +48,8 @@ public class Tower extends Entity{
 
 
 	@Override
-	public void update() {
-		System.out.println("Update");
+	public void update(GamePanel panel) {
+		//System.out.println("Update");
 		
 	}
 

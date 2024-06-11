@@ -15,14 +15,17 @@ public abstract class LivingBeing extends Entity{
 	private String pathImage;
 	private int speed; 
 	private boolean dead;
-	private boolean animationChanged;
+	private boolean deathAnimationChanged;
     private int deathAnimationFrameCount;
-    private int totalDeathFrames = 6;  
-    private int frameDelay = 200; 
+    private int totalDeathFrames;  
+    private int frameDelay; 
 	
 	public LivingBeing(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
 		this.attack=attack;
+		this.deathAnimationChanged = false;
+        this.deathAnimationFrameCount = 0;
+        this.dead = false;
 	
 	}
 	
@@ -78,16 +81,20 @@ public abstract class LivingBeing extends Entity{
 		this.dead = dead;
 	}
 
-	public boolean isAnimationChanged() {
-		return animationChanged;
+	public boolean isDeathAnimationChanged() {
+		return deathAnimationChanged;
 	}
 
-	public void setAnimationChanged(boolean animationChanged) {
-		this.animationChanged = animationChanged;
+	public void setDeathAnimationChanged(boolean deathAnimationChanged) {
+		this.deathAnimationChanged = deathAnimationChanged;
 	}
 
 	public int getDeathAnimationFrameCount() {
 		return deathAnimationFrameCount;
+	}
+	
+	public void setDeathAnimationFrameCount(int deathAnimationFrameCount) {
+		this.deathAnimationFrameCount = deathAnimationFrameCount;
 	}
 
 	public void addDeathAnimationFrameCount(int deathAnimationFrameCount) {

@@ -11,7 +11,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
+import ui.GamePanel;
 import utils.Path;
 
 public class Cave extends Base{
@@ -39,7 +41,7 @@ public class Cave extends Base{
 	    }
 
 	@Override
-	public void update() {
+	public void update(GamePanel panel) {
 		//System.out.println("Update");
 		
 	}
