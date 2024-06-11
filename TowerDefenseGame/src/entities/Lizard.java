@@ -13,54 +13,49 @@ import javax.swing.ImageIcon;
 import utils.Path;
 
 public class Lizard extends LivingBeing{
-	private ImageIcon imageIcon;
-	private int speed = 2; 
 	
 
+	
 	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
-		loadImage();
+		super.addSpeed(2);
+		super.setFrameDelay(100);
+		super.setTotalDeathFrames(6);
+		if(friendly) {
+			super.setPathImage(Path.IMAGE_LIZARD_PLAYER_WALK.getName());
+			
+		}else {
+			super.setPathImage(Path.IMAGE_LIZARD_PLAYER_WALK.getName());
+		}
+		super.loadImage();
 	}
+	
 	
 	
 	@Override
 	public void update() {
-	
-        if (super.getRect().getX() < 1700) {
-        	super.getRect().setX(super.getRect().getX()+speed);
+		
+		if (super.getRect().getX() < 200) {
+            move();
+        } else if (!super.isAnimationChanged()) {
+            super.setPathImage(Path.IMAGE_LIZARD_PLAYER_DEATH.getName());
+            super.loadImage();
+            super.setAnimationChanged(true);
+          
+        } else {
+        	super.addDeathAnimationFrameCount(1);
+            
+        	if (super.getDeathAnimationFrameCount() >= super.getTotalDeathFrames() * (super.getFrameDelay() / 1000.0) * 60) {
+                super.setDead(true);
+            }
         }
-		
+	
 		
 	}
 	
-	 private void loadImage() {
-	        try {
-	        	URI uri = null;
-	        	if(super.isFriendly()) {
-	        		uri = new URI(Path.IMAGE_LIZARD_PLAYER.getName());
-	        	}else {
-	        		uri = new URI(Path.IMAGE_LIZARD_PLAYER.getName());
-		           
-	        	}
-	        	imageIcon = new ImageIcon(uri.toURL());
-	        } catch (IOException | URISyntaxException e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	@Override
-	public void draw(Graphics g) {
-		if (imageIcon != null) {
-            imageIcon.paintIcon(null, g, getRect().getX(), getRect().getY());
-        }
-		
+	private void move() {
+		super.getRect().setX(super.getRect().getX()+super.getSpeed());
 	}
-
-	@Override
-	public void clear(Graphics g) {
-		g.setColor(new Color(0, 0, 0, 0)); // Transparent color
-	    g.fillRect(super.getRect().getX(), super.getRect().getY(), super.getRect().getWidth(), super.getRect().getHeight());
-	}
-
 	
+
 }

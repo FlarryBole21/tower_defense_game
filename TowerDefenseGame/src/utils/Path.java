@@ -12,8 +12,12 @@ public enum Path {
 			+ "tower_defense_game/TowerDefenseGame/img/cave_tower_01.png"),
 	IMAGE_CAVE_TOWER_ENEMY("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
 			+ "tower_defense_game/TowerDefenseGame/img/cave_tower_02.png"),
-	IMAGE_LIZARD_PLAYER("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_01.gif");
+	IMAGE_LIZARD_PLAYER_WALK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_01.gif"),
+	IMAGE_LIZARD_PLAYER_ATTACK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_02.gif"),
+	IMAGE_LIZARD_PLAYER_DEATH("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_03.gif");
 	
 	private String name;
 	

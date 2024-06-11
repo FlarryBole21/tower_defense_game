@@ -127,6 +127,8 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         
+        livingBeings.removeIf(LivingBeing::isDead);
+        
         for (LivingBeing being : livingBeings) {
             being.update();
         }
@@ -148,13 +150,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         for (LivingBeing being : livingBeings) {
-        	if(being.getRect().getX() < 1000) {
-        		being.draw(g);
-        	}else {
-        		being.clear(g);
-        		livingBeings.remove(being);
-        	}
-            
+            being.draw(g);
         }
     }
 	

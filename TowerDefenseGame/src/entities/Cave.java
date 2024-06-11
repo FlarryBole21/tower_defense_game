@@ -40,7 +40,7 @@ public class Cave extends Base{
 
 	@Override
 	public void update() {
-		System.out.println("Update");
+		//System.out.println("Update");
 		
 	}
 
