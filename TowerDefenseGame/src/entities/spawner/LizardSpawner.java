@@ -29,19 +29,28 @@ public class LizardSpawner extends Spawner{
         	
         
     		//int baseWidth = spawner.getPanel().getBaseWidth();
-        	
-        	Lizard newLizard = new Lizard(Beings.FRIENDLY_LIZARD.getxPos(),Beings.FRIENDLY_LIZARD.getyPos(),
-        			Beings.FRIENDLY_LIZARD.getWidth(),Beings.FRIENDLY_LIZARD.getHeigth(),Beings.FRIENDLY_LIZARD.getAttack(),
-        			Beings.FRIENDLY_LIZARD.getHealth(),Beings.FRIENDLY_LIZARD.isFriendly());
-            newLizard.resetState();
-            spawner.getPanel().getNewBeings().add(newLizard);
-            Lizard newLizard2 = new Lizard(Beings.ENEMY_LIZARD.getxPos(),Beings.ENEMY_LIZARD.getyPos(),
-            		Beings.ENEMY_LIZARD.getWidth(),Beings.ENEMY_LIZARD.getHeigth(),Beings.ENEMY_LIZARD.getAttack(),
-            		Beings.ENEMY_LIZARD.getHealth(),Beings.ENEMY_LIZARD.isFriendly());
-            newLizard2.resetState();
-            spawner.getPanel().getNewBeings().add(newLizard2);
+
+        	if(spawner.getPanel().getFriendlyWaitingBeings().size() <= 6) {
+        		Lizard newLizard = new Lizard(Beings.FRIENDLY_LIZARD.getxPos(),Beings.FRIENDLY_LIZARD.getyPos(),
+            			Beings.FRIENDLY_LIZARD.getWidth(),Beings.FRIENDLY_LIZARD.getHeigth(),Beings.FRIENDLY_LIZARD.getAttack(),
+            			Beings.FRIENDLY_LIZARD.getHealth(),Beings.FRIENDLY_LIZARD.isFriendly());
+                newLizard.resetState();
+                spawner.getPanel().getNewBeings().add(newLizard);
+        		
+        	}
+    		
+        	if(spawner.getPanel().getEnemyWaitingBeings().size() <= 6) {
+	            Lizard newLizard2 = new Lizard(Beings.ENEMY_LIZARD.getxPos(),Beings.ENEMY_LIZARD.getyPos(),
+	            		Beings.ENEMY_LIZARD.getWidth(),Beings.ENEMY_LIZARD.getHeigth(),Beings.ENEMY_LIZARD.getAttack(),
+	            		Beings.ENEMY_LIZARD.getHealth(),Beings.ENEMY_LIZARD.isFriendly());
+	            newLizard2.resetState();
+	            spawner.getPanel().getNewBeings().add(newLizard2);
+        	}
         
             startSpawning();
+        		
+        	
+        	
         }
     }
 

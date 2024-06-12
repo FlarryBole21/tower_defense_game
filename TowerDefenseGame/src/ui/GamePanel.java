@@ -37,7 +37,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> livingBeings;
     private LinkedList<LivingBeing> newBeings;
-    private LinkedList<LivingBeing> waitingBeings;
+    private LinkedList<LivingBeing> friendlyWaitingBeings;
+    private LinkedList<LivingBeing> enemyWaitingBeings;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
@@ -51,7 +52,8 @@ public class GamePanel extends JPanel implements ActionListener {
     	bases = new LinkedList<>();
         livingBeings = new LinkedList<>();
         newBeings = new LinkedList<>();
-        waitingBeings = new LinkedList<>();
+        friendlyWaitingBeings = new LinkedList<>();
+        enemyWaitingBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
         towersEnemy = new LinkedList<>();
   
@@ -116,13 +118,28 @@ public class GamePanel extends JPanel implements ActionListener {
     
 
 
-	public LinkedList<LivingBeing> getWaitingBeings() {
-		return waitingBeings;
+	public LinkedList<LivingBeing> getFriendlyWaitingBeings() {
+		return friendlyWaitingBeings;
 	}
 
 
-	public void addWaitingBeings(LivingBeing waitingBeing) {
-		this.waitingBeings.add(waitingBeing);
+	public void addFriendlyWaitingBeings(LivingBeing waitingBeing) {
+		if(waitingBeing.isFriendly()) {
+			this.friendlyWaitingBeings.add(waitingBeing);
+		}
+	}
+	
+	
+	public LinkedList<LivingBeing> getEnemyWaitingBeings() {
+		return enemyWaitingBeings;
+	}
+
+
+	public void addEnemyWaitingBeings(LivingBeing waitingBeing) {
+		if(waitingBeing.isFriendly()== false) {
+			this.enemyWaitingBeings.add(waitingBeing);
+		}
+	
 	}
 
 
