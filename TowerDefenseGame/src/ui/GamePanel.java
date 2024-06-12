@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -18,6 +19,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entities.Base;
+import entities.Bases;
+import entities.Beings;
 import entities.Cave;
 import entities.LivingBeing;
 import entities.Lizard;
@@ -28,12 +31,13 @@ import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {
 
+	public final static Dimension SCREENSIZE = Toolkit.getDefaultToolkit().getScreenSize(); 
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> livingBeings;
     private LinkedList<LivingBeing> newBeings;
-    private Dimension screenSize; 
+    private LinkedList<LivingBeing> waitingBeings;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
@@ -47,18 +51,18 @@ public class GamePanel extends JPanel implements ActionListener {
     	bases = new LinkedList<>();
         livingBeings = new LinkedList<>();
         newBeings = new LinkedList<>();
+        waitingBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
         towersEnemy = new LinkedList<>();
   
     }
     
-    public GamePanel(Dimension screenSize,int baseWidth,int baseHeight,int towerWidth,int towerHeight) {
-    	this.screenSize=screenSize;
+    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight) {
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
-    	this.setPreferredSize(this.screenSize);
+    	this.setPreferredSize(SCREENSIZE);
         loadBackgroundImage();
         startConfig();
         loadBeings();
@@ -75,10 +79,8 @@ public class GamePanel extends JPanel implements ActionListener {
 //        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
 //        		(towerHeight+baseHeight),towerWidth,towerHeight,
 //        		1000,true));
-        addBaseBases(new Cave(0,this.screenSize.height-baseHeight,baseWidth,baseHeight,1000,true),
-        		towersPlayer);
-        addBaseBases(new Cave(this.screenSize.width-baseWidth,this.screenSize.height-baseHeight,baseWidth,baseHeight
-        		,1000,false),towersEnemy);
+        addBaseBases(Bases.FRIENDLY_CAVE.getBase(),towersPlayer);
+        addBaseBases(Bases.ENEMY_CAVE.getBase(),towersEnemy);
 	
     }
     
@@ -90,11 +92,6 @@ public class GamePanel extends JPanel implements ActionListener {
 
     }
     
-    
- 
-    public Dimension getScreenSize() {
-		return screenSize;
-	}
     
 
 	public int getBaseWidth() {
@@ -115,12 +112,24 @@ public class GamePanel extends JPanel implements ActionListener {
     public LinkedList<LivingBeing> getNewBeings() {
 		return newBeings;
 	}
+    
+    
+
+
+	public LinkedList<LivingBeing> getWaitingBeings() {
+		return waitingBeings;
+	}
+
+
+	public void addWaitingBeings(LivingBeing waitingBeing) {
+		this.waitingBeings.add(waitingBeing);
+	}
 
 
 	private void loadBeings() {
         // Example to add a friendly and an enemy lizard
-    	livingBeings.add(new Lizard(100, 550, 100, 100, 10, 100, true));
-    	livingBeings.add(new Lizard(this.screenSize.width-baseWidth-50, 550, 100, 100, 10, 100, false));
+    	livingBeings.add(Beings.FRIENDLY_LIZARD.getBeing());
+    	livingBeings.add(Beings.ENEMY_LIZARD.getBeing());
     	//livingBeings.add(new Lizard(200, 550, 100, 100, 10, 100, false));
     }
     

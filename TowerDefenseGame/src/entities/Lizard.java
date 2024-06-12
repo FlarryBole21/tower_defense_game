@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
@@ -18,10 +19,6 @@ import utils.Path;
 
 public class Lizard extends LivingBeing{
 	//private static final Logger LOGGER = Logger.getLogger(Lizard.class.getName());
-	private int battleCount = 0;
-	private int walkingCount = 0;
-	private int battleCount2 = 0;
-	private int walkingCount2 = 0;
 	private boolean friendly;
 	
 	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
@@ -42,8 +39,15 @@ public class Lizard extends LivingBeing{
 	}
 	
 	public void resetState() {
-        this.battleCount = 0;
-        this.walkingCount = 0;
+        if(friendly && Beings.FRIENDLY_LIZARD != null) {
+        	super.getRect().setX(Beings.FRIENDLY_LIZARD.getxPos());
+        	super.getRect().setY(Beings.FRIENDLY_LIZARD.getyPos());
+        	
+        }else if(!friendly && Beings.ENEMY_LIZARD != null){
+        	super.getRect().setX(Beings.ENEMY_LIZARD.getxPos());
+        	super.getRect().setY(Beings.ENEMY_LIZARD.getyPos());
+        }
+        
         super.setDeathAnimationFrameCount(0);
         super.setDeathAnimationChanged(false);
         super.setDead(false); 
@@ -54,15 +58,11 @@ public class Lizard extends LivingBeing{
 	@Override
 	public void update(GamePanel panel) {
 		
-		Dimension screenSize = panel.getScreenSize();
-		int baseWidth = panel.getBaseWidth();
-		int bound = 1000;
-		
-		if ((super.getRect().getX() < bound && friendly) 
-				|| (super.getRect().getX() > screenSize.width-baseWidth-bound && !friendly)) {
-			
-			
-			if ((walkingCount < 100 && friendly) || (walkingCount2 < 100 && !friendly)) {
+
+		if (this.getHealth() > 0) {
+
+			if (this != panel.getLivingBeings().get(0) &&  this != panel.getLivingBeings().get(1)|| 
+					panel.getLivingBeings().get(0).getRect().getX() != panel.getLivingBeings().get(1).getRect().getX()) {
 				if(friendly) {
 					super.setPathImage(Path.IMAGE_LIZARD_PLAYER_WALK.getName());
 					
@@ -70,11 +70,57 @@ public class Lizard extends LivingBeing{
 					super.setPathImage(Path.IMAGE_LIZARD_ENEMY_WALK.getName());
 				}
 	            super.loadImage();
-				move();
-				walkingCount++;
-				walkingCount2++;
+	            
+	            if(this != panel.getLivingBeings().get(0) &&  this != panel.getLivingBeings().get(1) && 
+	            		panel.getLivingBeings().get(0).getRect().getX() != panel.getLivingBeings().get(1).getRect().getX()
+	            		|| ((friendly && this != panel.getLivingBeings().get(0) && this.getRect().getX() < panel.getLivingBeings().get(0).getRect().getX()-100)
+	            				|| (!friendly && this != panel.getLivingBeings().get(1) && this.getRect().getX() 
+	            						> panel.getLivingBeings().get(1).getRect().getX()+100 ))) {
+	            	
+	            	if(panel.getWaitingBeings().size() > 0) {
+	            		
+	            		boolean flag=false;
+	            		for(LivingBeing being: panel.getWaitingBeings()) {
+	            			if(friendly && being.isFriendly() && this.getRect().getX()  >= being.getRect().getX()-100) {
+	            				flag=true;
+	            			}
+	            			
+	            			if(!friendly && !being.isFriendly() && this.getRect().getX()  <= being.getRect().getX()+100) {
+	            				flag=true;
+	            			}
+	            		}
+	            		
+	            		if( (friendly && !flag)||
+		            			(!friendly && !flag)){
+		            		
+	            			moveAndRemoveFromWaitingQueue(panel);		
+		                 }
+	            	}else {
+	            
+	            		moveAndRemoveFromWaitingQueue(panel);
+	            		
+	            	}
+
+	            }else if (this == panel.getLivingBeings().get(0) ||  this == panel.getLivingBeings().get(1) &&
+	            		panel.getLivingBeings().get(0).getRect().getX() != panel.getLivingBeings().get(1).getRect().getX()) {
+	            	
+	            	moveAndRemoveFromWaitingQueue(panel);
+	            	
+	            }else if(this != panel.getLivingBeings().get(0) &&  this != panel.getLivingBeings().get(1)) {
+	            	if(!panel.getWaitingBeings().contains(this)) {
+	            		panel.addWaitingBeings(this);
+	            	}
+	            	
+	            	System.out.println(this);
+	            	System.out.println(panel.getWaitingBeings().size());
+	            	
+	            }
+	            
+				
 
 			}else {
+				
+				
 				
 				if(friendly) {
 					super.setPathImage(Path.IMAGE_LIZARD_PLAYER_ATTACK.getName());
@@ -84,23 +130,11 @@ public class Lizard extends LivingBeing{
 				}
 				
 	            super.loadImage();
-	            battleCount++;
-	            battleCount2++;
-	            
-	            if (battleCount >= 100) {
-	            	walkingCount=0;
-	            	battleCount=0;
-	            }
-	            
-	            
-	            if (battleCount2 >= 100) {
-	            	walkingCount2=0;
-	            	battleCount2=0;
-	            }
+	            panel.getLivingBeings().get(0).removeHealth(1);
+	            panel.getLivingBeings().get(1).removeHealth(1);
+
 			}
-			
-			
-            
+
         } else if (!super.isDeathAnimationChanged()) {
         	if(friendly) {
         		super.setPathImage(Path.IMAGE_LIZARD_PLAYER_DEATH.getName());
@@ -126,6 +160,21 @@ public class Lizard extends LivingBeing{
             }
         }
 	
+		
+	}
+	
+	private void moveAndRemoveFromWaitingQueue(GamePanel panel) {
+		move();
+		Iterator<LivingBeing> iterator = panel.getWaitingBeings().iterator();
+		while (iterator.hasNext()) {
+            LivingBeing being = iterator.next();
+
+            if (being.equals(this)) {
+                
+                iterator.remove();
+                break; 
+            }
+       }
 		
 	}
 	

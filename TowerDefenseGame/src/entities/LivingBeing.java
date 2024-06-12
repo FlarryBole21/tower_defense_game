@@ -125,5 +125,7 @@ public abstract class LivingBeing extends Entity{
 	    g.fillRect(super.getRect().getX(), super.getRect().getY(), super.getRect().getWidth(), super.getRect().getHeight());
 	}
 	
+	
+	
 
 }
