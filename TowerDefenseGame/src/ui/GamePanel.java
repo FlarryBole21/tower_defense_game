@@ -75,9 +75,9 @@ public class GamePanel extends JPanel implements ActionListener {
         loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(12000,this,true);
+        friendlySpawner = new LizardSpawner(1000,this,true);
         friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(6000,this,false);
+        enemySpawner = new LizardSpawner(1000,this,false);
         enemySpawner.startSpawning();
     }
     

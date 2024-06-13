@@ -6,7 +6,7 @@ public enum Beings {
 	
 	FRIENDLY_LIZARD(new Lizard(100, 550, 100, 100, 10, 500, true)),
 	ENEMY_LIZARD(new Lizard(GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-50,
-			550, 100, 100, 10, 500, false));
+			550, 100, 100, 10, 1000, false));
 	
 	
 	private LivingBeing being;

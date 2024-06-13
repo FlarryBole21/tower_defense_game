@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import audio.AudioPlayer;
 import ui.GamePanel;
 import ui.PanelSetter;
 
@@ -26,6 +27,9 @@ public class Main {
 				}
 			}
 		});
+		
+//		AudioPlayer player = new AudioPlayer();
+//		player.play();
 
 	}
 	

@@ -18,13 +18,13 @@ public enum Path {
 			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_02.gif"),
 	IMAGE_LIZARD_PLAYER_DEATH("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
 			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_03.gif"),
-	IMAGE_LIZARD_ENEMY_WALK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_04.gif"),
-	IMAGE_LIZARD_ENEMY_ATTACK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_05.gif"),
-	IMAGE_LIZARD_ENEMY_DEATH("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_06.gif"),
 	IMAGE_LIZARD_PLAYER_WAIT("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_04.gif"),
+	IMAGE_LIZARD_ENEMY_WALK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_05.gif"),
+	IMAGE_LIZARD_ENEMY_ATTACK("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
+			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_06.gif"),
+	IMAGE_LIZARD_ENEMY_DEATH("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
 			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_07.gif"),
 	IMAGE_LIZARD_ENEMY_WAIT("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
 			+ "tower_defense_game/TowerDefenseGame/img/lifeforms/lizard_08.gif");

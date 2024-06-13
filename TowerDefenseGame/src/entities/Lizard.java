@@ -20,11 +20,13 @@ import utils.Path;
 public class Lizard extends LivingBeing{
 	//private static final Logger LOGGER = Logger.getLogger(Lizard.class.getName());
 	private boolean friendly;
+	private int attackingDistance;
 	
 	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		this.friendly=friendly;
-		super.addSpeed(2);
+		this.attackingDistance=25;
+		super.addSpeed(5);
 		super.setFrameDelay(100);
 		super.setTotalDeathFrames(6);
 		resetState(); 
@@ -80,7 +82,7 @@ public class Lizard extends LivingBeing{
         	int framesPerSecond = 60;
         	int framesForDeathAnimation = super.getTotalDeathFrames() * (framesPerSecond / (1000 / super.getFrameDelay()));
         	
-            
+            //System.out.println(framesForDeathAnimation);
         	if (super.getDeathAnimationFrameCount() >= framesForDeathAnimation) {
         		
                 super.setDead(true);
@@ -91,6 +93,8 @@ public class Lizard extends LivingBeing{
                 if(!friendly && panel.getEnemyWaitingBeings().contains(this)) {
                 	panel.getEnemyWaitingBeings().remove(this);
                 }
+                
+               
                 
                 //LOGGER.info("Lizard is dead: " + this);
             }
@@ -103,6 +107,7 @@ public class Lizard extends LivingBeing{
 	private void living(GamePanel panel) {
 		
 		System.out.println(panel.getFriendlyWaitingBeings());
+		System.out.println(panel.getEnemyWaitingBeings());
      	System.out.println("Warten-F " + panel.getFriendlyWaitingBeings().size());
      	System.out.println("Leben-F " + panel.getFriendlyLivingBeings().size());
      	System.out.println("Warten-E " + panel.getEnemyWaitingBeings().size());
@@ -111,9 +116,9 @@ public class Lizard extends LivingBeing{
      	System.out.println();
 		
 		
-		if(panel.getFriendlyLivingBeings().size() > 0 || panel.getEnemyLivingBeings().size() > 0) {
+		if(panel.getFriendlyLivingBeings().size() > 0 && panel.getEnemyLivingBeings().size() > 0) {
 			
-			int distance = 25;
+		
 			int differenceMiddle=0;
 			
 			if(panel.getEnemyLivingBeings().get(0).getRect().getX() < 900) {
@@ -130,10 +135,10 @@ public class Lizard extends LivingBeing{
 			
 		
 			if (this != panel.getFriendlyLivingBeings().get(0) &&  this != panel.getEnemyLivingBeings().get(0)|| 
-					panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance 
-					!= panel.getEnemyLivingBeings().get(0).getRect().getX()-distance ||
-					panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance-differenceMiddle 
-					!= panel.getEnemyLivingBeings().get(0).getRect().getX()-distance-differenceMiddle) {
+					panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance 
+					!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance ||
+					panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance-differenceMiddle 
+					!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance-differenceMiddle) {
 				if(friendly) {
 					super.setPathImage(Path.IMAGE_LIZARD_PLAYER_WALK.getName());
 					
@@ -143,11 +148,13 @@ public class Lizard extends LivingBeing{
 	            super.loadImage();
 	            
 	            if(this != panel.getFriendlyLivingBeings().get(0) &&  this != panel.getEnemyLivingBeings().get(0) && 
-	            		(panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance != panel.getEnemyLivingBeings().get(0).getRect().getX()-distance
+	            		(panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance 
+	            				!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance
 	            		||
-						panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance-differenceMiddle 
-						!= panel.getEnemyLivingBeings().get(0).getRect().getX()-distance-differenceMiddle) 
-	            		|| ((friendly && this != panel.getFriendlyLivingBeings().get(0) && this.getRect().getX() < panel.getFriendlyLivingBeings().get(0).getRect().getX()-100)
+						panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance-differenceMiddle 
+						!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance-differenceMiddle) 
+	            		|| ((friendly && this != panel.getFriendlyLivingBeings().get(0) 
+	            		&& this.getRect().getX() < panel.getFriendlyLivingBeings().get(0).getRect().getX()-100)
 	            				|| (!friendly && this != panel.getEnemyLivingBeings().get(0) && this.getRect().getX() 
 	            						> panel.getEnemyLivingBeings().get(0).getRect().getX()+100 ))) {
 	            	
@@ -209,10 +216,11 @@ public class Lizard extends LivingBeing{
 	            	
 	
 	            }else if (this == panel.getFriendlyLivingBeings().get(0) ||  this == panel.getEnemyLivingBeings().get(0) &&
-	            		(panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance != panel.getEnemyLivingBeings().get(0).getRect().getX()-distance
+	            		(panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance 
+	            				!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance
 	            		||
-						panel.getFriendlyLivingBeings().get(0).getRect().getX()+distance-differenceMiddle 
-						!= panel.getEnemyLivingBeings().get(0).getRect().getX()-distance-differenceMiddle)) {
+						panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance-differenceMiddle 
+						!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance-differenceMiddle)) {
 	            	
 	            	moveAndRemoveFromWaitingQueue(panel);
 	            	
@@ -229,6 +237,64 @@ public class Lizard extends LivingBeing{
 				attack(panel);
 			}
 		
+		}else {
+			
+			if(friendly) {
+				if(panel.getFriendlyLivingBeings().size() > 0) {
+					if(super.getRect().getX() < 
+					GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-150 
+					&& this == panel.getFriendlyLivingBeings().get(0)) {
+						moveAndRemoveFromWaitingQueue(panel);
+					}else if(this != panel.getFriendlyLivingBeings().get(0) ){
+						
+						boolean flag=false;
+						
+						for(LivingBeing being: panel.getFriendlyWaitingBeings()) { 
+	            			if(this.getRect().getX()  >= being.getRect().getX()-100 && being != this) {
+	            				flag=true;
+	            		
+	            			}
+	            		}
+						
+
+	            		if(!flag || this == panel.getFriendlyWaitingBeings().get(0)){
+	            			moveAndRemoveFromWaitingQueue(panel);	
+	            		}else {
+	            			
+	            			wait(panel);
+	            		}
+
+					}else {
+						wait(panel);
+					}
+
+				}
+			}else {
+					if(panel.getEnemyLivingBeings().size() > 0) {
+						if(super.getRect().getX() > 200 && this == panel.getEnemyLivingBeings().get(0)) {
+							moveAndRemoveFromWaitingQueue(panel);
+						}else if(this != panel.getEnemyLivingBeings().get(0) ){
+							
+							boolean flag=false;
+							
+							for(LivingBeing being: panel.getEnemyWaitingBeings()) { 
+		            			if(this.getRect().getX()  <= being.getRect().getX()+100 && being != this) {
+		            				flag=true;
+		            			}
+		            		}
+		            		
+		            		if(!flag || this == panel.getEnemyWaitingBeings().get(0)){
+		            			moveAndRemoveFromWaitingQueue(panel);	
+		            		}else {
+		            			wait(panel);
+		            		}
+
+						}else {
+							wait(panel);
+						}
+
+					}
+			}	
 		}
 	}
 	
@@ -242,17 +308,15 @@ public class Lizard extends LivingBeing{
 		}
 		
         super.loadImage();
-        panel.getFriendlyLivingBeings().get(0).removeHealth(1);
-        panel.getEnemyLivingBeings().get(0).removeHealth(1);
+        panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+        panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
 		
 	}
 	
 	private void wait(GamePanel panel) {
 		if(this.isFriendly() && !panel.getFriendlyWaitingBeings().contains(this)) {
     		panel.addFriendlyWaitingBeings(this);
-    	}
-		
-		if(!this.isFriendly() && !panel.getEnemyWaitingBeings().contains(this)) {
+    	}else if(!this.isFriendly() && !panel.getEnemyWaitingBeings().contains(this)) {
     		panel.addEnemyWaitingBeings(this);
     	}
     	
@@ -279,9 +343,7 @@ public class Lizard extends LivingBeing{
 		
 		if(this.isFriendly() && panel.getFriendlyWaitingBeings().contains(this)) {
 			panel.getFriendlyWaitingBeings().remove(this);
-    	}
-		
-		if(!this.isFriendly() && panel.getEnemyWaitingBeings().contains(this)) {
+    	}else if(!this.isFriendly() && panel.getEnemyWaitingBeings().contains(this)) {
     		panel.getEnemyWaitingBeings().remove(this);
     	}
 		
