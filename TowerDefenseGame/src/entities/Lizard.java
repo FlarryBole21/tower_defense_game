@@ -28,7 +28,7 @@ public class Lizard extends LivingBeing{
 		this.friendly=friendly;
 		this.attackingDistance=25;
 		this.waitingDistance=100;
-		super.addSpeed(5);
+		super.addSpeed(2);
 		super.setFrameDelay(100);
 		super.setTotalDeathFrames(6);
 		resetState(); 
@@ -62,7 +62,7 @@ public class Lizard extends LivingBeing{
 	@Override
 	public void update(GamePanel panel) {
 		
-		System.out.println("fr" + (Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70));
+//		System.out.println("fr" + (Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70));
 		if (this.getHealth() > 0) {
 
 			living(panel);

@@ -42,7 +42,7 @@ public class Main {
 	private void initialize() {
 		frame = new JFrame();
 		GamePanel gamePanel = new GamePanel(170,600,100,20);
-		PanelSetter.setPanel(frame,gamePanel,Color.decode("#66CED6"));
+		PanelSetter.setPanel(frame,gamePanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack(); 
         frame.setLocationRelativeTo(null);
