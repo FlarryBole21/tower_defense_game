@@ -18,7 +18,7 @@ public class LizardSpawner extends Spawner{
 		super(delay,panel);
 		spawner = this;
 		this.friendly=friendly;
-		basicSpawnerLimit=6;
+		basicSpawnerLimit=8;
 		totalBeingSize=15;
 	}
 	
@@ -46,25 +46,39 @@ public class LizardSpawner extends Spawner{
         	
         	if(friendly) {
         		
-        		if(friendlySize <= basicSpawnerLimit  && friendlySize <= totalBeingSize) {
-            		Lizard newLizard = new Lizard(Beings.FRIENDLY_LIZARD.getxPos(),Beings.FRIENDLY_LIZARD.getyPos(),
-                			Beings.FRIENDLY_LIZARD.getWidth(),Beings.FRIENDLY_LIZARD.getHeigth(),Beings.FRIENDLY_LIZARD.getAttack(),
-                			Beings.FRIENDLY_LIZARD.getHealth(),Beings.FRIENDLY_LIZARD.isFriendly());
-                    newLizard.resetState();
-                    spawner.getPanel().getFriendlyNewBeings().add(newLizard);
-            		
+        		if(friendlySize <= basicSpawnerLimit+Math.abs(enemySize-friendlySize)) {
+        			
+        			
+        			if(spawner.getPanel().getFriendlyLivingBeings().size() > 0) {
+        				
+        				if(Beings.FRIENDLY_LIZARD.getxPos()+100 
+        						<= spawner.getPanel().getFriendlyLivingBeings()
+        						.get(spawner.getPanel().getFriendlyLivingBeings().size()-1).getRect().getX()) {
+
+        					spawnFriend();
+        				}
+
+        			}else {
+
+        				spawnFriend();
+        			}
+
             	}
-        		
-        		
-        		
+	
         	}else {
         		
-        		if(enemySize <= basicSpawnerLimit && enemySize <= totalBeingSize) {
-    	            Lizard newLizard2 = new Lizard(Beings.ENEMY_LIZARD.getxPos(),Beings.ENEMY_LIZARD.getyPos(),
-    	            		Beings.ENEMY_LIZARD.getWidth(),Beings.ENEMY_LIZARD.getHeigth(),Beings.ENEMY_LIZARD.getAttack(),
-    	            		Beings.ENEMY_LIZARD.getHealth(),Beings.ENEMY_LIZARD.isFriendly());
-    	            newLizard2.resetState();
-    	            spawner.getPanel().getEnemyNewBeings().add(newLizard2);
+        		if(enemySize <= basicSpawnerLimit+Math.abs(enemySize-friendlySize)) {
+        			
+    			if(spawner.getPanel().getEnemyLivingBeings().size() > 0) {
+        				if(Beings.ENEMY_LIZARD.getxPos()-100 >= spawner.getPanel().getEnemyLivingBeings()
+        						.get(spawner.getPanel().getEnemyLivingBeings().size()-1).getRect().getX()) {
+
+        					spawnEnemy();
+        				}
+        			}else {
+        				spawnEnemy();
+
+        			}  
             	}
         	}
 
@@ -72,5 +86,25 @@ public class LizardSpawner extends Spawner{
         	
         }
     }
+	
+	
+	private void spawnFriend() {
+		Lizard newLizard = new Lizard(Beings.FRIENDLY_LIZARD.getxPos(),Beings.FRIENDLY_LIZARD.getyPos(),
+    			Beings.FRIENDLY_LIZARD.getWidth(),Beings.FRIENDLY_LIZARD.getHeigth(),Beings.FRIENDLY_LIZARD.getAttack(),
+    			Beings.FRIENDLY_LIZARD.getHealth(),Beings.FRIENDLY_LIZARD.isFriendly());
+        newLizard.resetState();
+        spawner.getPanel().getFriendlyNewBeings().add(newLizard);
+	}
+	
+	
+	private void spawnEnemy() {
+		
+		Lizard newLizard2 = new Lizard(Beings.ENEMY_LIZARD.getxPos(),Beings.ENEMY_LIZARD.getyPos(),
+        		Beings.ENEMY_LIZARD.getWidth(),Beings.ENEMY_LIZARD.getHeigth(),Beings.ENEMY_LIZARD.getAttack(),
+        		Beings.ENEMY_LIZARD.getHealth(),Beings.ENEMY_LIZARD.isFriendly());
+        newLizard2.resetState();
+        spawner.getPanel().getEnemyNewBeings().add(newLizard2);
+		
+	}
 
 }

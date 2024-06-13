@@ -21,11 +21,13 @@ public class Lizard extends LivingBeing{
 	//private static final Logger LOGGER = Logger.getLogger(Lizard.class.getName());
 	private boolean friendly;
 	private int attackingDistance;
+	private int waitingDistance;
 	
 	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		this.friendly=friendly;
 		this.attackingDistance=25;
+		this.waitingDistance=100;
 		super.addSpeed(5);
 		super.setFrameDelay(100);
 		super.setTotalDeathFrames(6);
@@ -60,7 +62,7 @@ public class Lizard extends LivingBeing{
 	@Override
 	public void update(GamePanel panel) {
 		
-
+		System.out.println("fr" + (Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70));
 		if (this.getHealth() > 0) {
 
 			living(panel);
@@ -154,21 +156,23 @@ public class Lizard extends LivingBeing{
 						panel.getFriendlyLivingBeings().get(0).getRect().getX()+attackingDistance-differenceMiddle 
 						!= panel.getEnemyLivingBeings().get(0).getRect().getX()-attackingDistance-differenceMiddle) 
 	            		|| ((friendly && this != panel.getFriendlyLivingBeings().get(0) 
-	            		&& this.getRect().getX() < panel.getFriendlyLivingBeings().get(0).getRect().getX()-100)
+	            		&& this.getRect().getX() < panel.getFriendlyLivingBeings().get(0).getRect().getX()-waitingDistance)
 	            				|| (!friendly && this != panel.getEnemyLivingBeings().get(0) && this.getRect().getX() 
-	            						> panel.getEnemyLivingBeings().get(0).getRect().getX()+100 ))) {
+	            						> panel.getEnemyLivingBeings().get(0).getRect().getX()+waitingDistance ))) {
 	            	
 	            	//if(panel.getEnemyWaitingBeings().size() > 0) {
 	            		
 	            		boolean flag=false;
 	            		for(LivingBeing being: panel.getFriendlyWaitingBeings()) {
-	            			if(friendly && being.isFriendly() && this.getRect().getX()  >= being.getRect().getX()-100) {
+	            			if(friendly && being.isFriendly() && this.getRect().getX()  
+	            					>= being.getRect().getX()-waitingDistance) {
 	            				flag=true;
 	            			}
 	            		}
 	            		
 	            		for(LivingBeing being: panel.getEnemyWaitingBeings()) { 
-	            			if(!friendly && !being.isFriendly() && this.getRect().getX()  <= being.getRect().getX()+100) {
+	            			if(!friendly && !being.isFriendly() && this.getRect().getX()  
+	            					<= being.getRect().getX()+waitingDistance) {
 	            				flag=true;
 	            			}
 	            		}
@@ -186,7 +190,7 @@ public class Lizard extends LivingBeing{
 		                		 
 		                		 
 		                		 if((getRect().getX() < panel.getFriendlyWaitingBeings().get(
-		                					 panel.getFriendlyWaitingBeings().size()-1).getRect().getX()-100)
+		                					 panel.getFriendlyWaitingBeings().size()-1).getRect().getX()-waitingDistance)
 		                			 || this == panel.getFriendlyWaitingBeings().get(0)) {
 		                			 
 		                			 moveAndRemoveFromWaitingQueue(panel); 
@@ -198,7 +202,7 @@ public class Lizard extends LivingBeing{
 		                	 }else if (!friendly && panel.getEnemyWaitingBeings().size() > 0){
 		                		 
 		                		 if((getRect().getX() > panel.getEnemyWaitingBeings().get(
-		                					 panel.getEnemyWaitingBeings().size()-1).getRect().getX()+100)
+		                					 panel.getEnemyWaitingBeings().size()-1).getRect().getX()+waitingDistance)
 		                		 || this == panel.getEnemyWaitingBeings().get(0)) {
 		                			 
 		                			 moveAndRemoveFromWaitingQueue(panel);
@@ -242,7 +246,7 @@ public class Lizard extends LivingBeing{
 			if(friendly) {
 				if(panel.getFriendlyLivingBeings().size() > 0) {
 					if(super.getRect().getX() < 
-					GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-150 
+					GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-50-waitingDistance 
 					&& this == panel.getFriendlyLivingBeings().get(0)) {
 						moveAndRemoveFromWaitingQueue(panel);
 					}else if(this != panel.getFriendlyLivingBeings().get(0) ){
@@ -250,7 +254,7 @@ public class Lizard extends LivingBeing{
 						boolean flag=false;
 						
 						for(LivingBeing being: panel.getFriendlyWaitingBeings()) { 
-	            			if(this.getRect().getX()  >= being.getRect().getX()-100 && being != this) {
+	            			if(this.getRect().getX()  >= being.getRect().getX()-waitingDistance && being != this) {
 	            				flag=true;
 	            		
 	            			}
@@ -278,7 +282,7 @@ public class Lizard extends LivingBeing{
 							boolean flag=false;
 							
 							for(LivingBeing being: panel.getEnemyWaitingBeings()) { 
-		            			if(this.getRect().getX()  <= being.getRect().getX()+100 && being != this) {
+		            			if(this.getRect().getX()  <= being.getRect().getX()+waitingDistance && being != this) {
 		            				flag=true;
 		            			}
 		            		}
@@ -308,8 +312,14 @@ public class Lizard extends LivingBeing{
 		}
 		
         super.loadImage();
-        panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
-        panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
+        if(panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+        	panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+        }
+        
+        if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+        	panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
+        }
+      
 		
 	}
 	
