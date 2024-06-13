@@ -35,8 +35,10 @@ public class GamePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
 	private LinkedList<Base> bases;
-    private LinkedList<LivingBeing> livingBeings;
-    private LinkedList<LivingBeing> newBeings;
+    private LinkedList<LivingBeing> friendlyLivingBeings;
+    private LinkedList<LivingBeing> enemyLivingBeings;
+    private LinkedList<LivingBeing> friendlyNewBeings;
+    private LinkedList<LivingBeing> enemyNewBeings;
     private LinkedList<LivingBeing> friendlyWaitingBeings;
     private LinkedList<LivingBeing> enemyWaitingBeings;
     private Image backgroundImage;
@@ -47,11 +49,14 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<Tower>towersPlayer; 
     private LinkedList<Tower>towersEnemy; 
     private Spawner friendlySpawner;
+    private Spawner enemySpawner;
     
     {
     	bases = new LinkedList<>();
-        livingBeings = new LinkedList<>();
-        newBeings = new LinkedList<>();
+    	friendlyLivingBeings = new LinkedList<>();
+    	enemyLivingBeings = new LinkedList<>();
+    	friendlyNewBeings = new LinkedList<>();
+    	enemyNewBeings = new LinkedList<>();
         friendlyWaitingBeings = new LinkedList<>();
         enemyWaitingBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
@@ -70,8 +75,10 @@ public class GamePanel extends JPanel implements ActionListener {
         loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(6000,this);
+        friendlySpawner = new LizardSpawner(12000,this,true);
         friendlySpawner.startSpawning();
+        enemySpawner = new LizardSpawner(6000,this,false);
+        enemySpawner.startSpawning();
     }
     
     
@@ -83,6 +90,7 @@ public class GamePanel extends JPanel implements ActionListener {
 //        		1000,true));
         addBaseBases(Bases.FRIENDLY_CAVE.getBase(),towersPlayer);
         addBaseBases(Bases.ENEMY_CAVE.getBase(),towersEnemy);
+        System.out.println(SCREENSIZE);
 	
     }
     
@@ -106,16 +114,24 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-	public LinkedList<LivingBeing> getLivingBeings() {
-		return livingBeings;
+	public LinkedList<LivingBeing> getFriendlyLivingBeings() {
+		return friendlyLivingBeings;
 	}
-    
-    
-    public LinkedList<LivingBeing> getNewBeings() {
-		return newBeings;
+
+
+	public LinkedList<LivingBeing> getEnemyLivingBeings() {
+		return enemyLivingBeings;
 	}
-    
-    
+
+
+	public LinkedList<LivingBeing> getFriendlyNewBeings() {
+		return friendlyNewBeings;
+	}
+
+
+	public LinkedList<LivingBeing> getEnemyNewBeings() {
+		return enemyNewBeings;
+	}
 
 
 	public LinkedList<LivingBeing> getFriendlyWaitingBeings() {
@@ -145,8 +161,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private void loadBeings() {
         // Example to add a friendly and an enemy lizard
-    	livingBeings.add(Beings.FRIENDLY_LIZARD.getBeing());
-    	livingBeings.add(Beings.ENEMY_LIZARD.getBeing());
+    	friendlyLivingBeings.add(Beings.FRIENDLY_LIZARD.getBeing());
+    	enemyLivingBeings.add(Beings.ENEMY_LIZARD.getBeing());
     	//livingBeings.add(new Lizard(200, 550, 100, 100, 10, 100, false));
     }
     
@@ -192,7 +208,7 @@ public class GamePanel extends JPanel implements ActionListener {
         
         
         
-        Iterator<LivingBeing> iterator = livingBeings.iterator();
+        Iterator<LivingBeing> iterator = friendlyLivingBeings.iterator();
         while (iterator.hasNext()) {
             LivingBeing being = iterator.next();
             being.update(this);
@@ -202,14 +218,33 @@ public class GamePanel extends JPanel implements ActionListener {
                 iterator.remove();
                 break;
                 
-                //newBeings.add(new Lizard(100, 550, 100, 100, 10, 100, true));
+              
                 
             }
         }
         
-        livingBeings.addAll(newBeings);
+        Iterator<LivingBeing> iterator2 = enemyLivingBeings.iterator();
+        while (iterator2.hasNext()) {
+            LivingBeing being = iterator2.next();
+            being.update(this);
+            
+            if (being.isDead()) {
+                
+                iterator2.remove();
+                break;
+                
+              
+                
+            }
+        }
         
-        newBeings.clear();
+        friendlyLivingBeings.addAll(friendlyNewBeings);
+        
+        friendlyNewBeings.clear();
+        
+        enemyLivingBeings.addAll(enemyNewBeings);
+        
+        enemyNewBeings.clear();
         
         
     }
@@ -228,7 +263,11 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
 
-        for (LivingBeing being : livingBeings) {
+        for (LivingBeing being : friendlyLivingBeings) {
+            being.draw(g);
+        }
+        
+        for (LivingBeing being : enemyLivingBeings) {
             being.draw(g);
         }
     }
