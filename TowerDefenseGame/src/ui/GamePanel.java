@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -169,14 +170,22 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
     private void loadBackgroundImage() {
+//    	try {
+//        	URI uri = null;
+//    
+//        	uri = new URI(Path.IMAGE_BACKGROUND_01.getName());
+//	           
+//        	
+//        	backgroundImage = ImageIO.read(uri.toURL());
+//        } catch (IOException | URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+    	
     	try {
-        	URI uri = null;
-    
-        	uri = new URI(Path.IMAGE_BACKGROUND_01.getName());
-	           
-        	
-        	backgroundImage = ImageIO.read(uri.toURL());
-        } catch (IOException | URISyntaxException e) {
+           
+            File file = new File(Path.IMAGE_BACKGROUND_01.getName());
+            backgroundImage = ImageIO.read(file);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     	

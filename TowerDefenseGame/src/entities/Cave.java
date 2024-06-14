@@ -3,6 +3,7 @@ package entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ import ui.GamePanel;
 import utils.Path;
 
 public class Cave extends Base{
-	private Image image;
+	private BufferedImage image;
 
 
 	public Cave(int xPos, int yPos, int width, int height, int health,boolean friendly) {
@@ -26,16 +27,33 @@ public class Cave extends Base{
 	}
 	
 	 private void loadImage() {
-	        try {
-	        	URI uri = null;
-	        	if(super.isFriendly()) {
-	        		uri = new URI(Path.IMAGE_CAVE_PLAYER.getName());
+//	        try {
+//	        	URI uri = null;
+//	        	if(super.isFriendly()) {
+//	        		uri = new URI(Path.IMAGE_CAVE_PLAYER.getName());
+//	        	}else {
+//	        		uri = new URI(Path.IMAGE_CAVE_ENEMY.getName());
+//		           
+//	        	}
+//	            image = ImageIO.read(uri.toURL());
+//	        } catch (IOException | URISyntaxException e) {
+//	            e.printStackTrace();
+//	        }
+		 
+		 
+		 try {
+	   
+			 File file = null;
+			 if(super.isFriendly()) {
+	        		file = new File(Path.IMAGE_CAVE_PLAYER.getName());
 	        	}else {
-	        		uri = new URI(Path.IMAGE_CAVE_ENEMY.getName());
+	        		file = new File(Path.IMAGE_CAVE_ENEMY.getName());
+	      
 		           
 	        	}
-	            image = ImageIO.read(uri.toURL());
-	        } catch (IOException | URISyntaxException e) {
+	        
+	            image = ImageIO.read(file);
+	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
 	    }

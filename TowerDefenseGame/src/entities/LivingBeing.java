@@ -102,13 +102,15 @@ public abstract class LivingBeing extends Entity{
 	}
 
 	public void loadImage() {
-	        try {
-	        	URI uri = new URI(getPathImage());
-	        	
-	        	imageIcon = new ImageIcon(uri.toURL());
-	        } catch (IOException | URISyntaxException e) {
-	            e.printStackTrace();
-	        }
+//	        try {
+//	        	URI uri = new URI(getPathImage());
+//	        	
+//	        	imageIcon = new ImageIcon(uri.toURL());
+//	        } catch (IOException | URISyntaxException e) {
+//	            e.printStackTrace();
+//	        }
+		
+		imageIcon = new ImageIcon(getPathImage());
 	}
 
 	@Override
@@ -116,6 +118,10 @@ public abstract class LivingBeing extends Entity{
 		if (imageIcon != null) {
             imageIcon.paintIcon(null, g, getRect().getX(), getRect().getY());
         }
+		
+//		if (imageIcon != null) {
+//            g.drawImage(imageIcon.getImage(), 0, 0, getRect().getX(), getRect().getY(), this);
+//        }
 		
 	}
 

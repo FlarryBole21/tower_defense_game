@@ -2,12 +2,14 @@ package entities;
 
 import java.awt.Color;
 
+import javax.swing.JFrame;
+
 import utils.Clearable;
 import utils.Drawable;
 import utils.Rectangle;
 import utils.Updateable;
 
-public abstract class Entity implements Updateable, Drawable, Clearable {
+public abstract class Entity extends JFrame implements Updateable, Drawable, Clearable {
 	
 	private Rectangle rect; 
 	private int health;
