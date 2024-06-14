@@ -14,6 +14,8 @@ import utils.Path;
 
 public abstract class LivingBeing extends Entity{
 	
+	private static final long serialVersionUID = 1L;
+	
 	private int attack;
 	private ImageIcon imageIcon;
 	private String pathImage;
@@ -202,6 +204,34 @@ public abstract class LivingBeing extends Entity{
 
 	public void loadImage() {
 		imageIcon = new ImageIcon(getPathImage());
+	}
+	
+	@Override
+	public void update(GamePanel panel) {
+		
+		if(getPanel() == null) {
+			setPanel(panel);
+		}
+		
+		if (this.getHealth() > 0) {
+			if(isFriendly()) {
+				living();
+			}else {
+				living();
+			}
+			
+        } else if (!isDeathAnimationChanged()) {
+        	if(isFriendly()) {
+        		deathStart();
+        	}else {
+        		deathStart();
+        	}
+        	
+        } else {
+        	death();
+        	
+        }
+
 	}
 
 	@Override

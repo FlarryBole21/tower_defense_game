@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimerTask;
 
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
@@ -37,6 +38,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Timer timer;
+	private java.util.Timer wave2timer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
@@ -73,19 +75,23 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
+    	wave2timer = new java.util.Timer();
     	this.setPreferredSize(SCREENSIZE);
         loadBackgroundImage();
         startConfig();
         //loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(12000,this,true);
+        friendlySpawner = new LizardSpawner(3000,this,true,"Normal");
         friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,this,false);
+        friendlySpawner = new LizardSpawner(10000,this,true,"Intermediate");
+        friendlySpawner.startSpawning();
+        enemySpawner = new LizardSpawner(3000,this,false,"Normal");
+        enemySpawner.startSpawning();
+        enemySpawner = new LizardSpawner(10000,this,false,"Intermediate");
         enemySpawner.startSpawning();
     }
-    
-    
+
     private void startConfig() {
 //    	towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
 //        		towerHeight,1000,true));
@@ -95,6 +101,17 @@ public class GamePanel extends JPanel implements ActionListener {
         addBaseBases(Bases.FRIENDLY_CAVE.getBase(),towersPlayer);
         addBaseBases(Bases.ENEMY_CAVE.getBase(),towersEnemy);
         System.out.println(SCREENSIZE);
+        
+        
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("Task executed after delay!");
+            }
+        };
+        
+        // Schedule the task to run after a delay of 2 seconds (2000 milliseconds)
+        wave2timer.schedule(task, 2000);
         
 	
     }
@@ -168,8 +185,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private void loadBeings() {
         // Example to add a friendly and an enemy lizard
-    	friendlyLivingBeings.add(Beings.FRIENDLY_LIZARD.getBeing());
-    	enemyLivingBeings.add(Beings.ENEMY_LIZARD.getBeing());
+    	friendlyLivingBeings.add(Beings.FRIENDLY_NORMAL_LIZARD.getBeing());
+    	enemyLivingBeings.add(Beings.ENEMY_NORMAL_LIZARD.getBeing());
     	//livingBeings.add(new Lizard(200, 550, 100, 100, 10, 100, false));
     }
     
@@ -229,7 +246,7 @@ public class GamePanel extends JPanel implements ActionListener {
             being.update(this);
             
             if (being.isDead()) {
-            	being.resetState(Beings.FRIENDLY_LIZARD);
+            	being.resetState(Beings.FRIENDLY_NORMAL_LIZARD);
                 iterator.remove();
                 break;
                 
@@ -244,12 +261,10 @@ public class GamePanel extends JPanel implements ActionListener {
             being.update(this);
             
             if (being.isDead()) {
-            	being.resetState(Beings.ENEMY_LIZARD);
+            	being.resetState(Beings.ENEMY_NORMAL_LIZARD);
                 iterator2.remove();
                 break;
-                
-              
-                
+  
             }
         }
         

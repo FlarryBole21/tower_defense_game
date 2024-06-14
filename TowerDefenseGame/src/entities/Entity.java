@@ -11,6 +11,7 @@ import utils.Updateable;
 
 public abstract class Entity extends JFrame implements Updateable, Drawable, Clearable {
 	
+	private static final long serialVersionUID = 1L;
 	private Rectangle rect; 
 	private int health;
 	private boolean friendly;
