@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import entities.Base;
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	public final static Dimension SCREENSIZE = Toolkit.getDefaultToolkit().getScreenSize(); 
 	private static final long serialVersionUID = 1L;
+	private JFrame frame;
 	private Timer timer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> friendlyLivingBeings;
@@ -65,7 +67,8 @@ public class GamePanel extends JPanel implements ActionListener {
   
     }
     
-    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight) {
+    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,JFrame frame) {
+    	this.frame=frame;
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
@@ -76,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener {
         //loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(3000,this,true);
+        friendlySpawner = new LizardSpawner(12000,this,true);
         friendlySpawner.startSpawning();
         enemySpawner = new LizardSpawner(3000,this,false);
         enemySpawner.startSpawning();
@@ -104,7 +107,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     }
     
-    
+	public JFrame getFrame() {
+		return frame;
+	}
 
 	public int getBaseWidth() {
 		return baseWidth;

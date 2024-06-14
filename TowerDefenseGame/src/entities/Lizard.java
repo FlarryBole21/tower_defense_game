@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import game.Main;
 import ui.GamePanel;
 import utils.Path;
 
@@ -68,7 +69,10 @@ public class Lizard extends LivingBeing{
 			living(panel);
 
         } else if (!super.isDeathAnimationChanged()) {
+        	
+        	
         	if(friendly) {
+        		
         		super.setPathImage(Path.IMAGE_LIZARD_PLAYER_DEATH.getName());
     			
     		}else {
@@ -77,6 +81,13 @@ public class Lizard extends LivingBeing{
            
             super.loadImage();
             super.setDeathAnimationChanged(true);
+            
+            if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() 
+            		&& panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged()) {
+            	if(Main.LIZARD_ATTACK_PLAYER.isPlay()) {
+            		Main.LIZARD_ATTACK_PLAYER.setPlay(false);
+            	}
+            }
           
         } else {
         	super.addDeathAnimationFrameCount(1);
@@ -304,6 +315,7 @@ public class Lizard extends LivingBeing{
 	
 	
 	private void attack(GamePanel panel) {
+
 		if(friendly) {
 			super.setPathImage(Path.IMAGE_LIZARD_PLAYER_ATTACK.getName());
 			
@@ -313,10 +325,20 @@ public class Lizard extends LivingBeing{
 		
         super.loadImage();
         if(panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+        	
+        	if(Main.LIZARD_ATTACK_PLAYER.isPlay() == false && panel.getEnemyLivingBeings().size() > 0) {
+    			Main.LIZARD_ATTACK_PLAYER.setPlay(true);
+    		}
+        	
         	panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
         }
         
         if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+        	
+        	if(Main.LIZARD_ATTACK_PLAYER.isPlay() == false && panel.getFriendlyLivingBeings().size() > 0) {
+    			Main.LIZARD_ATTACK_PLAYER.setPlay(true);
+    		}
+        	
         	panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
         }
       
@@ -324,6 +346,25 @@ public class Lizard extends LivingBeing{
 	}
 	
 	private void wait(GamePanel panel) {
+		
+		
+		if(Main.LIZARD_ATTACK_PLAYER.isPlay()) {
+			
+			if(panel.getFriendlyLivingBeings().size() > 0) {
+				if(this == panel.getFriendlyLivingBeings().get(0)) {
+					Main.LIZARD_ATTACK_PLAYER.setPlay(false);
+				}
+			}
+			
+			
+			if(panel.getEnemyLivingBeings().size() > 0) {
+				if(this == panel.getEnemyLivingBeings().get(0)) {
+					Main.LIZARD_ATTACK_PLAYER.setPlay(false);
+				}
+			}
+    	
+    	}
+		
 		if(this.isFriendly() && !panel.getFriendlyWaitingBeings().contains(this)) {
     		panel.addFriendlyWaitingBeings(this);
     	}else if(!this.isFriendly() && !panel.getEnemyWaitingBeings().contains(this)) {
@@ -341,7 +382,7 @@ public class Lizard extends LivingBeing{
 	}
 	
 	private void moveAndRemoveFromWaitingQueue(GamePanel panel) {
-		move();
+		move(panel);
 		if(friendly) {
     		super.setPathImage(Path.IMAGE_LIZARD_PLAYER_WALK.getName());
 			
@@ -362,7 +403,25 @@ public class Lizard extends LivingBeing{
 		
 	}
 	
-	private void move() {
+	private void move(GamePanel panel) {
+		
+		if(Main.LIZARD_ATTACK_PLAYER.isPlay()) {
+			
+			if(panel.getFriendlyLivingBeings().size() > 0) {
+				if(this == panel.getFriendlyLivingBeings().get(0)) {
+					Main.LIZARD_ATTACK_PLAYER.setPlay(false);
+				}
+			}
+			
+			
+			if(panel.getEnemyLivingBeings().size() > 0) {
+				if(this == panel.getEnemyLivingBeings().get(0)) {
+					Main.LIZARD_ATTACK_PLAYER.setPlay(false);
+				}
+			}
+    	
+    	}
+		
 		if(friendly) {
 			super.getRect().setX(super.getRect().getX()+super.getSpeed());
 		}else {

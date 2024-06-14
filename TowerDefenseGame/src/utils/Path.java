@@ -15,7 +15,8 @@ public enum Path {
     IMAGE_LIZARD_ENEMY_ATTACK("img/lifeforms/lizard_06.gif"),
     IMAGE_LIZARD_ENEMY_DEATH("img/lifeforms/lizard_07.gif"),
     IMAGE_LIZARD_ENEMY_WAIT("img/lifeforms/lizard_08.gif"),
-	MAIN_BACKGROUND_MUSIC("audio/GloriousMorning2.wav");
+	MAIN_BACKGROUND_MUSIC("audio/GloriousMorning2.wav"),
+	LIZARD_ATTACK_SOUND("audio/LizardAttack.wav");
 	
 	private String name;
 	
