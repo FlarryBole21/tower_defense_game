@@ -92,7 +92,7 @@ public class LizardSpawner extends Spawner{
 		Lizard newLizard = new Lizard(Beings.FRIENDLY_LIZARD.getxPos(),Beings.FRIENDLY_LIZARD.getyPos(),
     			Beings.FRIENDLY_LIZARD.getWidth(),Beings.FRIENDLY_LIZARD.getHeigth(),Beings.FRIENDLY_LIZARD.getAttack(),
     			Beings.FRIENDLY_LIZARD.getHealth(),Beings.FRIENDLY_LIZARD.isFriendly());
-        newLizard.resetState();
+        newLizard.resetState(Beings.FRIENDLY_LIZARD);
         spawner.getPanel().getFriendlyNewBeings().add(newLizard);
 	}
 	
@@ -102,7 +102,7 @@ public class LizardSpawner extends Spawner{
 		Lizard newLizard2 = new Lizard(Beings.ENEMY_LIZARD.getxPos(),Beings.ENEMY_LIZARD.getyPos(),
         		Beings.ENEMY_LIZARD.getWidth(),Beings.ENEMY_LIZARD.getHeigth(),Beings.ENEMY_LIZARD.getAttack(),
         		Beings.ENEMY_LIZARD.getHealth(),Beings.ENEMY_LIZARD.isFriendly());
-        newLizard2.resetState();
+        newLizard2.resetState(Beings.ENEMY_LIZARD);
         spawner.getPanel().getEnemyNewBeings().add(newLizard2);
 		
 	}

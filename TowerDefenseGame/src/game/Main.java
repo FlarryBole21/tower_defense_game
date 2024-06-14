@@ -26,7 +26,8 @@ public class Main {
 				try {
 					Main window = new Main();
 					window.frame.setVisible(true);
-					window.startAudio();
+					window.startAudio(BACKGROUND_PLAYER);
+					window.startAudio(LIZARD_ATTACK_PLAYER);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,20 +71,12 @@ public class Main {
 	}
 
 
-	public void startAudio() {
+	public void startAudio(AudioPlayer player) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-            	BACKGROUND_PLAYER.play();
-            }
-        }).start();
-        
-        
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-            	if(LIZARD_ATTACK_PLAYER.isPlay()) {
-            		LIZARD_ATTACK_PLAYER.play();
+            	if(player.isPlay()) {
+            		player.play();
     	        }
             }
         }).start();

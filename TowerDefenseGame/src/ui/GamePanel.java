@@ -229,7 +229,7 @@ public class GamePanel extends JPanel implements ActionListener {
             being.update(this);
             
             if (being.isDead()) {
-                
+            	being.resetState(Beings.FRIENDLY_LIZARD);
                 iterator.remove();
                 break;
                 
@@ -244,7 +244,7 @@ public class GamePanel extends JPanel implements ActionListener {
             being.update(this);
             
             if (being.isDead()) {
-                
+            	being.resetState(Beings.ENEMY_LIZARD);
                 iterator2.remove();
                 break;
                 
