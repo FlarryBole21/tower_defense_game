@@ -10,11 +10,13 @@ import javax.swing.JPanel;
 import audio.AudioPlayer;
 import ui.GamePanel;
 import ui.PanelSetter;
+import utils.Path;
 
 
 public class Main {
 	
 	private JFrame frame;
+	private AudioPlayer player;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -22,17 +24,14 @@ public class Main {
 				try {
 					Main window = new Main();
 					window.frame.setVisible(true);
+					window.startAudio();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
-//		AudioPlayer player = new AudioPlayer();
-//		player.play();
 
 	}
-	
 	
 	public Main() {
 		initialize();
@@ -49,8 +48,30 @@ public class Main {
         frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 		gamePanel.requestFocus();
+		
+		
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (player != null) {
+                    player.stop();
+                    
+                }
+            }
+        });
 	
 	}
+	
+	
+	public void startAudio() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                player = new AudioPlayer();
+                player.play(Path.MAIN_BACKGROUND_MUSIC.getName(),true);
+            }
+        }).start();
+    }
 	
 	
 

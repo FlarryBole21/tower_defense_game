@@ -8,30 +8,34 @@ import javax.sound.sampled.Clip;
 
 public class AudioPlayer {
 	
+	private Clip audioClip;
 	
-	public void play() {
+	public void play(String fileName, boolean loop) {
 		try {
 	       
-	        File audioFile = new File("file:///D:/Karriere/fi23a/Aufgaben/Java/Code/GIT/"
-	    			+ "tower_defense_game/TowerDefenseGame/audio/GloriousMorning2.wav");
+	        File audioFile = new File("audio/GloriousMorning2.wav");
 	        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-	        Clip audioClip = AudioSystem.getClip();
+	        audioClip = AudioSystem.getClip();
 	        audioClip.open(audioStream);
 	        audioClip.start();
-
-	        while (!audioClip.isRunning()) {
-	            Thread.sleep(10);
+	        if(loop) {
+	        	audioClip.loop(Clip.LOOP_CONTINUOUSLY);
 	        }
-	        while (audioClip.isRunning()) {
-	            Thread.sleep(10);
-	        }
-
-	        audioClip.close();
+	        
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 
 	}
+	
+	
+	
+	public void stop() {
+        if (audioClip != null && audioClip.isRunning()) {
+        	audioClip.stop();
+        	audioClip.close();
+        }
+    }
 }
 

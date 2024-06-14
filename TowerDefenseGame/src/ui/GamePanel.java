@@ -73,7 +73,7 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.setPreferredSize(SCREENSIZE);
         loadBackgroundImage();
         startConfig();
-        loadBeings();
+        //loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
         friendlySpawner = new LizardSpawner(3000,this,true);
@@ -92,6 +92,7 @@ public class GamePanel extends JPanel implements ActionListener {
         addBaseBases(Bases.FRIENDLY_CAVE.getBase(),towersPlayer);
         addBaseBases(Bases.ENEMY_CAVE.getBase(),towersEnemy);
         System.out.println(SCREENSIZE);
+        
 	
     }
     
