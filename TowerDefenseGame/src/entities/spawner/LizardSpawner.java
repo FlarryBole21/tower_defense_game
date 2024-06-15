@@ -28,6 +28,11 @@ public class LizardSpawner extends Spawner{
 	public void startSpawning() {
         super.getTimer().schedule(new SpawnTask(), super.getDelay());
     }
+	
+	@Override
+	public void stopSpawning() {
+		getTimer().cancel();
+	}
 
 	public boolean isFriendly() {
 		return friendly;

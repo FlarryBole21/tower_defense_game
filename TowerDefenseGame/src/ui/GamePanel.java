@@ -32,6 +32,7 @@ import entities.Cave;
 import entities.LivingBeing;
 import entities.Lizard;
 import entities.Tower;
+import entities.spawner.BearSpawner;
 import entities.spawner.LizardSpawner;
 import entities.spawner.Spawner;
 import utils.Path;
@@ -41,6 +42,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public final static Dimension SCREENSIZE = Toolkit.getDefaultToolkit().getScreenSize(); 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
+	private GamePanel panel;
 	private Timer timer;
 	private int wave;
 	private java.util.Timer waveTimer;
@@ -77,6 +79,7 @@ public class GamePanel extends JPanel implements ActionListener {
     
     public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,JFrame frame,JLabel waveLabel) {
     	this.frame=frame;
+    	this.panel=this;
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
@@ -127,10 +130,18 @@ public class GamePanel extends JPanel implements ActionListener {
             @Override
             public void run() {
                 wave++;
+                if(wave >= 4) {
+                	friendlySpawner.stopSpawning();
+                	enemySpawner.stopSpawning();
+                	friendlySpawner = new BearSpawner(3000,panel,true);
+                    friendlySpawner.startSpawning();
+                    enemySpawner = new BearSpawner(3000,panel,false);
+                    enemySpawner.startSpawning();
+                }
                 updateWaveLabel();
-                waveSpawning();
                 changeBackground();
-                
+                waveSpawning();
+
             }
         };
         

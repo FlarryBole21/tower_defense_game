@@ -40,6 +40,8 @@ public abstract class Spawner {
 	}
 
 	public abstract void startSpawning();
+	
+	public abstract void stopSpawning();
 
  
 }

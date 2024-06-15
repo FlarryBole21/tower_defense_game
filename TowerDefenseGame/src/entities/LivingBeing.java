@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import javax.swing.ImageIcon;
 
 import audio.AudioPlayer;
+import game.Main;
 import ui.GamePanel;
 import utils.Path;
 
@@ -527,15 +528,25 @@ public abstract class LivingBeing extends Entity{
 	
 	private void stopAttackSound() {
 		
-		if(attackingAudio.isPlay()) {
+		boolean flag=false;
+		AudioPlayer certainPlayer=null;
+		
+		for(AudioPlayer player: Main.ATTACK_PLAYERS) {
+			if(player.isPlay()) {
+				certainPlayer=player;
+				flag=true;
+			}
+		}
+		
+		if(flag) {
 			
 			if(panel.getFriendlyLivingBeings().size() > 0) {
 				if(this == panel.getFriendlyLivingBeings().get(0)) {
-					attackingAudio.setPlay(false);
+					certainPlayer.setPlay(false);
 				}
 			}else if(panel.getEnemyLivingBeings().size() > 0) {
 				if(this == panel.getEnemyLivingBeings().get(0)) {
-					attackingAudio.setPlay(false);
+					certainPlayer.setPlay(false);
 				}
 			}
     	

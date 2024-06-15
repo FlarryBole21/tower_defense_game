@@ -24,8 +24,17 @@ public enum Path {
     IMAGE_INTERMEDIATE_LIZARD_ENEMY_ATTACK("img/lifeforms/lizard_14.gif"),
     IMAGE_INTERMEDIATE_LIZARD_ENEMY_DEATH("img/lifeforms/lizard_15.gif"),
     IMAGE_INTERMEDIATE_LIZARD_ENEMY_WAIT("img/lifeforms/lizard_16.gif"),
+    IMAGE_NORMAL_BEAR_PLAYER_WALK("img/lifeforms/bear_01.gif"),
+    IMAGE_NORMAL_BEAR_PLAYER_ATTACK("img/lifeforms/bear_02.gif"),
+    IMAGE_NORMAL_BEAR_PLAYER_DEATH("img/lifeforms/bear_03.gif"),
+    IMAGE_NORMAL_BEAR_PLAYER_WAIT("img/lifeforms/bear_04.gif"),
+    IMAGE_NORMAL_BEAR_ENEMY_WALK("img/lifeforms/bear_05.gif"),
+    IMAGE_NORMAL_BEAR_ENEMY_ATTACK("img/lifeforms/bear_06.gif"),
+    IMAGE_NORMAL_BEAR_ENEMY_DEATH("img/lifeforms/bear_07.gif"),
+    IMAGE_NORMAL_BEAR_ENEMY_WAIT("img/lifeforms/bear_08.gif"),
 	MAIN_BACKGROUND_MUSIC("audio/GloriousMorning2.wav"),
-	LIZARD_ATTACK_SOUND("audio/LizardAttack.wav");
+	LIZARD_ATTACK_SOUND("audio/LizardAttack.wav"),
+	BEAR_ATTACK_SOUND("audio/BearAttack.wav");
 	
 	private String name;
 	
