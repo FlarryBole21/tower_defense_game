@@ -1,8 +1,10 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,7 +21,9 @@ import java.util.TimerTask;
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import entities.Base;
 import entities.Bases;
@@ -38,7 +42,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
 	private Timer timer;
-	private java.util.Timer wave2timer;
+	private int wave;
+	private java.util.Timer waveTimer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
@@ -55,6 +60,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<Tower>towersEnemy; 
     private Spawner friendlySpawner;
     private Spawner enemySpawner;
+    private JLabel waveLabel; 
     
     {
     	bases = new LinkedList<>();
@@ -69,30 +75,38 @@ public class GamePanel extends JPanel implements ActionListener {
   
     }
     
-    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,JFrame frame) {
+    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,JFrame frame,JLabel waveLabel) {
     	this.frame=frame;
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
-    	wave2timer = new java.util.Timer();
+    	this.waveLabel=waveLabel;
+    	this.wave=1;
+    	waveTimer = new java.util.Timer();
+    	updateWaveLabel();
+    	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
         loadBackgroundImage();
         startConfig();
         //loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(3000,this,true,"Normal");
+        friendlySpawner = new LizardSpawner(3000,this,true);
         friendlySpawner.startSpawning();
-        friendlySpawner = new LizardSpawner(10000,this,true,"Intermediate");
-        friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,this,false,"Normal");
+        enemySpawner = new LizardSpawner(3000,this,false);
         enemySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(10000,this,false,"Intermediate");
-        enemySpawner.startSpawning();
+       
     }
+    
+    
 
-    private void startConfig() {
+    public int getWave() {
+		return wave;
+	}
+
+
+	private void startConfig() {
 //    	towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
 //        		towerHeight,1000,true));
 //        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
@@ -106,12 +120,12 @@ public class GamePanel extends JPanel implements ActionListener {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Task executed after delay!");
+                wave=2;
+                updateWaveLabel();
             }
         };
         
-        // Schedule the task to run after a delay of 2 seconds (2000 milliseconds)
-        wave2timer.schedule(task, 2000);
+        waveTimer.schedule(task, 50000);
         
 	
     }
@@ -279,6 +293,11 @@ public class GamePanel extends JPanel implements ActionListener {
         
     }
 	
+	private void updateWaveLabel() {
+        SwingUtilities.invokeLater(() -> {
+            waveLabel.setText("Welle " + wave);
+        });
+    }
 	
 	@Override
     protected void paintComponent(Graphics g) {

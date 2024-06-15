@@ -14,24 +14,16 @@ public class LizardSpawner extends Spawner{
 	private LizardSpawner spawner;
 	private boolean friendly;
 	private int basicSpawnerLimit;
-	private String type;
+	private int friendlyCount;
+	private int enemyCount;
 
-	public LizardSpawner(long delay,GamePanel panel,boolean friendly,String type) {
+	public LizardSpawner(long delay,GamePanel panel,boolean friendly) {
 		super(delay,panel);
 		spawner = this;
 		this.friendly=friendly;
-		this.type=type;
 		basicSpawnerLimit=8;
 	}
 	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	@Override
 	public void startSpawning() {
         super.getTimer().schedule(new SpawnTask(), super.getDelay());
@@ -65,28 +57,25 @@ public class LizardSpawner extends Spawner{
         						<= spawner.getPanel().getFriendlyLivingBeings()
         						.get(spawner.getPanel().getFriendlyLivingBeings().size()-1).getRect().getX()) {
         					
-        					switch (type) {
-        				    case "Normal":
-        				    	spawnNormalFriend();
-        				        break;
-        				    case "Intermediate":
-        				    	spawnIntermediateFriend();
-        				        break;
-        				    default:
-        					}
+        					friendlyCount++;
+        					
+        					if(spawner.getPanel().getWave() > 1 && friendlyCount % 5 == 0) {
+            					spawnIntermediateFriend();
+            				}else {
+            					spawnNormalFriend();
+            				}
         				}
 
         			}else {
 
-        				switch (type) {
-    				    case "Normal":
-    				    	spawnNormalFriend();
-    				        break;
-    				    case "Intermediate":
-    				    	spawnIntermediateFriend();
-    				        break;
-    				    default:
-    					}
+        				friendlyCount++;
+        				
+        				if(spawner.getPanel().getWave() > 1 && friendlyCount % 5 == 0) {
+        					spawnIntermediateFriend();
+        				}else {
+        					spawnNormalFriend();
+        				}
+
         			}
 
             	}
@@ -101,26 +90,23 @@ public class LizardSpawner extends Spawner{
         						Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos()-100 >= spawner.getPanel().getEnemyLivingBeings()
         						.get(spawner.getPanel().getEnemyLivingBeings().size()-1).getRect().getX()) {
 
-        					switch (type) {
-        				    case "Normal":
-        				    	spawnNormalEnemy();
-        				        break;
-        				    case "Intermediate":
-        				    	spawnIntermediateEnemy();
-        				        break;
-        				    default:
-        					}
+        					enemyCount++;
+        					
+        					if(spawner.getPanel().getWave() > 1 && enemyCount % 5 == 0) {
+            					spawnIntermediateEnemy();
+            				}else {
+            					spawnNormalEnemy();
+            				}
         				}
         			}else {
-        				switch (type) {
-    				    case "Normal":
-    				    	spawnNormalEnemy();
-    				        break;
-    				    case "Intermediate":
-    				    	spawnIntermediateEnemy();
-    				        break;
-    				    default:
-    					}
+        				enemyCount++;
+        				
+        				if(spawner.getPanel().getWave() > 1 && enemyCount % 5 == 0) {
+        					spawnIntermediateEnemy();
+        				}else {
+        					spawnNormalEnemy();
+        				}
+
 
         			}  
             	}

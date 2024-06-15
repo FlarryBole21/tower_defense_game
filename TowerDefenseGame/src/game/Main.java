@@ -1,12 +1,20 @@
 package game;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.Toolkit;
 
 import javax.sound.sampled.Clip;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
 import ui.GamePanel;
@@ -21,7 +29,7 @@ public class Main {
 	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true);
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Main window = new Main();
@@ -43,7 +51,18 @@ public class Main {
 	
 	private void initialize() {
 		frame = new JFrame();
-		GamePanel gamePanel = new GamePanel(170,600,100,20,frame);
+		JLabel label = new JLabel();
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        //label.setVerticalAlignment(SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 70));
+        label.setForeground(Color.WHITE);
+        label.setOpaque(true);
+        label.setBackground(Color.BLACK);
+        
+        int padding = 20;
+        label.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
+        GamePanel gamePanel = new GamePanel(170,600,100,20,frame,label);
+        gamePanel.add(label, BorderLayout.PAGE_END);
 		PanelSetter.setPanel(frame,gamePanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack(); 
