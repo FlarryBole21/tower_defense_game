@@ -243,11 +243,6 @@ public abstract class LivingBeing extends Entity{
 		
 	}
 
-	@Override
-	public void clear(Graphics g) {
-		g.setColor(new Color(0, 0, 0, 0)); 
-	    g.fillRect(super.getRect().getX(), super.getRect().getY(), super.getRect().getWidth(), super.getRect().getHeight());
-	}
 	
 	
 	public void deathStart() {
@@ -289,7 +284,7 @@ public abstract class LivingBeing extends Entity{
 		
 		if(panel.getFriendlyLivingBeings().size() > 0 && panel.getEnemyLivingBeings().size() > 0) {
 			
-		
+			System.out.println(panel.getBaseWidth());
 			int differenceMiddle=0;
 			
 			if(panel.getEnemyLivingBeings().get(0).getRect().getX() < 900) {

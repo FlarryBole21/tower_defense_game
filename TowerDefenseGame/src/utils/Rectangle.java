@@ -3,7 +3,7 @@ package utils;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Rectangle implements Drawable, Moveable, Clearable{
+public class Rectangle implements Drawable, Moveable{
 	
 	private int x;
 	private int y;
@@ -76,12 +76,6 @@ public class Rectangle implements Drawable, Moveable, Clearable{
 		this.color = color;
 	}
 
-
-	@Override
-	public void clear(Graphics g) {
-		g.clearRect(x, y, width, height);
-		
-	}
 
 	@Override
 	public void move(int x, int y) {

@@ -1,15 +1,12 @@
 package entities;
 
 import java.awt.Color;
-
 import javax.swing.JFrame;
-
-import utils.Clearable;
 import utils.Drawable;
 import utils.Rectangle;
 import utils.Updateable;
 
-public abstract class Entity extends JFrame implements Updateable, Drawable, Clearable {
+public abstract class Entity extends JFrame implements Updateable, Drawable {
 	
 	private static final long serialVersionUID = 1L;
 	private Rectangle rect; 

@@ -16,6 +16,18 @@ public class LizardSpawner extends Spawner{
 	private int basicSpawnerLimit;
 	private int friendlyCount;
 	private int enemyCount;
+	private Beings normalFriend;
+	private Beings normalEnemy;
+	private Beings intermediateFriend;
+	private Beings intermediateEnemy;
+	
+	{
+		normalFriend=Beings.FRIENDLY_NORMAL_LIZARD;
+		normalEnemy=Beings.ENEMY_NORMAL_LIZARD;
+		intermediateFriend=Beings.FRIENDLY_INTERMEDIATE_LIZARD;
+		intermediateEnemy=Beings.ENEMY_INTERMEDIATE_LIZARD;
+		
+	}
 
 	public LizardSpawner(long delay,GamePanel panel,boolean friendly) {
 		super(delay,panel);
@@ -34,11 +46,6 @@ public class LizardSpawner extends Spawner{
 		getTimer().cancel();
 	}
 
-	public boolean isFriendly() {
-		return friendly;
-	}
-
-
 	private class SpawnTask extends TimerTask {
 
         @Override
@@ -55,10 +62,10 @@ public class LizardSpawner extends Spawner{
         			
         			if(spawner.getPanel().getFriendlyLivingBeings().size() > 0) {
         				
-        				if(Beings.FRIENDLY_NORMAL_LIZARD.getxPos()+100 
+        				if(normalFriend.getxPos()+normalFriend.getWaitingDistance() 
         						<= spawner.getPanel().getFriendlyLivingBeings()
         						.get(spawner.getPanel().getFriendlyLivingBeings().size()-1).getRect().getX()
-        						&& Beings.FRIENDLY_INTERMEDIATE_LIZARD.getxPos()+100 
+        						&& intermediateFriend.getxPos()+intermediateFriend.getWaitingDistance()
         						<= spawner.getPanel().getFriendlyLivingBeings()
         						.get(spawner.getPanel().getFriendlyLivingBeings().size()-1).getRect().getX()) {
         					
@@ -77,9 +84,9 @@ public class LizardSpawner extends Spawner{
         		if(enemySize <= basicSpawnerLimit+Math.abs(enemySize-friendlySize)) {
         			
     			if(spawner.getPanel().getEnemyLivingBeings().size() > 0) {
-        				if(Beings.ENEMY_NORMAL_LIZARD.getxPos()-100 >= spawner.getPanel().getEnemyLivingBeings()
+        				if(normalEnemy.getxPos()-normalEnemy.getWaitingDistance() >= spawner.getPanel().getEnemyLivingBeings()
         						.get(spawner.getPanel().getEnemyLivingBeings().size()-1).getRect().getX() &&
-        						Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos()-100 >= spawner.getPanel().getEnemyLivingBeings()
+        						intermediateEnemy.getxPos()-intermediateEnemy.getWaitingDistance() >= spawner.getPanel().getEnemyLivingBeings()
         						.get(spawner.getPanel().getEnemyLivingBeings().size()-1).getRect().getX()) {
 
         					spawnEnemy();
@@ -126,38 +133,38 @@ public class LizardSpawner extends Spawner{
 	
 	
 	private void spawnNormalFriend() {
-		Lizard newLizard = new NormalLizard(Beings.FRIENDLY_NORMAL_LIZARD.getxPos(),Beings.FRIENDLY_NORMAL_LIZARD.getyPos(),
-    			Beings.FRIENDLY_NORMAL_LIZARD.getWidth(),Beings.FRIENDLY_NORMAL_LIZARD.getHeigth(),Beings.FRIENDLY_NORMAL_LIZARD.getAttack(),
-    			Beings.FRIENDLY_NORMAL_LIZARD.getHealth(),Beings.FRIENDLY_NORMAL_LIZARD.isFriendly());
-        newLizard.resetState(Beings.FRIENDLY_NORMAL_LIZARD);
+		Lizard newLizard = new NormalLizard(normalFriend.getxPos(),normalFriend.getyPos(),
+				normalFriend.getWidth(),normalFriend.getHeigth(),normalFriend.getAttack(),
+				normalFriend.getHealth(),normalFriend.isFriendly());
+        newLizard.resetState(normalFriend);
         spawner.getPanel().getFriendlyNewBeings().add(newLizard);
 	}
 	
 	
 	private void spawnNormalEnemy() {
 		
-		Lizard newLizard = new NormalLizard(Beings.ENEMY_NORMAL_LIZARD.getxPos(),Beings.ENEMY_NORMAL_LIZARD.getyPos(),
-        		Beings.ENEMY_NORMAL_LIZARD.getWidth(),Beings.ENEMY_NORMAL_LIZARD.getHeigth(),Beings.ENEMY_NORMAL_LIZARD.getAttack(),
-        		Beings.ENEMY_NORMAL_LIZARD.getHealth(),Beings.ENEMY_NORMAL_LIZARD.isFriendly());
-        newLizard.resetState(Beings.ENEMY_NORMAL_LIZARD);
+		Lizard newLizard = new NormalLizard(normalEnemy.getxPos(),normalEnemy.getyPos(),
+				normalEnemy.getWidth(),normalEnemy.getHeigth(),normalEnemy.getAttack(),
+        		normalEnemy.getHealth(),normalEnemy.isFriendly());
+        newLizard.resetState(normalEnemy);
         spawner.getPanel().getEnemyNewBeings().add(newLizard);
 		
 	}
 	
 	
 	private void spawnIntermediateFriend() {
-	    Lizard newLizard = new IntermediateLizard(Beings.FRIENDLY_INTERMEDIATE_LIZARD.getxPos(), Beings.FRIENDLY_INTERMEDIATE_LIZARD.getyPos(),
-	            Beings.FRIENDLY_INTERMEDIATE_LIZARD.getWidth(), Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHeigth(), Beings.FRIENDLY_INTERMEDIATE_LIZARD.getAttack(),
-	            Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth(), Beings.FRIENDLY_INTERMEDIATE_LIZARD.isFriendly());
-	    newLizard.resetState(Beings.FRIENDLY_INTERMEDIATE_LIZARD);
+	    Lizard newLizard = new IntermediateLizard(intermediateFriend.getxPos(), intermediateFriend.getyPos(),
+	    		intermediateFriend.getWidth(), intermediateFriend.getHeigth(), intermediateFriend.getAttack(),
+	    		intermediateFriend.getHealth(), intermediateFriend.isFriendly());
+	    newLizard.resetState(intermediateFriend);
 	    spawner.getPanel().getFriendlyNewBeings().add(newLizard);
 	}
 
 	private void spawnIntermediateEnemy() {
-	    Lizard newLizard = new IntermediateLizard(Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos(), Beings.ENEMY_INTERMEDIATE_LIZARD.getyPos(),
-	            Beings.ENEMY_INTERMEDIATE_LIZARD.getWidth(), Beings.ENEMY_INTERMEDIATE_LIZARD.getHeigth(), Beings.ENEMY_INTERMEDIATE_LIZARD.getAttack(),
-	            Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth(), Beings.ENEMY_INTERMEDIATE_LIZARD.isFriendly());
-	    newLizard.resetState(Beings.ENEMY_INTERMEDIATE_LIZARD);
+	    Lizard newLizard = new IntermediateLizard(intermediateEnemy.getxPos(), intermediateEnemy.getyPos(),
+	    		intermediateEnemy.getWidth(), intermediateEnemy.getHeigth(), intermediateEnemy.getAttack(),
+	    		intermediateEnemy.getHealth(), intermediateEnemy.isFriendly());
+	    newLizard.resetState(intermediateEnemy);
 	    spawner.getPanel().getEnemyNewBeings().add(newLizard);
 	}
 

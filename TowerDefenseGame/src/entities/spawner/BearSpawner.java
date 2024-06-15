@@ -52,7 +52,7 @@ public class BearSpawner extends Spawner{
 	                
 	                if (spawner.getPanel().getFriendlyLivingBeings().size() > 0) {
 	                    
-	                    if (Beings.FRIENDLY_NORMAL_BEAR.getxPos() + 100 
+	                    if (Beings.FRIENDLY_NORMAL_BEAR.getxPos() + Beings.FRIENDLY_NORMAL_BEAR.getWaitingDistance()  
 	                            <= spawner.getPanel().getFriendlyLivingBeings()
 	                            .get(spawner.getPanel().getFriendlyLivingBeings().size() - 1).getRect().getX()) {
 	                        
@@ -71,7 +71,7 @@ public class BearSpawner extends Spawner{
 	            if (enemySize <= basicSpawnerLimit + Math.abs(enemySize - friendlySize)) {
 	                
 	                if (spawner.getPanel().getEnemyLivingBeings().size() > 0) {
-	                    if (Beings.ENEMY_NORMAL_BEAR.getxPos() - 100 >= spawner.getPanel().getEnemyLivingBeings()
+	                    if (Beings.ENEMY_NORMAL_BEAR.getxPos() - Beings.ENEMY_NORMAL_BEAR.getWaitingDistance()  >= spawner.getPanel().getEnemyLivingBeings()
 	                            .get(spawner.getPanel().getEnemyLivingBeings().size() - 1).getRect().getX()) {
 
 	                        spawnEnemy();

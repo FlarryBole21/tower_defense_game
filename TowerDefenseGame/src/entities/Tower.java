@@ -60,13 +60,5 @@ public class Tower extends Entity{
         }
 	}
 
-	@Override
-	public void clear(Graphics g) {
-		super.getRect().clear(g);
-		
-	}
-	
-	
-	
 
 }

@@ -24,6 +24,7 @@ public enum Beings {
 	private int attack;
 	private int health;
 	private boolean friendly;
+	private int waitingDistance;
 	
 	Beings(LivingBeing being){
 		this.being=being;
@@ -34,6 +35,7 @@ public enum Beings {
 		this.attack=being.getAttack();
 		this.health=being.getHealth();
 		this.friendly=being.isFriendly();
+		this.waitingDistance=being.getWaitingDistance();
 
 	}
 	
@@ -82,7 +84,10 @@ public enum Beings {
 	public void setBeing(LivingBeing being) {
 		this.being = being;
 	}
-	
-	
+
+	public int getWaitingDistance() {
+		return waitingDistance;
+	}
+
 
 }

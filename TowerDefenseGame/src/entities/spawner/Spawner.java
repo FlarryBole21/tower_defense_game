@@ -3,7 +3,10 @@ package entities.spawner;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import entities.Beings;
 import entities.LivingBeing;
+import entities.Lizard;
+import entities.NormalLizard;
 import ui.GamePanel;
 
 public abstract class Spawner {
@@ -18,6 +21,7 @@ public abstract class Spawner {
         this.timer = new Timer();
     }
     
+  
   
     public GamePanel getPanel() {
 		return panel;
@@ -38,6 +42,7 @@ public abstract class Spawner {
 	public void setDelay(long delay) {
 		this.delay = delay;
 	}
+	
 
 	public abstract void startSpawning();
 	
