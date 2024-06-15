@@ -1,4 +1,4 @@
-package entities;
+package entities.livingbeings;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import javax.swing.ImageIcon;
 
 import audio.AudioPlayer;
+import entities.Entity;
+import entities.bases.Bases;
 import game.Main;
 import ui.GamePanel;
 import utils.Path;

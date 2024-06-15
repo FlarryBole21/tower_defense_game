@@ -3,10 +3,10 @@ package entities.spawner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import entities.Beings;
-import entities.LivingBeing;
-import entities.Lizard;
-import entities.NormalLizard;
+import entities.livingbeings.Beings;
+import entities.livingbeings.LivingBeing;
+import entities.livingbeings.Lizard;
+import entities.livingbeings.NormalLizard;
 import ui.GamePanel;
 
 public abstract class Spawner {

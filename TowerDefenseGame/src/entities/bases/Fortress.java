@@ -1,4 +1,4 @@
-package entities;
+package entities.bases;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,24 +17,24 @@ import javax.swing.JPanel;
 import ui.GamePanel;
 import utils.Path;
 
-public class Cave extends Base{
-	private BufferedImage image;
+public class Fortress extends Base{
+	
+	private static final long serialVersionUID = 1L;
 
-
-	public Cave(int xPos, int yPos, int width, int height, int health,boolean friendly) {
+	public Fortress(int xPos, int yPos, int width, int height, int health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
 		if(friendly) {
-			super.setPathImage(Path.IMAGE_CAVE_PLAYER.getName());
+			super.setPathImage(Path.IMAGE_FORTRESS_PLAYER.getName());
 			
 		}else {
-			super.setPathImage(Path.IMAGE_CAVE_ENEMY.getName());
+			super.setPathImage(Path.IMAGE_FORTRESS_ENEMY.getName());
 		}
 		super.loadImage();
 	}
 	
 	@Override
 	public void update(GamePanel panel) {
-		//System.out.println("Update");
+		
 		
 	}
 

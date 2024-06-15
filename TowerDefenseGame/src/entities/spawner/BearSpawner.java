@@ -2,10 +2,11 @@ package entities.spawner;
 
 import java.awt.Dimension;
 import java.util.TimerTask;
-import entities.Beings;
-import entities.IntermediateLizard;
-import entities.Bear;
-import entities.NormalBear;
+
+import entities.livingbeings.Bear;
+import entities.livingbeings.Beings;
+import entities.livingbeings.IntermediateLizard;
+import entities.livingbeings.NormalBear;
 import ui.GamePanel;
 
 public class BearSpawner extends Spawner{

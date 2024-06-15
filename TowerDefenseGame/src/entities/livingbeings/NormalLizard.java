@@ -1,4 +1,4 @@
-package entities;
+package entities.livingbeings;
 
 import game.Main;
 import utils.Path;

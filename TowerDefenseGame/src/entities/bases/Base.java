@@ -1,4 +1,4 @@
-package entities;
+package entities.bases;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,7 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
+import entities.Entity;
 import utils.Path;
 
 public abstract class Base extends Entity{
@@ -22,6 +23,7 @@ public abstract class Base extends Entity{
 		super(xPos, yPos, width, height, health,friendly);
 		towers = new LinkedList<>();
 	}
+	
 	
 	public String getPathImage() {
 		return pathImage;

@@ -25,16 +25,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import entities.Base;
-import entities.Bases;
-import entities.Beings;
-import entities.Cave;
-import entities.LivingBeing;
-import entities.Lizard;
-import entities.Tower;
+import entities.bases.Base;
+import entities.bases.Bases;
+import entities.bases.Cave;
+import entities.bases.Tower;
+import entities.livingbeings.Beings;
+import entities.livingbeings.LivingBeing;
+import entities.livingbeings.Lizard;
 import entities.spawner.BearSpawner;
 import entities.spawner.LizardSpawner;
 import entities.spawner.Spawner;
+import game.WaveManager;
 import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -44,8 +45,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	private JFrame frame;
 	private GamePanel panel;
 	private Timer timer;
-	private int wave;
-	private java.util.Timer waveTimer;
+	//private int wave;
+	//private java.util.Timer waveTimer;
 	private LinkedList<Base> bases;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
@@ -60,9 +61,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private int towerHeight;
     private LinkedList<Tower>towersPlayer; 
     private LinkedList<Tower>towersEnemy; 
-    private Spawner friendlySpawner;
-    private Spawner enemySpawner;
-    private JLabel waveLabel; 
+    //private Spawner friendlySpawner;
+    //private Spawner enemySpawner;
+    private WaveManager waveManager;
+    //private JLabel waveLabel; 
     
     {
     	bases = new LinkedList<>();
@@ -84,77 +86,51 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
-    	this.waveLabel=waveLabel;
-    	this.wave=1;
-    	waveTimer = new java.util.Timer();
-    	updateWaveLabel();
+    	waveManager = new WaveManager(this,waveLabel);
+    	waveManager.waveSpawning();
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
-        loadBackgroundImage(Path.IMAGE_BACKGROUND_01);
-        startConfig();
-        //loadBeings();
         timer = new Timer(1000 / 60, this);
         timer.start();
-        friendlySpawner = new LizardSpawner(3000,this,true);
-        friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,this,false);
-        enemySpawner.startSpawning();
-       
     }
     
-    
 
-    public int getWave() {
-		return wave;
+    public WaveManager getWaveManager() {
+		return waveManager;
 	}
 
 
-	private void startConfig() {
-//    	towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
-//        		towerHeight,1000,true));
-//        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
-//        		(towerHeight+baseHeight),towerWidth,towerHeight,
-//        		1000,true));
-        addBaseBases(Bases.FRIENDLY_CAVE.getBase(),towersPlayer);
-        addBaseBases(Bases.ENEMY_CAVE.getBase(),towersEnemy);
-        System.out.println(SCREENSIZE);
-        
-        
-        waveSpawning();
-	
-    }
-	
-	
-	public void waveSpawning() {
-		TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                wave++;
-                if(wave >= 4) {
-                	friendlySpawner.stopSpawning();
-                	enemySpawner.stopSpawning();
-                	friendlySpawner = new BearSpawner(3000,panel,true);
-                    friendlySpawner.startSpawning();
-                    enemySpawner = new BearSpawner(3000,panel,false);
-                    enemySpawner.startSpawning();
-                }
-                updateWaveLabel();
-                changeBackground();
-                waveSpawning();
-
-            }
-        };
-        
-        waveTimer.schedule(task, 50000);
-		
+	public LinkedList<Tower> getTowersPlayer() {
+		return towersPlayer;
 	}
-    
-    public void addBaseBases(Base base, LinkedList<Tower> towers) {
+
+
+	public void setTowersPlayer(LinkedList<Tower> towersPlayer) {
+		this.towersPlayer = towersPlayer;
+	}
+
+
+	public LinkedList<Tower> getTowersEnemy() {
+		return towersEnemy;
+	}
+
+
+	public void setTowersEnemy(LinkedList<Tower> towersEnemy) {
+		this.towersEnemy = towersEnemy;
+	}
+
+
+    public void addBases(Base base, LinkedList<Tower> towers) {
     	bases.add(base);
     	for(Tower tower: towers) {
         	base.addTower(tower);
         }
 
+    }
+    
+    
+    public void removeBaseBases() {
+    	bases.clear();
     }
     
 	public JFrame getFrame() {
@@ -225,7 +201,7 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
     
-    private void loadBackgroundImage(Path path) {
+    public void loadBackgroundImage(Path path) {
     	try {
            
             File file = new File(path.getName());
@@ -301,20 +277,7 @@ public class GamePanel extends JPanel implements ActionListener {
         
     }
 	
-	private void changeBackground() {
-		SwingUtilities.invokeLater(() -> {
-			if(wave == 4) {
-            	loadBackgroundImage(Path.IMAGE_BACKGROUND_02);
-            }
-            
-        });
-	}
-	
-	private void updateWaveLabel() {
-        SwingUtilities.invokeLater(() -> {
-            waveLabel.setText("Welle " + wave);
-        });
-    }
+
 	
 	@Override
     protected void paintComponent(Graphics g) {

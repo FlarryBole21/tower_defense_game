@@ -3,10 +3,10 @@ package entities.spawner;
 import java.awt.Dimension;
 import java.util.TimerTask;
 
-import entities.Beings;
-import entities.IntermediateLizard;
-import entities.Lizard;
-import entities.NormalLizard;
+import entities.livingbeings.Beings;
+import entities.livingbeings.IntermediateLizard;
+import entities.livingbeings.Lizard;
+import entities.livingbeings.NormalLizard;
 import ui.GamePanel;
 
 public class LizardSpawner extends Spawner{
@@ -105,9 +105,9 @@ public class LizardSpawner extends Spawner{
 	private void spawnFriend() {
 		friendlyCount++;
 		
-		if(spawner.getPanel().getWave() == 2 && friendlyCount % 5 == 0) {
+		if(spawner.getPanel().getWaveManager().getWave() == 2 && friendlyCount % 5 == 0) {
 			spawnIntermediateFriend();
-		}else if(spawner.getPanel().getWave() > 2) {
+		}else if(spawner.getPanel().getWaveManager().getWave() > 2) {
 			spawnIntermediateFriend();
 		}
 		else {
@@ -120,9 +120,9 @@ public class LizardSpawner extends Spawner{
 	private void spawnEnemy() {
 		enemyCount++;
 		
-		if(spawner.getPanel().getWave() == 2 && enemyCount % 5 == 0) {
+		if(spawner.getPanel().getWaveManager().getWave() == 2 && enemyCount % 5 == 0) {
 			spawnIntermediateEnemy();
-		}else if(spawner.getPanel().getWave() > 2) {
+		}else if(spawner.getPanel().getWaveManager().getWave() > 2) {
 			spawnIntermediateEnemy();
 		}
 		else {

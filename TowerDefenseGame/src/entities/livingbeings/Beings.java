@@ -1,5 +1,6 @@
-package entities;
+package entities.livingbeings;
 
+import entities.bases.Bases;
 import ui.GamePanel;
 
 public enum Beings {

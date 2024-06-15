@@ -1,4 +1,6 @@
-package entities;
+package entities.bases;
+
+import entities.Entity;
 
 public abstract class Weapon extends Entity{
 

@@ -1,4 +1,4 @@
-package entities;
+package entities.bases;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import entities.Entity;
 import ui.GamePanel;
 import utils.Path;
 

@@ -1,4 +1,4 @@
-package entities;
+package entities.livingbeings;
 
 import java.awt.Color;
 import java.awt.Dimension;

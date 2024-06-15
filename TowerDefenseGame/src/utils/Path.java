@@ -6,6 +6,8 @@ public enum Path {
 	IMAGE_BACKGROUND_02("img/backgrounds/game_background_14.png"),
 	IMAGE_CAVE_PLAYER("img/bases/cave_03.png"),
     IMAGE_CAVE_ENEMY("img/bases/cave_04.png"),
+    IMAGE_FORTRESS_PLAYER("img/bases/fortress_03.png"),
+    IMAGE_FORTRESS_ENEMY("img/bases/fortress_04.png"),
     IMAGE_CAVE_TOWER_PLAYER("img/towers/cave_tower_01.png"),
     IMAGE_CAVE_TOWER_ENEMY("img/towers/cave_tower_02.png"),
 	IMAGE_NORMAL_LIZARD_PLAYER_WALK("img/lifeforms/lizard_01.gif"),
