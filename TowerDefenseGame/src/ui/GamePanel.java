@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements ActionListener {
     	updateWaveLabel();
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
-        loadBackgroundImage();
+        loadBackgroundImage(Path.IMAGE_BACKGROUND_01);
         startConfig();
         //loadBeings();
         timer = new Timer(1000 / 60, this);
@@ -117,18 +117,26 @@ public class GamePanel extends JPanel implements ActionListener {
         System.out.println(SCREENSIZE);
         
         
-        TimerTask task = new TimerTask() {
+        waveSpawning();
+	
+    }
+	
+	
+	public void waveSpawning() {
+		TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                wave=2;
+                wave++;
                 updateWaveLabel();
+                waveSpawning();
+                changeBackground();
+                
             }
         };
         
         waveTimer.schedule(task, 50000);
-        
-	
-    }
+		
+	}
     
     public void addBaseBases(Base base, LinkedList<Tower> towers) {
     	bases.add(base);
@@ -206,21 +214,10 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
     
-    private void loadBackgroundImage() {
-//    	try {
-//        	URI uri = null;
-//    
-//        	uri = new URI(Path.IMAGE_BACKGROUND_01.getName());
-//	           
-//        	
-//        	backgroundImage = ImageIO.read(uri.toURL());
-//        } catch (IOException | URISyntaxException e) {
-//            e.printStackTrace();
-//        }
-    	
+    private void loadBackgroundImage(Path path) {
     	try {
            
-            File file = new File(Path.IMAGE_BACKGROUND_01.getName());
+            File file = new File(path.getName());
             backgroundImage = ImageIO.read(file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,6 +289,15 @@ public class GamePanel extends JPanel implements ActionListener {
         
         
     }
+	
+	private void changeBackground() {
+		SwingUtilities.invokeLater(() -> {
+			if(wave == 4) {
+            	loadBackgroundImage(Path.IMAGE_BACKGROUND_02);
+            }
+            
+        });
+	}
 	
 	private void updateWaveLabel() {
         SwingUtilities.invokeLater(() -> {

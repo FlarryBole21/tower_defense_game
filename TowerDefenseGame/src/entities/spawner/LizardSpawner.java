@@ -57,25 +57,12 @@ public class LizardSpawner extends Spawner{
         						<= spawner.getPanel().getFriendlyLivingBeings()
         						.get(spawner.getPanel().getFriendlyLivingBeings().size()-1).getRect().getX()) {
         					
-        					friendlyCount++;
-        					
-        					if(spawner.getPanel().getWave() > 1 && friendlyCount % 5 == 0) {
-            					spawnIntermediateFriend();
-            				}else {
-            					spawnNormalFriend();
-            				}
+        					spawnFriend();
         				}
 
         			}else {
 
-        				friendlyCount++;
-        				
-        				if(spawner.getPanel().getWave() > 1 && friendlyCount % 5 == 0) {
-        					spawnIntermediateFriend();
-        				}else {
-        					spawnNormalFriend();
-        				}
-
+        				spawnFriend();
         			}
 
             	}
@@ -90,24 +77,10 @@ public class LizardSpawner extends Spawner{
         						Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos()-100 >= spawner.getPanel().getEnemyLivingBeings()
         						.get(spawner.getPanel().getEnemyLivingBeings().size()-1).getRect().getX()) {
 
-        					enemyCount++;
-        					
-        					if(spawner.getPanel().getWave() > 1 && enemyCount % 5 == 0) {
-            					spawnIntermediateEnemy();
-            				}else {
-            					spawnNormalEnemy();
-            				}
+        					spawnEnemy();
         				}
         			}else {
-        				enemyCount++;
-        				
-        				if(spawner.getPanel().getWave() > 1 && enemyCount % 5 == 0) {
-        					spawnIntermediateEnemy();
-        				}else {
-        					spawnNormalEnemy();
-        				}
-
-
+        				spawnEnemy();
         			}  
             	}
         	}
@@ -116,6 +89,35 @@ public class LizardSpawner extends Spawner{
         	
         }
     }
+	
+	private void spawnFriend() {
+		friendlyCount++;
+		
+		if(spawner.getPanel().getWave() == 2 && friendlyCount % 5 == 0) {
+			spawnIntermediateFriend();
+		}else if(spawner.getPanel().getWave() > 2) {
+			spawnIntermediateFriend();
+		}
+		else {
+			spawnNormalFriend();
+		}
+		
+	}
+	
+	
+	private void spawnEnemy() {
+		enemyCount++;
+		
+		if(spawner.getPanel().getWave() == 2 && enemyCount % 5 == 0) {
+			spawnIntermediateEnemy();
+		}else if(spawner.getPanel().getWave() > 2) {
+			spawnIntermediateEnemy();
+		}
+		else {
+			spawnNormalEnemy();
+		}
+		
+	}
 	
 	
 	private void spawnNormalFriend() {
@@ -129,11 +131,11 @@ public class LizardSpawner extends Spawner{
 	
 	private void spawnNormalEnemy() {
 		
-		Lizard newLizard2 = new NormalLizard(Beings.ENEMY_NORMAL_LIZARD.getxPos(),Beings.ENEMY_NORMAL_LIZARD.getyPos(),
+		Lizard newLizard = new NormalLizard(Beings.ENEMY_NORMAL_LIZARD.getxPos(),Beings.ENEMY_NORMAL_LIZARD.getyPos(),
         		Beings.ENEMY_NORMAL_LIZARD.getWidth(),Beings.ENEMY_NORMAL_LIZARD.getHeigth(),Beings.ENEMY_NORMAL_LIZARD.getAttack(),
         		Beings.ENEMY_NORMAL_LIZARD.getHealth(),Beings.ENEMY_NORMAL_LIZARD.isFriendly());
-        newLizard2.resetState(Beings.ENEMY_NORMAL_LIZARD);
-        spawner.getPanel().getEnemyNewBeings().add(newLizard2);
+        newLizard.resetState(Beings.ENEMY_NORMAL_LIZARD);
+        spawner.getPanel().getEnemyNewBeings().add(newLizard);
 		
 	}
 	
@@ -147,11 +149,11 @@ public class LizardSpawner extends Spawner{
 	}
 
 	private void spawnIntermediateEnemy() {
-	    Lizard newLizard2 = new IntermediateLizard(Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos(), Beings.ENEMY_INTERMEDIATE_LIZARD.getyPos(),
+	    Lizard newLizard = new IntermediateLizard(Beings.ENEMY_INTERMEDIATE_LIZARD.getxPos(), Beings.ENEMY_INTERMEDIATE_LIZARD.getyPos(),
 	            Beings.ENEMY_INTERMEDIATE_LIZARD.getWidth(), Beings.ENEMY_INTERMEDIATE_LIZARD.getHeigth(), Beings.ENEMY_INTERMEDIATE_LIZARD.getAttack(),
 	            Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth(), Beings.ENEMY_INTERMEDIATE_LIZARD.isFriendly());
-	    newLizard2.resetState(Beings.ENEMY_INTERMEDIATE_LIZARD);
-	    spawner.getPanel().getEnemyNewBeings().add(newLizard2);
+	    newLizard.resetState(Beings.ENEMY_INTERMEDIATE_LIZARD);
+	    spawner.getPanel().getEnemyNewBeings().add(newLizard);
 	}
 
 

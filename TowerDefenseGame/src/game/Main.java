@@ -17,7 +17,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
+import ui.FrameSetter;
 import ui.GamePanel;
+import ui.LabelSetter;
 import ui.PanelSetter;
 import utils.Path;
 
@@ -51,25 +53,9 @@ public class Main {
 	
 	private void initialize() {
 		frame = new JFrame();
-		JLabel label = new JLabel();
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        //label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Arial", Font.BOLD, 70));
-        label.setForeground(Color.WHITE);
-        label.setOpaque(true);
-        label.setBackground(Color.BLACK);
-        
-        int padding = 20;
-        label.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
-        GamePanel gamePanel = new GamePanel(170,600,100,20,frame,label);
-        gamePanel.add(label, BorderLayout.PAGE_END);
-		PanelSetter.setPanel(frame,gamePanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack(); 
-        frame.setLocationRelativeTo(null);
-        frame.setAlwaysOnTop(true);
-		frame.setVisible(true);
-		gamePanel.requestFocus();
+		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Arial",Font.BOLD,70,Color.WHITE,Color.BLACK,20);
+        GamePanel gamePanel = (GamePanel) PanelSetter.setPanel(frame,label);
+		FrameSetter.setFrame(frame,gamePanel);
 		
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
