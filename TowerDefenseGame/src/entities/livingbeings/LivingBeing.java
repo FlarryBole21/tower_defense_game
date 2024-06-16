@@ -267,8 +267,12 @@ public abstract class LivingBeing extends Entity{
 					&&this.getRect().getX()<= panel.getFriendlyBase().getRect().getWidth()+dangerDistance && !Main.DANGER_PLAYER.isPlay()) {
 				Main.BACKGROUND_PLAYER.stop();
 				Main.DANGER_PLAYER.setPlay(true);
-			}else if(!Main.BACKGROUND_PLAYER.isPlay() && !isFriendly() && this == panel.getEnemyLivingBeings().get(0)
-					&& this.getRect().getX()> panel.getFriendlyBase().getRect().getWidth()+dangerDistance ){
+			}else if(!Main.BACKGROUND_PLAYER.isPlay() && !isFriendly() && 
+					panel.getEnemyLivingBeings().get(0).getRect().getX()> 
+			panel.getFriendlyBase().getRect().getWidth()+dangerDistance
+					&& panel.getEnemyLivingBeings().get(1).getRect().getX()> 
+			panel.getFriendlyBase().getRect().getWidth()+(dangerDistance*4) ){
+				
 				Main.DANGER_PLAYER.stop();
 				Main.BACKGROUND_PLAYER.setPlay(true);
 			}
