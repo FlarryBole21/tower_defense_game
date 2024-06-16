@@ -34,5 +34,5 @@ public abstract class Lizard extends LivingBeing{
 		super.setTotalDeathFrames(6);
 	}
 	
-
+	
 }

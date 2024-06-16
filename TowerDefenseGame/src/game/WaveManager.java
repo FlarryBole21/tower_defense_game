@@ -35,6 +35,16 @@ public class WaveManager {
 		
 	}
 	
+	
+	public void setFriendlySpawner(Spawner friendlySpawner) {
+		this.friendlySpawner = friendlySpawner;
+	}
+
+	public void setEnemySpawner(Spawner enemySpawner) {
+		this.enemySpawner = enemySpawner;
+	}
+
+
 	public int getWave() {
 		return wave;
 	}
@@ -79,9 +89,9 @@ public class WaveManager {
 //    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
 		
 		
-        friendlySpawner = new LizardSpawner(30000,panel,true);
+        friendlySpawner = new LizardSpawner(3000,panel,true);
         friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,panel,false);
+        enemySpawner = new LizardSpawner(30000,panel,false);
         enemySpawner.startSpawning();
         
         waveSpawning();
@@ -89,6 +99,18 @@ public class WaveManager {
     }
 	
 	
+	public void reset() {
+	    waveTimer.cancel(); 
+	    waveTimer = new java.util.Timer();
+	    wave = 1; 
+	    if (friendlySpawner != null) {
+	        friendlySpawner.stopSpawning();
+	    }
+	    if (enemySpawner != null) {
+	        enemySpawner.stopSpawning();
+	    }
+	}
+
 	private void waveSpawning() {
 		TimerTask task = new TimerTask() {
             @Override
@@ -110,8 +132,6 @@ public class WaveManager {
 	                updateWaveLabel();
 	                changeBackground();
 	                waveSpawning();
-            	}else {
-            		waveTimer.cancel();
             	}
             }
         };

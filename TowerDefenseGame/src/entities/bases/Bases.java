@@ -11,9 +11,21 @@ public enum Bases {
 	
 	
 	private Base base;
+	private int xPos;
+	private int yPos;
+	private int width;
+	private int height;
+	private int health;
+	private boolean friendly;
 
 	Bases(Base base){
 		this.base=base;
+		this.xPos=base.getX();
+		this.yPos=base.getY();
+		this.width=base.getWidth();
+		this.height=base.getHeight();
+		this.health=base.getHealth();
+		this.friendly=base.isFriendly();
 		
 	}
 
@@ -21,6 +33,30 @@ public enum Bases {
 		return base;
 	}
 
+	public int getxPos() {
+		return xPos;
+	}
+	
+	public int getyPos() {
+		return yPos;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+
+	public int getHealth() {
+		return health;
+	}
+
+	public boolean isFriendly() {
+		return friendly;
+	}
 
 
 }

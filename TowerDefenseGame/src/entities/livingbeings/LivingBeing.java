@@ -227,6 +227,7 @@ public abstract class LivingBeing extends Entity{
 			setPanel(panel);
 		}
 		
+		
 		enemyNearCave();
 		
 		if (this.getHealth() > 0) {
@@ -261,26 +262,50 @@ public abstract class LivingBeing extends Entity{
 	private void enemyNearCave() {
 		int dangerDistance = 50;
 		
-		if(panel.getEnemyLivingBeings().size() > 0) {
+		
+		if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() > 0) {
 			
-			if(!isFriendly() && this == panel.getEnemyLivingBeings().get(0) 
-					&&this.getRect().getX()<= panel.getFriendlyBase().getRect().getWidth()+dangerDistance && !Main.DANGER_PLAYER.isPlay()) {
-				Main.BACKGROUND_PLAYER.stop();
-				Main.DANGER_PLAYER.setPlay(true);
-			}else if(!Main.BACKGROUND_PLAYER.isPlay() && !isFriendly() && 
-					panel.getEnemyLivingBeings().get(0).getRect().getX()> 
-			panel.getFriendlyBase().getRect().getWidth()+dangerDistance
-					&& panel.getEnemyLivingBeings().get(1).getRect().getX()> 
-			panel.getFriendlyBase().getRect().getWidth()+(dangerDistance*4) ){
+			
+			if(panel.getEnemyLivingBeings().size() > 0) {
 				
+				if(!isFriendly() && this == panel.getEnemyLivingBeings().get(0) 
+						&&this.getRect().getX()<= panel.getFriendlyBase().getRect().getWidth()+dangerDistance && !Main.DANGER_PLAYER.isPlay()) {
+					Main.BACKGROUND_PLAYER.stop();
+					Main.DANGER_PLAYER.setPlay(true);
+				}else if(panel.getEnemyLivingBeings().size() > 1) {
+					
+					if(!Main.BACKGROUND_PLAYER.isPlay() && !isFriendly() && 
+							panel.getEnemyLivingBeings().get(0).getRect().getX()> 
+					panel.getFriendlyBase().getRect().getWidth()+dangerDistance
+							&& panel.getEnemyLivingBeings().get(1).getRect().getX()> 
+					panel.getFriendlyBase().getRect().getWidth()+(dangerDistance*4) ){
+						
+						Main.DANGER_PLAYER.stop();
+						Main.BACKGROUND_PLAYER.setPlay(true);
+						attackingBase=false;
+						
+						for(AudioPlayer player: attackingAudio) {
+							if(!player.isLoop() && player.isPlay()) {
+								player.stop();
+							}
+						}
+						
+					}
+				}
+
+			}else if(!Main.BACKGROUND_PLAYER.isPlay()){
 				Main.DANGER_PLAYER.stop();
 				Main.BACKGROUND_PLAYER.setPlay(true);
+				attackingBase=false;
+				for(AudioPlayer player: attackingAudio) {
+					if(!player.isLoop() && player.isPlay()) {
+						player.stop();
+					}
+				}
 			}
 			
-		}else if(!Main.BACKGROUND_PLAYER.isPlay()){
-			Main.DANGER_PLAYER.stop();
-			Main.BACKGROUND_PLAYER.setPlay(true);
 		}
+		
 		
 	}
 
@@ -645,34 +670,51 @@ public abstract class LivingBeing extends Entity{
 	
 	
 	private void playAttackSound() {
-		for(AudioPlayer audio : attackingAudio) {
 		
-			if(audio.isPlay() == false && panel.getFriendlyLivingBeings().size() > 0) {
-				audio.setPlay(true);
-			}else if (audio.isPlay() == false && !isFriendly()) {
-				if(panel.getEnemyLivingBeings().get(0) == this && 
-						super.getRect().getX() <= panel.getFriendlyBase().getRect().getWidth()) {
-					
+		if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() > 0) {
+			for(AudioPlayer audio : attackingAudio) {
+				
+				if(audio.isPlay() == false && panel.getFriendlyLivingBeings().size() > 0) {
+					audio.setPlay(true);
+				}else if (audio.isPlay() == false && !isFriendly()) {
+					if(panel.getEnemyLivingBeings().get(0) == this && 
+							super.getRect().getX() <= panel.getFriendlyBase().getRect().getWidth()) {
+						
+							if(audio.isLoop()) {
+								audio.setPlay(true);
+							}else if(!attackingBase){
+								audio.setPlay(true);
+								attackingBase=true;
+							}
+							
+					}
+				}else if (audio.isPlay() == false && isFriendly()) {
+					if(panel.getFriendlyLivingBeings().get(0) == this && 
+					super.getRect().getX() > GamePanel.SCREENSIZE.width-panel.getEnemyBase().getRect().getWidth()
+					-50-waitingDistance) {
+						
 						if(audio.isLoop()) {
 							audio.setPlay(true);
 						}else if(!attackingBase){
 							audio.setPlay(true);
 							attackingBase=true;
+							
 						}
-						
-				}
-			}else if (audio.isPlay() == false && isFriendly()) {
-				if(panel.getFriendlyLivingBeings().get(0) == this && 
-				super.getRect().getX() > GamePanel.SCREENSIZE.width-panel.getEnemyBase().getRect().getWidth()
-				-50-waitingDistance) {
+					}
+				}else if(!audio.isLoop() && attackingBase && panel.getFriendlyLivingBeings().size() > 0) {
 					audio.setPlay(true);
+					attackingBase=false;
 				}
-			}else if(audio.isPlay() && !audio.isLoop() && attackingBase && panel.getFriendlyLivingBeings().size() > 0) {
-				audio.setPlay(true);
-				attackingBase=false;
-			}
+				
 
+			}
+			
+		}else {
+			stopAttackSound();
 		}
+		
+		
+		
 
 		
 	}

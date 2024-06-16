@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -68,7 +69,9 @@ public class GamePanel extends JPanel implements ActionListener {
     //private Spawner friendlySpawner;
     //private Spawner enemySpawner;
     private WaveManager waveManager;
-    //private JLabel waveLabel; 
+    private boolean gameStart;
+    private JLabel waveLabel; 
+    private CardLayout layout;
     
     {
     	friendlyLivingBeings = new LinkedList<>();
@@ -82,23 +85,45 @@ public class GamePanel extends JPanel implements ActionListener {
   
     }
     
-    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,JFrame frame,JLabel waveLabel) {
+    public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,
+    		JFrame frame,JLabel waveLabel,CardLayout layout) {
     	this.frame=frame;
     	this.panel=this;
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
-    	waveManager = new WaveManager(this,waveLabel);
-    	waveManager.startConfig();
+    	this.waveLabel=waveLabel;
+    	this.layout=layout;
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
+    	
+    	
+    	
+    }
+    
+    public void startConfig() {
+    	waveManager = new WaveManager(this,waveLabel);
+    	waveManager.startConfig();
+    	if (timer != null) {
+            timer.stop();
+        }
         timer = new Timer(1000 / 60, this);
         timer.start();
     }
     
 
-    public WaveManager getWaveManager() {
+    public boolean isGameStart() {
+		return gameStart;
+	}
+
+
+	public void setGameStart(boolean gameStart) {
+		this.gameStart = gameStart;
+	}
+
+
+	public WaveManager getWaveManager() {
 		return waveManager;
 	}
 
@@ -245,43 +270,67 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 	}
     
+    
+    public void resetGame() {
+      
+    	Main.stopAudio();
+    	
+    	friendlyLivingBeings.clear();
+        enemyLivingBeings.clear();
+        friendlyNewBeings.clear();
+        enemyNewBeings.clear();
+        friendlyWaitingBeings.clear();
+        enemyWaitingBeings.clear();
+        towersPlayer.clear();
+        towersEnemy.clear();
+        waveManager.reset();
+        
+
+        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
+        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
+        
+        gameStart = false;
+    }
+
+    
   
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		updateGame(); 
-        repaint(); 
 		
+		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart) {
+			updateGame(); 
+	        repaint(); 
+		}else {
+		    if(friendlyBase.getHealth() <= 0) {
+		    	resetGame();
+		    	layout.show(Main.MAINPANEL, "LosingPanel");
+		    }else if(enemyBase.getHealth() <= 0) {
+		    	resetGame();
+		    	layout.show(Main.MAINPANEL, "WinningPanel");
+		    }
+		   
+		}
 	}
 	
 	
 	private void updateGame() {
 		
-		if(friendlyBase.getHealth() <= 0) {
-			Main.stopAudio();
-			JOptionPane.showMessageDialog(frame, "Deine Basis wurde zerstört, du hast das Spiel verloren!");
-			System.exit(0);
-		}else if(enemyBase.getHealth() <= 0) {
-			Main.stopAudio();
-			JOptionPane.showMessageDialog(frame, "Die Basis des Gegners wurde zerstört, du hast das Spiel gewonnen!");
-			System.exit(0);
-		}
-		
-		if(friendlyBase != null) {
-			friendlyBase.update(this);
-			LinkedList<Tower> towers = friendlyBase.getTowers();
-            for(Tower tower: towers) {
-            	tower.update(this);
-            }
-		}
-		
-		
-		if(enemyBase != null) {
-			enemyBase.update(this);
-			LinkedList<Tower> towers = enemyBase.getTowers();
-            for(Tower tower: towers) {
-            	tower.update(this);
-            }
-		}
+//		if(friendlyBase != null) {
+//			friendlyBase.update(this);
+//			LinkedList<Tower> towers = friendlyBase.getTowers();
+//            for(Tower tower: towers) {
+//            	tower.update(this);
+//            }
+//		}
+//		
+//		
+//		if(enemyBase != null) {
+//			enemyBase.update(this);
+//			LinkedList<Tower> towers = enemyBase.getTowers();
+//            for(Tower tower: towers) {
+//            	tower.update(this);
+//            }
+//		}
       
         
         Iterator<LivingBeing> iterator = friendlyLivingBeings.iterator();
