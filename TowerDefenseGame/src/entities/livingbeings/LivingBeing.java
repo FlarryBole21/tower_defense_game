@@ -272,9 +272,7 @@ public abstract class LivingBeing extends Entity{
             setDead(true);
             if(isFriendly() && panel.getFriendlyWaitingBeings().contains(this)) {
             	panel.getFriendlyWaitingBeings().remove(this);
-            }
-            
-            if(!isFriendly() && panel.getEnemyWaitingBeings().contains(this)) {
+            }else if(!isFriendly() && panel.getEnemyWaitingBeings().contains(this)) {
             	panel.getEnemyWaitingBeings().remove(this);
             }
             
@@ -286,7 +284,7 @@ public abstract class LivingBeing extends Entity{
 		
 		if(panel.getFriendlyLivingBeings().size() > 0 && panel.getEnemyLivingBeings().size() > 0) {
 			
-			System.out.println(panel.getBaseWidth());
+			//System.out.println(panel.getBaseWidth());
 			int differenceMiddle=0;
 			
 			if(panel.getEnemyLivingBeings().get(0).getRect().getX() < 900) {
@@ -314,22 +312,26 @@ public abstract class LivingBeing extends Entity{
 	            				|| (!isFriendly() && this != panel.getEnemyLivingBeings().get(0) && this.getRect().getX() 
 	            						> panel.getEnemyLivingBeings().get(0).getRect().getX()+waitingDistance ))) {
 	            	
-	            		
 	            		boolean flag=false;
-	            		for(LivingBeing being: panel.getFriendlyWaitingBeings()) {
-	            			if(isFriendly() && being.isFriendly() && this.getRect().getX()  
-	            					>= being.getRect().getX()-waitingDistance) {
-	            				flag=true;
-	            			}
+	            		if(isFriendly()) {
+	            			for(LivingBeing being: panel.getFriendlyWaitingBeings()) {
+		            			if(isFriendly() && being.isFriendly() && this.getRect().getX()  
+		            					>= being.getRect().getX()-waitingDistance) {
+		            				flag=true;
+		            			}
+		            		}
+	            			
+	            			
+	            		}else {
+	            			
+	            			for(LivingBeing being: panel.getEnemyWaitingBeings()) { 
+		            			if(!isFriendly() && !being.isFriendly() && this.getRect().getX()  
+		            					<= being.getRect().getX()+waitingDistance) {
+		            				flag=true;
+		            			}
+		            		}
+	            			
 	            		}
-	            		
-	            		for(LivingBeing being: panel.getEnemyWaitingBeings()) { 
-	            			if(!isFriendly() && !being.isFriendly() && this.getRect().getX()  
-	            					<= being.getRect().getX()+waitingDistance) {
-	            				flag=true;
-	            			}
-	            		}
-	            		
 	            		if( (isFriendly() && !flag)||
 		            			(!isFriendly() && !flag)){
 		            		
@@ -410,20 +412,39 @@ public abstract class LivingBeing extends Entity{
 						
 
 	            		if(!flag || this == panel.getFriendlyWaitingBeings().get(0)){
-	            			moveAndRemoveFromWaitingQueue();	
+	            			
+	            			
+	            			if(panel.getFriendlyLivingBeings().size() > 0) {
+	            				
+	            				if(this != panel.getFriendlyLivingBeings().get(0) && panel.getFriendlyLivingBeings().get(0).getRect().getX() 
+	            						>= GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()
+	            						-50-waitingDistance) {
+		            				
+		            				if(getRect().getX() < panel.getFriendlyLivingBeings().get(0).getRect().getX()-waitingDistance) {
+		            					moveAndRemoveFromWaitingQueue();	
+		            				}else {
+		            					waiting(); 
+		            				}
+		            				
+		            				
+		            			}else {
+		            				moveAndRemoveFromWaitingQueue();	
+		            			}
+	            				
+	            			}
 	            		}else {
 	            			
 	            			waiting(); 
 	            		}
 
 					}else {
-						waiting(); 
+						attack();
 					}
 
 				}
 			}else {
 					if(panel.getEnemyLivingBeings().size() > 0) {
-						if(super.getRect().getX() > 200 && this == panel.getEnemyLivingBeings().get(0)) {
+						if(super.getRect().getX() > Bases.FRIENDLY_CAVE.getBase().getRect().getWidth() && this == panel.getEnemyLivingBeings().get(0)) {
 							moveAndRemoveFromWaitingQueue();
 						}else if(this != panel.getEnemyLivingBeings().get(0) ){
 							
@@ -436,13 +457,33 @@ public abstract class LivingBeing extends Entity{
 		            		}
 		            		
 		            		if(!flag || this == panel.getEnemyWaitingBeings().get(0)){
-		            			moveAndRemoveFromWaitingQueue();	
+		            			
+		            			
+		            			if(panel.getEnemyLivingBeings().size() > 0) {
+		            				
+		            				if(this != panel.getEnemyLivingBeings().get(0) && panel.getEnemyLivingBeings().get(0).getRect().getX() 
+				            				<= Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()) {
+			            				
+			            				if(getRect().getX() > panel.getEnemyLivingBeings().get(0).getRect().getX()+waitingDistance) {
+			            					moveAndRemoveFromWaitingQueue();	
+			            				}else {
+			            					waiting(); 
+			            				}
+			            				
+			            				
+			            			}else {
+			            				moveAndRemoveFromWaitingQueue();	
+			            			}
+		            				
+		            			}
+		            			
 		            		}else {
 		            			waiting(); 
 		            		}
 
 						}else {
-							waiting(); 
+							attack();
+							//waiting(); 
 						}
 
 					}
@@ -456,17 +497,41 @@ public abstract class LivingBeing extends Entity{
 		setPathImage(attackingPath.getName());
 
         loadImage();
-        if(panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+        
+        if(panel.getEnemyLivingBeings().size()>0 && panel.getFriendlyLivingBeings().size()>0) {
         	
-        	playAttackSound();
-        	panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+        	if(panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+            	
+            	playAttackSound();
+            	panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+            }
+            
+            if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+            	
+            	playAttackSound();
+            	panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
+            }
+        	
+        }else {
+        	if(panel.getEnemyBase().getHealth() > 0 && panel.getFriendlyBase().getHealth() > 0) {
+        		playAttackSound();
+        	}else {
+        		stopAttackSound();
+        	}
+        	
+        	System.out.println("ENEMY BASE " + panel.getEnemyBase().getHealth());
+        	System.out.println("FRIENDLY BASE " + panel.getFriendlyBase().getHealth());
+        	//playAttackSound();
+        	
+        	if(isFriendly() && panel.getEnemyBase().getHealth() > 0) {
+        		panel.getEnemyBase().removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
+        	}else if (!isFriendly() && panel.getFriendlyBase().getHealth() > 0){
+        		panel.getFriendlyBase().removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+        	}
+        	
         }
         
-        if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
-        	
-        	playAttackSound();
-        	panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
-        }
+        
       
 		
 	}
@@ -518,6 +583,17 @@ public abstract class LivingBeing extends Entity{
 	private void playAttackSound() {
 		if(attackingAudio.isPlay() == false && panel.getFriendlyLivingBeings().size() > 0) {
 			attackingAudio.setPlay(true);
+		}else if (attackingAudio.isPlay() == false && !isFriendly()) {
+			if(panel.getEnemyLivingBeings().get(0) == this && 
+					super.getRect().getX() <= Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()) {
+				attackingAudio.setPlay(true);
+			}
+		}else if (attackingAudio.isPlay() == false && isFriendly()) {
+			if(panel.getFriendlyLivingBeings().get(0) == this && 
+			super.getRect().getX() > GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()
+			-50-waitingDistance) {
+				attackingAudio.setPlay(true);
+			}
 		}
 		
 	}

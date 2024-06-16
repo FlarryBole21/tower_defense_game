@@ -31,6 +31,8 @@ public class Main {
 	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true);
 	public final static AudioPlayer BEAR_ATTACK_PLAYER= new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true);
 	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,BEAR_ATTACK_PLAYER};
+	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,LIZARD_ATTACK_PLAYER,
+			BEAR_ATTACK_PLAYER};
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -64,21 +66,7 @@ public class Main {
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (BACKGROUND_PLAYER != null) {
-                	BACKGROUND_PLAYER.stop();
-                    
-                }
-                
-                if (LIZARD_ATTACK_PLAYER != null) {
-                	LIZARD_ATTACK_PLAYER.stop();
-                    
-                }
-                
-                
-                if (BEAR_ATTACK_PLAYER != null) {
-                	BEAR_ATTACK_PLAYER.stop();
-                    
-                }
+            	stopAudio();
             }
         });
 	
@@ -96,6 +84,15 @@ public class Main {
         }).start();
         
     }
+	
+	
+	public static void stopAudio() {
+		for(AudioPlayer player: AUDIO_FILES) {
+    		if(player != null) {
+    			player.stop();            		
+    		}
+    	}
+	}
 	
 	
 

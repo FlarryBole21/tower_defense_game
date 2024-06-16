@@ -1,4 +1,4 @@
-package entities.spawner;
+package game.spawner;
 
 import java.awt.Dimension;
 import java.util.TimerTask;

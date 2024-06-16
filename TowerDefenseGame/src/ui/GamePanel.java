@@ -22,6 +22,7 @@ import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -32,10 +33,11 @@ import entities.bases.Tower;
 import entities.livingbeings.Beings;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
-import entities.spawner.BearSpawner;
-import entities.spawner.LizardSpawner;
-import entities.spawner.Spawner;
+import game.Main;
 import game.WaveManager;
+import game.spawner.BearSpawner;
+import game.spawner.LizardSpawner;
+import game.spawner.Spawner;
 import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -47,7 +49,9 @@ public class GamePanel extends JPanel implements ActionListener {
 	private Timer timer;
 	//private int wave;
 	//private java.util.Timer waveTimer;
-	private LinkedList<Base> bases;
+	//private LinkedList<Base> bases;
+	private Base friendlyBase;
+	private Base enemyBase;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
     private LinkedList<LivingBeing> friendlyNewBeings;
@@ -67,7 +71,6 @@ public class GamePanel extends JPanel implements ActionListener {
     //private JLabel waveLabel; 
     
     {
-    	bases = new LinkedList<>();
     	friendlyLivingBeings = new LinkedList<>();
     	enemyLivingBeings = new LinkedList<>();
     	friendlyNewBeings = new LinkedList<>();
@@ -87,7 +90,7 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
     	waveManager = new WaveManager(this,waveLabel);
-    	waveManager.waveSpawning();
+    	waveManager.startConfig();
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
         timer = new Timer(1000 / 60, this);
@@ -120,17 +123,41 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-    public void addBases(Base base, LinkedList<Tower> towers) {
-    	bases.add(base);
+//    public void addBases(Base base, LinkedList<Tower> towers) {
+//    	bases.add(base);
+//    	for(Tower tower: towers) {
+//        	base.addTower(tower);
+//        }
+//
+//    }
+    
+    public void setFriendlyBase(Base base, LinkedList<Tower> towers) {
+    	friendlyBase=base;
     	for(Tower tower: towers) {
         	base.addTower(tower);
         }
-
     }
     
     
+    public void setEnemyBase(Base base, LinkedList<Tower> towers) {
+    	enemyBase=base;
+    	for(Tower tower: towers) {
+        	base.addTower(tower);
+        }
+    }
+    
+    
+    public Base getFriendlyBase() {
+    	return friendlyBase;
+    }
+    
+    public Base getEnemyBase() {
+    	return enemyBase;
+    }
+    
     public void removeBaseBases() {
-    	bases.clear();
+    	friendlyBase=null;
+    	enemyBase=null;
     }
     
 	public JFrame getFrame() {
@@ -228,15 +255,34 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	
 	private void updateGame() {
-        for (Base base : bases) {
-            base.update(this);
-            LinkedList<Tower> towers = base.getTowers();
+		
+		if(friendlyBase.getHealth() <= 0) {
+			Main.stopAudio();
+			JOptionPane.showMessageDialog(frame, "Deine Basis wurde zerstört, du hast das Spiel verloren!");
+			System.exit(0);
+		}else if(enemyBase.getHealth() <= 0) {
+			Main.stopAudio();
+			JOptionPane.showMessageDialog(frame, "Die Basis des Gegners wurde zerstört, du hast das Spiel gewonnen!");
+			System.exit(0);
+		}
+		
+		if(friendlyBase != null) {
+			friendlyBase.update(this);
+			LinkedList<Tower> towers = friendlyBase.getTowers();
             for(Tower tower: towers) {
             	tower.update(this);
             }
-        }
-        
-        
+		}
+		
+		
+		if(enemyBase != null) {
+			enemyBase.update(this);
+			LinkedList<Tower> towers = enemyBase.getTowers();
+            for(Tower tower: towers) {
+            	tower.update(this);
+            }
+		}
+      
         
         Iterator<LivingBeing> iterator = friendlyLivingBeings.iterator();
         while (iterator.hasNext()) {
@@ -284,14 +330,24 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         drawBackground(g);
         
-        for (Base base : bases) {
-            base.draw(g);
-            LinkedList<Tower> towers = base.getTowers();
-            for (Tower tower : towers) {
+        
+        if(friendlyBase != null) {
+			friendlyBase.draw(g);
+			LinkedList<Tower> towers = friendlyBase.getTowers();
+			for (Tower tower : towers) {
                 tower.draw(g);
             }
-        }
-
+		}
+		
+		
+		if(enemyBase != null) {
+			enemyBase.draw(g);
+			LinkedList<Tower> towers = enemyBase.getTowers();
+			for (Tower tower : towers) {
+                tower.draw(g);
+            }
+		}
+        
         for (LivingBeing being : friendlyLivingBeings) {
             being.draw(g);
         }

@@ -6,9 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import entities.bases.Bases;
-import entities.spawner.BearSpawner;
-import entities.spawner.LizardSpawner;
-import entities.spawner.Spawner;
+import game.spawner.BearSpawner;
+import game.spawner.LizardSpawner;
+import game.spawner.Spawner;
 import ui.GamePanel;
 import utils.Path;
 
@@ -27,11 +27,11 @@ public class WaveManager {
 	
 	public WaveManager(GamePanel panel,JLabel waveLabel) {
 		this.panel=panel;
-		setWaveLabel(waveLabel);
-		setWave(1);
-    	updateWaveLabel();
-    	changeBackground();
-    	startConfig();
+		this.waveLabel=waveLabel;
+		this.wave=1;
+//    	updateWaveLabel();
+//    	changeBackground();
+    	//startConfig();
 		
 	}
 	
@@ -65,46 +65,53 @@ public class WaveManager {
 		this.waveLabel = waveLabel;
 	}
 
-	private void startConfig() {
+	public void startConfig() {
+		updateWaveLabel();
+    	changeBackground();
 //    	towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
 //        		towerHeight,1000,true));
 //        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
 //        		(towerHeight+baseHeight),towerWidth,towerHeight,
 //        		1000,true));
-		panel.addBases(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
-		panel.addBases(Bases.ENEMY_CAVE.getBase(),panel.getTowersEnemy());
+    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
+    	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase(),panel.getTowersEnemy());
+		
+		
 		
         friendlySpawner = new LizardSpawner(3000,panel,true);
         friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,panel,false);
+        enemySpawner = new LizardSpawner(30000,panel,false);
         enemySpawner.startSpawning();
         
-        //waveSpawning();
+        waveSpawning();
 	
     }
 	
 	
-	public void waveSpawning() {
+	private void waveSpawning() {
 		TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                wave++;
-                if(wave >= 4) {
-                	friendlySpawner.stopSpawning();
-                	enemySpawner.stopSpawning();
-                	friendlySpawner = new BearSpawner(3000,panel,true);
-                    friendlySpawner.startSpawning();
-                    enemySpawner = new BearSpawner(3000,panel,false);
-                    enemySpawner.startSpawning();
-//                    removeBaseBases();
-//                    addBaseBases(Bases.FRIENDLY_FORTRESS.getBase(),towersPlayer);
-//                    addBaseBases(Bases.ENEMY_FORTRESS.getBase(),towersEnemy);
-                }
-                updateWaveLabel();
-                changeBackground();
-              
-                waveSpawning();
-
+            	
+            	if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() >0) {
+	                wave++;
+	                if(wave >= 4) {
+	                	friendlySpawner.stopSpawning();
+	                	enemySpawner.stopSpawning();
+	                	friendlySpawner = new BearSpawner(3000,panel,true);
+	                    friendlySpawner.startSpawning();
+	                    enemySpawner = new BearSpawner(30000,panel,false);
+	                    enemySpawner.startSpawning();
+	//                    removeBaseBases();
+	//                    addBaseBases(Bases.FRIENDLY_FORTRESS.getBase(),towersPlayer);
+	//                    addBaseBases(Bases.ENEMY_FORTRESS.getBase(),towersEnemy);
+	                }
+	                updateWaveLabel();
+	                changeBackground();
+	                waveSpawning();
+            	}else {
+            		waveTimer.cancel();
+            	}
             }
         };
         
@@ -117,10 +124,7 @@ public class WaveManager {
 		SwingUtilities.invokeLater(() -> {
 			if(wave == 1) {
 				panel.loadBackgroundImage(Path.IMAGE_BACKGROUND_01);
-			}
-			
-			
-			if(wave == 4) {
+			}else if(wave == 4) {
 				panel.loadBackgroundImage(Path.IMAGE_BACKGROUND_02);
             }
             
