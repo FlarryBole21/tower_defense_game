@@ -28,10 +28,12 @@ public class Main {
 	
 	private JFrame frame;
 	public final static AudioPlayer BACKGROUND_PLAYER=new AudioPlayer(Path.MAIN_BACKGROUND_MUSIC.getName(),true,true);
+	public final static AudioPlayer DANGER_PLAYER=new AudioPlayer(Path.DANGER_BACKGROUND_MUSIC.getName(),false,true);
 	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true);
+	public final static AudioPlayer LIZARD_SPEAK_PLAYER= new AudioPlayer(Path.LIZARD_SPEAK_SOUND.getName(),false,false);
 	public final static AudioPlayer BEAR_ATTACK_PLAYER= new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true);
-	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,BEAR_ATTACK_PLAYER};
-	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,LIZARD_ATTACK_PLAYER,
+	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,BEAR_ATTACK_PLAYER};
+	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,DANGER_PLAYER,LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,
 			BEAR_ATTACK_PLAYER};
 
 	public static void main(String[] args) {
@@ -42,6 +44,7 @@ public class Main {
 					window.frame.setVisible(true);
 					window.startAudio(BACKGROUND_PLAYER);
 					window.startAudio(LIZARD_ATTACK_PLAYER);
+					window.startAudio(LIZARD_SPEAK_PLAYER);
 					window.startAudio(BEAR_ATTACK_PLAYER);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -79,7 +82,10 @@ public class Main {
             public void run() {
             	if(player.isPlay()) {
             		player.play();
+
     	        }
+            
+
             }
         }).start();
         

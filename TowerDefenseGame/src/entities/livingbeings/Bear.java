@@ -26,7 +26,7 @@ public abstract class Bear extends LivingBeing{
 	public Bear(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
-		super.setAttackingAudio(Main.BEAR_ATTACK_PLAYER);
+		super.addAttackingAudio(Main.BEAR_ATTACK_PLAYER);
 		super.setAttackingDistance(20);
 		super.setWaitingDistance(110);
 		super.setFrameDelay(100);

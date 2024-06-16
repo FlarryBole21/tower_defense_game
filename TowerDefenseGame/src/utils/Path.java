@@ -35,7 +35,9 @@ public enum Path {
     IMAGE_NORMAL_BEAR_ENEMY_DEATH("img/lifeforms/bear_07.gif"),
     IMAGE_NORMAL_BEAR_ENEMY_WAIT("img/lifeforms/bear_08.gif"),
 	MAIN_BACKGROUND_MUSIC("audio/GloriousMorning2.wav"),
+	DANGER_BACKGROUND_MUSIC("audio/Danger.wav"),
 	LIZARD_ATTACK_SOUND("audio/LizardAttack.wav"),
+	LIZARD_SPEAK_SOUND("audio/LizardSpeak.wav"),
 	BEAR_ATTACK_SOUND("audio/BearAttack.wav");
 	
 	private String name;

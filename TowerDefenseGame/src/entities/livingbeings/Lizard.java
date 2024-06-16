@@ -26,7 +26,8 @@ public abstract class Lizard extends LivingBeing{
 	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
-		super.setAttackingAudio(Main.LIZARD_ATTACK_PLAYER);
+		super.addAttackingAudio(Main.LIZARD_ATTACK_PLAYER);
+		super.addAttackingAudio(Main.LIZARD_SPEAK_PLAYER);
 		super.setAttackingDistance(20);
 		super.setWaitingDistance(110);
 		super.setFrameDelay(100);

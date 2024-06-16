@@ -31,7 +31,8 @@ public class AudioPlayer {
 	public Clip getAudioClip() {
 		return audioClip;
 	}
-
+	
+	
 	public boolean isLoop() {
 		return loop;
 	}
@@ -44,13 +45,16 @@ public class AudioPlayer {
 		this.play = play;
 		
 		if (play && !audioClip.isRunning()) {
+			
 			audioClip.setFramePosition(0); 
             audioClip.start();
-            if (loop) {
-                audioClip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
+
+			if(loop) {
+				audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+
         }else {
-        	audioClip.stop();
+        	stop();
         }
 	}
 
@@ -85,11 +89,13 @@ public class AudioPlayer {
 		    }
 			
 		}
+	
 	}
 	
 	
 	
 	public void stop() {
+		play=false;
         if (audioClip != null && audioClip.isRunning()) {
         	audioClip.stop();
         	audioClip.setFramePosition(0);
