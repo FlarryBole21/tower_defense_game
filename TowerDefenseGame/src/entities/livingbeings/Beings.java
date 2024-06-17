@@ -5,7 +5,7 @@ import ui.GamePanel;
 
 public enum Beings {
 	
-	FRIENDLY_NORMAL_LIZARD(new NormalLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 50, 1200, true)),
+	FRIENDLY_NORMAL_LIZARD(new NormalLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 10, 10, true)),
 	ENEMY_NORMAL_LIZARD(new NormalLizard(GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-30,
 			570, 100, 100, 10, 200, false)),
 	FRIENDLY_INTERMEDIATE_LIZARD(new IntermediateLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 20, 800, true)),

@@ -16,6 +16,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -25,6 +28,7 @@ import ui.ButtonSetter;
 import ui.FrameSetter;
 import ui.GamePanel;
 import ui.LabelSetter;
+import ui.MenuBarSetter;
 import ui.PanelSetter;
 import utils.Path;
 
@@ -78,6 +82,13 @@ public class Main {
         	cardLayout.show(MAINPANEL, "MenuPanel");
         };
         
+        
+        Runnable closeRunnable = ()->{
+        	frame.dispose();
+			System.exit(0);
+        };
+        
+        
         JButton startButton = ButtonSetter.setButton("Spiel starten", startGameRunnable);
         JButton quitLosingTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
         JButton quitWinningTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
@@ -85,24 +96,37 @@ public class Main {
         JButton quitWinningBackToMenuButton = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
         
         
-        JPanel menuPanel = PanelSetter.setPanel("MenuPanel", new LinkedList<>(Arrays.asList(startButton)));
-        JPanel losingPanel = PanelSetter.setPanel("LosingPanel", 
-        		new LinkedList<>(Arrays.asList(quitLosingTryAgainButton,quitLosingBackToMenuButton)));
-        JPanel winningPanel = PanelSetter.setPanel("WinningPanel", 
-        		new LinkedList<>(Arrays.asList(quitWinningTryAgainButton,quitWinningBackToMenuButton)));
+        LinkedList<String> menuText = new LinkedList<>(Arrays.asList("War Of Age"));
+        LinkedList<String> losingText = new LinkedList<>(
+        		Arrays.asList("Deine Basis wurde zerstört.","Du hast verloren!"));
+        LinkedList<String> winningText = new LinkedList<>(
+        		Arrays.asList("Die Basis des Gegners wurde zerstört.","Du hast gewonnen!"));
+        
+        LinkedList<JButton> menuButtons = new LinkedList<>(Arrays.asList(startButton));
+        LinkedList<JButton> losingButtons = new LinkedList<>(
+        		Arrays.asList(quitLosingTryAgainButton,quitLosingBackToMenuButton));
+        LinkedList<JButton> winningButtons = new LinkedList<>(
+        		Arrays.asList(quitWinningTryAgainButton,quitWinningBackToMenuButton));
+        
+        JPanel menuPanel = PanelSetter.setPanel("MenuPanel",menuText, menuButtons,100,18,120,10);
+        JPanel losingPanel = PanelSetter.setPanel("LosingPanel", losingText,losingButtons,100,18,120,10);
+        JPanel winningPanel = PanelSetter.setPanel("WinningPanel", winningText, winningButtons,100,18,120,10);
         
         
         MAINPANEL.add(menuPanel ,"MenuPanel");
         MAINPANEL.add(gamePanel, "GamePanel");
         MAINPANEL.add(losingPanel, "LosingPanel");
         MAINPANEL.add(winningPanel, "WinningPanel");
-		FrameSetter.setFrame(frame,MAINPANEL);
+        
+        JMenuBar mb = MenuBarSetter.setMenuBar(closeRunnable,"Menü","Exit");
 		
+		FrameSetter.setFrame(frame,mb);
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
             	stopAudio();
+            	System.exit(0);
             }
         });
 	
