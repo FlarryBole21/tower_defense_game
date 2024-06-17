@@ -89,9 +89,9 @@ public class WaveManager {
 //    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
 		
 		
-        friendlySpawner = new LizardSpawner(3000,panel,true);
+        friendlySpawner = new LizardSpawner(30000,panel,true);
         friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(30000,panel,false);
+        enemySpawner = new LizardSpawner(3000,panel,false);
         enemySpawner.startSpawning();
         
         waveSpawning();

@@ -48,9 +48,6 @@ public class GamePanel extends JPanel implements ActionListener {
 	private JFrame frame;
 	private GamePanel panel;
 	private Timer timer;
-	//private int wave;
-	//private java.util.Timer waveTimer;
-	//private LinkedList<Base> bases;
 	private Base friendlyBase;
 	private Base enemyBase;
     private LinkedList<LivingBeing> friendlyLivingBeings;
@@ -66,8 +63,6 @@ public class GamePanel extends JPanel implements ActionListener {
     private int towerHeight;
     private LinkedList<Tower>towersPlayer; 
     private LinkedList<Tower>towersEnemy; 
-    //private Spawner friendlySpawner;
-    //private Spawner enemySpawner;
     private WaveManager waveManager;
     private boolean gameStart;
     private JLabel waveLabel; 
@@ -274,6 +269,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void resetGame() {
       
     	Main.stopAudio();
+    	Main.BACKGROUND_PLAYER.resetFrame();
     	
     	friendlyLivingBeings.clear();
         enemyLivingBeings.clear();

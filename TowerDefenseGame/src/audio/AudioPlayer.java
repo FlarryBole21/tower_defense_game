@@ -10,14 +10,14 @@ public class AudioPlayer {
 	
 	private Clip audioClip;
 	private boolean loop;
-	private String fileName;
 	private boolean play;
+	private boolean continueAfterStop;
 	
 	
-	public AudioPlayer(String fileName,boolean play,boolean loop) {
+	public AudioPlayer(String fileName,boolean play,boolean loop,boolean continueAfterStop) {
 		this.play=play;
-		this.fileName=fileName;
 		this.loop=loop;
+		this.continueAfterStop=continueAfterStop;
         try {
 	        File audioFile = new File(fileName);
 	        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -40,13 +40,21 @@ public class AudioPlayer {
 	public boolean isPlay() {
 		return play;
 	}
+	
+	public void resetFrame() {
+		if(audioClip != null) {
+			audioClip.setFramePosition(0); 
+		}
+	}
 
 	public void setPlay(boolean play) {
 		this.play = play;
 		
 		if (play && !audioClip.isRunning()) {
 			
-			audioClip.setFramePosition(0); 
+			if(!continueAfterStop) {
+				audioClip.setFramePosition(0); 
+			}
             audioClip.start();
 
 			if(loop) {
@@ -98,7 +106,9 @@ public class AudioPlayer {
 		play=false;
         if (audioClip != null && audioClip.isRunning()) {
         	audioClip.stop();
-        	audioClip.setFramePosition(0);
+        	if(!continueAfterStop) {
+				audioClip.setFramePosition(0); 
+			}
         }
     }
 }

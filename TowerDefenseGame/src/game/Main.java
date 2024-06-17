@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
@@ -19,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
+import ui.ButtonSetter;
 import ui.FrameSetter;
 import ui.GamePanel;
 import ui.LabelSetter;
@@ -31,11 +34,11 @@ public class Main {
 	private JFrame frame;
 	public final static JPanel MAINPANEL = new JPanel();
 	public final static Main WINDOW = new Main();
-	public final static AudioPlayer BACKGROUND_PLAYER=new AudioPlayer(Path.MAIN_BACKGROUND_MUSIC.getName(),true,true);
-	public final static AudioPlayer DANGER_PLAYER=new AudioPlayer(Path.DANGER_BACKGROUND_MUSIC.getName(),false,true);
-	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true);
-	public final static AudioPlayer LIZARD_SPEAK_PLAYER= new AudioPlayer(Path.LIZARD_SPEAK_SOUND.getName(),false,false);
-	public final static AudioPlayer BEAR_ATTACK_PLAYER= new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true);
+	public final static AudioPlayer BACKGROUND_PLAYER=new AudioPlayer(Path.MAIN_BACKGROUND_MUSIC.getName(),true,true,true);
+	public final static AudioPlayer DANGER_PLAYER=new AudioPlayer(Path.DANGER_BACKGROUND_MUSIC.getName(),false,true,false);
+	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true,false);
+	public final static AudioPlayer LIZARD_SPEAK_PLAYER= new AudioPlayer(Path.LIZARD_SPEAK_SOUND.getName(),false,false,false);
+	public final static AudioPlayer BEAR_ATTACK_PLAYER= new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true,false);
 	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,BEAR_ATTACK_PLAYER};
 	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,DANGER_PLAYER,LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,
 			BEAR_ATTACK_PLAYER};
@@ -64,77 +67,35 @@ public class Main {
 		MAINPANEL.setLayout(new CardLayout());
 		CardLayout cardLayout = (CardLayout) MAINPANEL.getLayout();
 		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Arial",Font.BOLD,70,Color.WHITE,Color.BLACK,20);
-        GamePanel gamePanel = (GamePanel) PanelSetter.setPanel(frame,label,cardLayout);
-        JPanel menuPanel = new JPanel();
-        JPanel losingPanel = new JPanel();
-        JPanel winningPanel = new JPanel();
+        GamePanel gamePanel = PanelSetter.setGamePanel(frame,label,cardLayout);
+        
+        
+        Runnable startGameRunnable = ()->{
+        	startGame(gamePanel, cardLayout);
+        };
+        
+        Runnable switchToMainMenuRunnable = ()->{
+        	cardLayout.show(MAINPANEL, "MenuPanel");
+        };
+        
+        JButton startButton = ButtonSetter.setButton("Spiel starten", startGameRunnable);
+        JButton quitLosingTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
+        JButton quitWinningTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
+        JButton quitLosingBackToMenuButton = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
+        JButton quitWinningBackToMenuButton = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
+        
+        
+        JPanel menuPanel = PanelSetter.setPanel("MenuPanel", new LinkedList<>(Arrays.asList(startButton)));
+        JPanel losingPanel = PanelSetter.setPanel("LosingPanel", 
+        		new LinkedList<>(Arrays.asList(quitLosingTryAgainButton,quitLosingBackToMenuButton)));
+        JPanel winningPanel = PanelSetter.setPanel("WinningPanel", 
+        		new LinkedList<>(Arrays.asList(quitWinningTryAgainButton,quitWinningBackToMenuButton)));
+        
+        
         MAINPANEL.add(menuPanel ,"MenuPanel");
         MAINPANEL.add(gamePanel, "GamePanel");
         MAINPANEL.add(losingPanel, "LosingPanel");
         MAINPANEL.add(winningPanel, "WinningPanel");
-        
-        JButton startButton = new JButton();
-        startButton.setText("Spiel starten");
-        startButton.addActionListener(e -> {
-        	WINDOW.startAudio(BACKGROUND_PLAYER);
-        	WINDOW.startAudio(LIZARD_ATTACK_PLAYER);
-        	WINDOW.startAudio(LIZARD_SPEAK_PLAYER);
-        	WINDOW.startAudio(BEAR_ATTACK_PLAYER);
-            gamePanel.setGameStart(true);
-            gamePanel.startConfig();
-            cardLayout.show(MAINPANEL, "GamePanel");
-        });
-
-        menuPanel.add(startButton);
-        JButton quitLosingBackToMenuButton = new JButton();
-        JButton quitLosingTryAgainButton = new JButton();
-        quitLosingTryAgainButton.setText("Nochmal versuchen");
-        quitLosingBackToMenuButton.setText("Zurück zum Menü");
-        
-        quitLosingBackToMenuButton.addActionListener(e -> {
-            cardLayout.show(MAINPANEL, "MenuPanel");
-        });
-        
-        quitLosingTryAgainButton.addActionListener(e -> {
-           
-        	//gamePanel.resetGame();
-        	WINDOW.startAudio(BACKGROUND_PLAYER);
-        	WINDOW.startAudio(LIZARD_ATTACK_PLAYER);
-        	WINDOW.startAudio(LIZARD_SPEAK_PLAYER);
-        	WINDOW.startAudio(BEAR_ATTACK_PLAYER);
-        	gamePanel.setGameStart(true);
-            gamePanel.startConfig();
-            cardLayout.show(MAINPANEL, "GamePanel");
-        });
-        
-        losingPanel.add(quitLosingBackToMenuButton);
-        losingPanel.add(quitLosingTryAgainButton);
-        
-        JButton quitWinningBackToMenuButton = new JButton();
-        JButton quitWinningTryAgainButton = new JButton();
-        quitWinningTryAgainButton.setText("Nochmal versuchen");
-        quitWinningBackToMenuButton.setText("Zurück zum Menü");
-        
-        quitWinningBackToMenuButton.addActionListener(e -> {
-            cardLayout.show(MAINPANEL, "MenuPanel");
-        });
-        
-        
-        quitWinningTryAgainButton.addActionListener(e -> {
-            
-        	//gamePanel.resetGame();
-        	WINDOW.startAudio(BACKGROUND_PLAYER);
-        	WINDOW.startAudio(LIZARD_ATTACK_PLAYER);
-        	WINDOW.startAudio(LIZARD_SPEAK_PLAYER);
-        	WINDOW.startAudio(BEAR_ATTACK_PLAYER);
-        	gamePanel.setGameStart(true);
-            gamePanel.startConfig();
-            cardLayout.show(MAINPANEL, "GamePanel");
-        });
-        
-        winningPanel.add(quitWinningBackToMenuButton);
-        winningPanel.add(quitWinningTryAgainButton);
-     
 		FrameSetter.setFrame(frame,MAINPANEL);
 		
 		
@@ -145,6 +106,15 @@ public class Main {
             }
         });
 	
+	}
+	
+	
+	public static void startGame(GamePanel gamePanel, CardLayout cardLayout) {
+		WINDOW.startAudio(BACKGROUND_PLAYER);
+        gamePanel.setGameStart(true);
+        gamePanel.startConfig();
+        cardLayout.show(MAINPANEL, "GamePanel");
+		
 	}
 
 
