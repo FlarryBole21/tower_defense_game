@@ -48,6 +48,7 @@ public class Main {
 	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,BEAR_ATTACK_PLAYER};
 	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,DANGER_PLAYER,LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,
 			BEAR_ATTACK_PLAYER};
+	private static boolean FIRSTTIME;
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -74,18 +75,10 @@ public class Main {
 		CardLayout cardLayout = (CardLayout) MAINPANEL.getLayout();
 		
 		LinkedList<JButton> imageIconButtons = new LinkedList<>();
-		ImageIcon normalLizardIcon = new ImageIcon(Path.IMAGE_ICON_NORMAL_LIZARD.getName());
-		ImageIcon intermediateLizardIcon = new ImageIcon(Path.IMAGE_ICON_INTERMEDIATE_LIZARD.getName());
-        JButton normalLizardImageButton = new JButton(normalLizardIcon);
-        normalLizardImageButton.setPreferredSize(new Dimension(64, 64));
-        normalLizardImageButton.setName("NormalLizardButton");
-        JButton intermediateLizardImageButton = new JButton(intermediateLizardIcon);
-        intermediateLizardImageButton.setPreferredSize(new Dimension(64, 64));
-        intermediateLizardImageButton.setName("IntermediateLizardButton");
+		
+		resetImageIcons(imageIconButtons);
+
         
-        
-        imageIconButtons.add(normalLizardImageButton);
-        imageIconButtons.add(intermediateLizardImageButton);
 		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Arial",Font.BOLD,70,Color.WHITE,Color.BLACK,20);
         GamePanel gamePanel = PanelSetter.setGamePanel(frame,cardLayout,label,imageIconButtons);
         
@@ -149,8 +142,28 @@ public class Main {
 	}
 	
 	
+	public static void resetImageIcons(LinkedList<JButton> imageIconButtons) {
+		JButton normalLizardImageButton = ButtonSetter.setImageIconButton
+				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", 64, 64);
+		JButton intermediateLizardImageButton = ButtonSetter.setImageIconButton
+				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton", 64, 64);
+		
+        imageIconButtons.add(normalLizardImageButton);
+        imageIconButtons.add(intermediateLizardImageButton);
+	}
+	
+	
+	
+	
 	public static void startGame(GamePanel gamePanel, CardLayout cardLayout) {
-		WINDOW.startAudio(BACKGROUND_PLAYER);
+		if(FIRSTTIME) {
+			WINDOW.startAudio(BACKGROUND_PLAYER);
+			FIRSTTIME=false;
+		}else {
+			BACKGROUND_PLAYER.resetFrame();
+			BACKGROUND_PLAYER.play();
+		}
+		
         gamePanel.setGameStart(true);
         gamePanel.startConfig();
         cardLayout.show(MAINPANEL, "GamePanel");

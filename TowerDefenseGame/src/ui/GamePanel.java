@@ -100,7 +100,7 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.imageIconManager=new ImageIconManager(this,imageIconButtons);
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
-    	imageIconManager.setImageIconButtons();
+    	imageIconManager.setImageIconButtonsEvents();
     	//setImageIconButtons();
     }
     
@@ -118,6 +118,12 @@ public class GamePanel extends JPanel implements ActionListener {
     
     
  
+	public ImageIconManager getImageIconManager() {
+		return imageIconManager;
+	}
+
+
+
 	public boolean isGameStart() {
 		return gameStart;
 	}
@@ -294,8 +300,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
         Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
         Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
-        
         gameStart = false;
+        imageIconManager.returnToOriginalLineUp();
+       
     }
 
    
@@ -306,7 +313,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
 		if(imageIconManager != null) {
 			
-			imageIconManager.updateOnActionPerformed();
+			if(imageIconManager.getImageIconButtons().size() > 0) {
+				imageIconManager.updateOnActionPerformed();
+			}
 
 		}
 		

@@ -1,7 +1,10 @@
 package game;
 
+import java.awt.Dimension;
 import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
@@ -120,6 +123,16 @@ public class WaveManager {
 	                wave++;
 	                if(wave >= 4) {
 	                	//friendlySpawner.stopSpawning();
+	                	panel.getImageIconManager().getImageIconButtons().clear();
+	                	ImageIcon normalBearIcon = new ImageIcon(Path.IMAGE_ICON_NORMAL_BEAR.getName());
+	                	JButton normalBearImageButton = new JButton(normalBearIcon);
+	                	normalBearImageButton.setPreferredSize(new Dimension(64, 64));
+	                	normalBearImageButton.setName("NormalBearButton");
+	                	panel.getImageIconManager().addImageIconButton(normalBearImageButton);
+	                	panel.getImageIconManager().refreshImageIcons();
+	                	panel.getImageIconManager().setImageIconButtonsEvents();
+	                	
+	                	
 	                	enemySpawner.stopSpawning();
 //	                	friendlySpawner = new BearSpawner(30000,panel,true);
 //	                    friendlySpawner.startSpawning();

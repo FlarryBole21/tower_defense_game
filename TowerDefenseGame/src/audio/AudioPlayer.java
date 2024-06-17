@@ -99,9 +99,7 @@ public class AudioPlayer {
 		}
 	
 	}
-	
-	
-	
+
 	public void stop() {
 		play=false;
         if (audioClip != null && audioClip.isRunning()) {
