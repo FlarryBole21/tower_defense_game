@@ -34,6 +34,8 @@ public enum Path {
     IMAGE_NORMAL_BEAR_ENEMY_ATTACK("img/lifeforms/bear_06.gif"),
     IMAGE_NORMAL_BEAR_ENEMY_DEATH("img/lifeforms/bear_07.gif"),
     IMAGE_NORMAL_BEAR_ENEMY_WAIT("img/lifeforms/bear_08.gif"),
+    IMAGE_ICON_NORMAL_LIZARD("img/lifeforms_icons/normal_lizard.png"),
+    IMAGE_ICON_INTERMEDIATE_LIZARD("img/lifeforms_icons/intermediate_lizard.png"),
 	MAIN_BACKGROUND_MUSIC("audio/GloriousMorning2.wav"),
 	DANGER_BACKGROUND_MUSIC("audio/Danger.wav"),
 	LIZARD_ATTACK_SOUND("audio/LizardAttack.wav"),

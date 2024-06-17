@@ -89,8 +89,8 @@ public class WaveManager {
 //    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
 		
 		
-        friendlySpawner = new LizardSpawner(30000,panel,true);
-        friendlySpawner.startSpawning();
+//        friendlySpawner = new LizardSpawner(30000,panel,true);
+//        friendlySpawner.startSpawning();
         enemySpawner = new LizardSpawner(3000,panel,false);
         enemySpawner.startSpawning();
         
@@ -119,10 +119,10 @@ public class WaveManager {
             	if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() >0) {
 	                wave++;
 	                if(wave >= 4) {
-	                	friendlySpawner.stopSpawning();
+	                	//friendlySpawner.stopSpawning();
 	                	enemySpawner.stopSpawning();
-	                	friendlySpawner = new BearSpawner(30000,panel,true);
-	                    friendlySpawner.startSpawning();
+//	                	friendlySpawner = new BearSpawner(30000,panel,true);
+//	                    friendlySpawner.startSpawning();
 	                    enemySpawner = new BearSpawner(3000,panel,false);
 	                    enemySpawner.startSpawning();
 	//                    removeBaseBases();

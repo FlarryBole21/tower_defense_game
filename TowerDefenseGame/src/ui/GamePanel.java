@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -21,6 +22,7 @@ import java.util.TimerTask;
 
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +34,10 @@ import entities.bases.Bases;
 import entities.bases.Cave;
 import entities.bases.Tower;
 import entities.livingbeings.Beings;
+import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
+import entities.livingbeings.NormalLizard;
 import game.Main;
 import game.WaveManager;
 import game.spawner.BearSpawner;
@@ -56,6 +60,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<LivingBeing> enemyNewBeings;
     private LinkedList<LivingBeing> friendlyWaitingBeings;
     private LinkedList<LivingBeing> enemyWaitingBeings;
+    private LinkedList<JButton> imageIconButtons;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
@@ -81,7 +86,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
     public GamePanel(int baseWidth,int baseHeight,int towerWidth,int towerHeight,
-    		JFrame frame,JLabel waveLabel,CardLayout layout) {
+    		JFrame frame,CardLayout layout,JLabel waveLabel,LinkedList<JButton> imageIconButtons) {
     	this.frame=frame;
     	this.panel=this;
     	this.baseWidth=baseWidth;
@@ -89,12 +94,75 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
     	this.waveLabel=waveLabel;
+    	this.imageIconButtons=imageIconButtons;
     	this.layout=layout;
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
-    	
-    	
-    	
+    	setImageIconButtons();
+    }
+    
+    
+    public void setImageIconButtons() {
+
+    	for(JButton imageButton: imageIconButtons) {
+    		if(imageButton.getName().equals("NormalLizardButton")) {
+    			imageButton.addActionListener(e -> {
+    				
+    				Beings normalFriend = Beings.FRIENDLY_NORMAL_LIZARD;
+
+                	if(friendlyLivingBeings.size() > 0) {
+                		
+                		if(normalFriend.getxPos()+normalFriend.getWaitingDistance() 
+                				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
+                			NormalLizard newLizard = new NormalLizard(normalFriend.getxPos(), normalFriend.getyPos(),
+                                    normalFriend.getWidth(), normalFriend.getHeigth(), normalFriend.getAttack(),
+                                    normalFriend.getHealth(), normalFriend.isFriendly());
+                            newLizard.resetState(normalFriend);
+                			friendlyLivingBeings.add(newLizard);
+                		}else {
+                			System.out.println("Kann nicht gespawnt werden!");
+                		}
+                	}else {
+              
+                        NormalLizard newLizard = new NormalLizard(normalFriend.getxPos(), normalFriend.getyPos(),
+                                normalFriend.getWidth(), normalFriend.getHeigth(), normalFriend.getAttack(),
+                                normalFriend.getHealth(), normalFriend.isFriendly());
+                        newLizard.resetState(normalFriend);
+                        friendlyLivingBeings.add(newLizard);
+                	}
+
+                });
+    			
+    		}else if(imageButton.getName().equals("IntermediateLizardButton")) {
+    			imageButton.addActionListener(e -> {
+    				
+    				Beings intermediateFriend = Beings.FRIENDLY_INTERMEDIATE_LIZARD;
+
+                	if(friendlyLivingBeings.size() > 0) {
+                		
+                		if(intermediateFriend.getxPos()+intermediateFriend.getWaitingDistance() 
+                				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
+                			IntermediateLizard newLizard = new IntermediateLizard(intermediateFriend.getxPos(), intermediateFriend.getyPos(),
+                					intermediateFriend.getWidth(), intermediateFriend.getHeigth(), intermediateFriend.getAttack(),
+                                    intermediateFriend.getHealth(), intermediateFriend.isFriendly());
+                            newLizard.resetState(intermediateFriend);
+                			friendlyLivingBeings.add(newLizard);
+                		}else {
+                			System.out.println("Kann nicht gespawnt werden!");
+                		}
+                	}else {
+              
+                		IntermediateLizard newLizard = new IntermediateLizard(intermediateFriend.getxPos(), intermediateFriend.getyPos(),
+            					intermediateFriend.getWidth(), intermediateFriend.getHeigth(), intermediateFriend.getAttack(),
+                                intermediateFriend.getHealth(), intermediateFriend.isFriendly());
+                        newLizard.resetState(intermediateFriend);
+            			friendlyLivingBeings.add(newLizard);
+                	}
+
+                });
+    			
+    		}
+    	}
     }
     
     public void startConfig() {

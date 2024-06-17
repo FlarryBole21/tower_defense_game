@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.LinkedList;
@@ -21,24 +22,25 @@ import game.Main;
 
 public abstract class PanelSetter {
 	
-	public static GamePanel setGamePanel(JFrame frame, JLabel label,CardLayout layout) {
-		GamePanel panel = new GamePanel(170,600,100,20,frame,label,layout);
-		panel.add(label, BorderLayout.PAGE_END);
+	public static GamePanel setGamePanel(JFrame frame, CardLayout layout, JLabel label,LinkedList<JButton> imageButtons) {
+		GamePanel panel = new GamePanel(170,600,100,20,frame,layout,label,imageButtons);
+
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		bottomPanel.setBackground(Color.BLACK);
+        //add(bottomPanel, BorderLayout.SOUTH);
+
+		for(JButton imageButton: imageButtons) {
+			bottomPanel.add(imageButton); 
+		}
+		
+		bottomPanel.add(label);
+		panel.add(bottomPanel,BorderLayout.SOUTH);
 		panel.requestFocus();
 		//frame.add(jpanel);
 		return panel;
 	}
 	
 
-	public static GamePanel setGamePanel(JFrame frame, JLabel label,CardLayout layout,Color color) {
-		GamePanel panel = new GamePanel(170,600,100,20,frame,label,layout);
-		panel.add(label, BorderLayout.PAGE_END);
-		panel.requestFocus();
-		panel.setBackground(color);
-		//frame.add(jpanel);
-		return panel;
-	}
-	
 	
 	public static JPanel setPanel(String name,LinkedList<String> text,LinkedList<JButton> buttons,
 			int textFontSize, int buttonFontSize,int textButtonDistance, int buttonDistance) {

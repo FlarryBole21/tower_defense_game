@@ -13,12 +13,14 @@ import java.util.LinkedList;
 
 import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -70,8 +72,22 @@ public class Main {
 		
 		MAINPANEL.setLayout(new CardLayout());
 		CardLayout cardLayout = (CardLayout) MAINPANEL.getLayout();
+		
+		LinkedList<JButton> imageIconButtons = new LinkedList<>();
+		ImageIcon normalLizardIcon = new ImageIcon(Path.IMAGE_ICON_NORMAL_LIZARD.getName());
+		ImageIcon intermediateLizardIcon = new ImageIcon(Path.IMAGE_ICON_INTERMEDIATE_LIZARD.getName());
+        JButton normalLizardImageButton = new JButton(normalLizardIcon);
+        normalLizardImageButton.setPreferredSize(new Dimension(64, 64));
+        normalLizardImageButton.setName("NormalLizardButton");
+        JButton intermediateLizardImageButton = new JButton(intermediateLizardIcon);
+        intermediateLizardImageButton.setPreferredSize(new Dimension(64, 64));
+        intermediateLizardImageButton.setName("IntermediateLizardButton");
+        
+        
+        imageIconButtons.add(normalLizardImageButton);
+        imageIconButtons.add(intermediateLizardImageButton);
 		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Arial",Font.BOLD,70,Color.WHITE,Color.BLACK,20);
-        GamePanel gamePanel = PanelSetter.setGamePanel(frame,label,cardLayout);
+        GamePanel gamePanel = PanelSetter.setGamePanel(frame,cardLayout,label,imageIconButtons);
         
         
         Runnable startGameRunnable = ()->{
