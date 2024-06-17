@@ -50,6 +50,7 @@ public abstract class PanelSetter {
 		
 		JPanel subPanel = new JPanel();
 		subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
+		subPanel.setBackground(Color.BLACK);
 		
 		
 		if(text != null) {
@@ -58,7 +59,7 @@ public abstract class PanelSetter {
 				userLabel.setFont(new Font("Arial", Font.PLAIN, textFontSize));
 				userLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
 				userLabel.setHorizontalAlignment(JLabel.CENTER);
-				userLabel.setForeground(Color.BLACK);
+				userLabel.setForeground(Color.WHITE);
 		        subPanel.add(userLabel);
 			}
 		}
@@ -85,6 +86,7 @@ public abstract class PanelSetter {
 		panel.add(subPanel);
 		
 		panel.add(Box.createVerticalGlue());
+		panel.setBackground(Color.BLACK);
 		return panel;
 	
 	}

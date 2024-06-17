@@ -62,9 +62,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<LivingBeing> enemyNewBeings;
     private LinkedList<LivingBeing> friendlyWaitingBeings;
     private LinkedList<LivingBeing> enemyWaitingBeings;
-    private LinkedList<JButton> imageIconButtons;
-    private Map<String, Boolean> cooldownImageIconsMapActive;
-    private Map<String, Long> cooldownImageIconsMapEndTime;
+    private ImageIconManager imageIconManager;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
@@ -86,8 +84,6 @@ public class GamePanel extends JPanel implements ActionListener {
         enemyWaitingBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
         towersEnemy = new LinkedList<>();
-        cooldownImageIconsMapActive=new HashMap<>();
-        cooldownImageIconsMapEndTime=new HashMap<>();
   
     }
     
@@ -100,87 +96,15 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.towerHeight=towerHeight;
     	this.towerWidth=towerWidth;
     	this.waveLabel=waveLabel;
-    	this.imageIconButtons=imageIconButtons;
     	this.layout=layout;
+    	this.imageIconManager=new ImageIconManager(this,imageIconButtons);
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
-    	
-    	setImageIconButtons();
+    	imageIconManager.setImageIconButtons();
+    	//setImageIconButtons();
     }
     
-    
-    public void setImageIconButtons() {
-    	
-//    	for(JButton imageButton: imageIconButtons) {
-//    		cooldownImageIconsMapActive.put(imageButton.getName(), false);
-//    		
-//    	}
 
-    	for(JButton imageButton: imageIconButtons) {
-    		if(imageButton.getName().equals("NormalLizardButton")) {
-    			imageButton.addActionListener(e -> {
-    				
-    				Beings normalFriend = Beings.FRIENDLY_NORMAL_LIZARD;
-
-                	if(friendlyLivingBeings.size() > 0) {
-                		
-                		if(normalFriend.getxPos()+normalFriend.getWaitingDistance() 
-                				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
-                			NormalLizard newLizard = new NormalLizard(normalFriend.getxPos(), normalFriend.getyPos(),
-                                    normalFriend.getWidth(), normalFriend.getHeigth(), normalFriend.getAttack(),
-                                    normalFriend.getHealth(), normalFriend.isFriendly());
-                            newLizard.resetState(normalFriend);
-                			friendlyLivingBeings.add(newLizard);
-                			startCooldown(imageButton);
-                		}else {
-                			System.out.println("Kann nicht gespawnt werden!");
-                		}
-                	}else {
-              
-                        NormalLizard newLizard = new NormalLizard(normalFriend.getxPos(), normalFriend.getyPos(),
-                                normalFriend.getWidth(), normalFriend.getHeigth(), normalFriend.getAttack(),
-                                normalFriend.getHealth(), normalFriend.isFriendly());
-                        newLizard.resetState(normalFriend);
-                        friendlyLivingBeings.add(newLizard);
-                        startCooldown(imageButton);
-                	}
-
-                });
-    			
-    		}else if(imageButton.getName().equals("IntermediateLizardButton")) {
-    			imageButton.addActionListener(e -> {
-    				
-    				Beings intermediateFriend = Beings.FRIENDLY_INTERMEDIATE_LIZARD;
-
-                	if(friendlyLivingBeings.size() > 0) {
-                		
-                		if(intermediateFriend.getxPos()+intermediateFriend.getWaitingDistance() 
-                				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
-                			IntermediateLizard newLizard = new IntermediateLizard(intermediateFriend.getxPos(), intermediateFriend.getyPos(),
-                					intermediateFriend.getWidth(), intermediateFriend.getHeigth(), intermediateFriend.getAttack(),
-                                    intermediateFriend.getHealth(), intermediateFriend.isFriendly());
-                            newLizard.resetState(intermediateFriend);
-                			friendlyLivingBeings.add(newLizard);
-                			startCooldown(imageButton);
-                		
-                		}else {
-                			System.out.println("Kann nicht gespawnt werden!");
-                		}
-                	}else {
-              
-                		IntermediateLizard newLizard = new IntermediateLizard(intermediateFriend.getxPos(), intermediateFriend.getyPos(),
-            					intermediateFriend.getWidth(), intermediateFriend.getHeigth(), intermediateFriend.getAttack(),
-                                intermediateFriend.getHealth(), intermediateFriend.isFriendly());
-                        newLizard.resetState(intermediateFriend);
-            			friendlyLivingBeings.add(newLizard);
-            			startCooldown(imageButton);
-                	}
-
-                });
-    			
-    		}
-    	}
-    }
     
     public void startConfig() {
     	waveManager = new WaveManager(this,waveLabel);
@@ -193,8 +117,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
     
-
-    public boolean isGameStart() {
+ 
+	public boolean isGameStart() {
 		return gameStart;
 	}
 
@@ -374,88 +298,18 @@ public class GamePanel extends JPanel implements ActionListener {
         gameStart = false;
     }
 
-    private void startCooldown(JButton button) {
-    	cooldownImageIconsMapActive.put(button.getName(), true);
-    	
-    	switch (button.getName()) {
-        	case "NormalLizardButton":
-        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 5000);
-        		for (JButton imageButton : imageIconButtons) {
-        			if(!imageButton.getName().equals(button.getName())) {
-        				cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + 1000);
-        				imageButton.setEnabled(false); 
-        			}
-        		}
-        		break;
-        	case "IntermediateLizardButton":
-        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 10000);
-        		for (JButton imageButton : imageIconButtons) {
-        			if(!imageButton.getName().equals(button.getName())) {
-        				cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + 1000);
-        				imageButton.setEnabled(false); 
-        			}
-        		}
-        		break;
-        	default:
-        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 5000);
-    	}
-    	
-
-        button.setEnabled(false); 
-        updateImageIcons();
-    }
+   
     
-    
-    private void updateImageIcons() {
-        long currentTime = System.currentTimeMillis();
-        for (JButton imageButton : imageIconButtons) {
-            if (imageButton.getName() != null && (imageButton.getName().equals("NormalLizardButton")
-                    || imageButton.getName().equals("IntermediateLizardButton"))) {
-
-                Boolean cooldownActive = cooldownImageIconsMapActive.get(imageButton.getName());
-                Long cooldownEndTime = cooldownImageIconsMapEndTime.get(imageButton.getName());
-
-                if(friendlyLivingBeings.size()> 0) {
-                	
-                	Beings normalFriend = Beings.FRIENDLY_NORMAL_LIZARD;
-                    if (cooldownActive != null && cooldownEndTime != null && normalFriend.getxPos()+normalFriend.getWaitingDistance() 
-    				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
-                        if (!cooldownActive && currentTime >= cooldownEndTime) {
-                            cooldownImageIconsMapActive.put(imageButton.getName(), false);
-                            imageButton.setEnabled(true);
-                        } else {
-                            imageButton.setEnabled(false); 
-                        }
-                    }
-                	
-                }else {
-                	if (cooldownActive != null && cooldownEndTime != null) {
-                        if (!cooldownActive && currentTime >= cooldownEndTime) {
-                            cooldownImageIconsMapActive.put(imageButton.getName(), false);
-                            imageButton.setEnabled(true);
-                        } else {
-                            imageButton.setEnabled(false); 
-                        }
-                    }	  
-                }
-                
-            }
-        }
-    }
-
-  
+ 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		if(imageIconManager != null) {
+			
+			imageIconManager.updateOnActionPerformed();
+
+		}
 		
-		for (Map.Entry<String, Long> endTimeEntry : cooldownImageIconsMapEndTime.entrySet()) {
-	        String key = endTimeEntry.getKey();
-	        Long cooldownEndTime = endTimeEntry.getValue();
-	        
-	        if (System.currentTimeMillis() >= cooldownEndTime) {
-	            cooldownImageIconsMapActive.put(key, false); 
-	            updateImageIcons();
-	        }
-	    }
 		
 		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart) {
 			updateGame(); 
