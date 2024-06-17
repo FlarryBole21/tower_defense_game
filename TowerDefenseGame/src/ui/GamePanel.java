@@ -15,9 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 import javax.swing.Timer;
@@ -61,6 +63,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private LinkedList<LivingBeing> friendlyWaitingBeings;
     private LinkedList<LivingBeing> enemyWaitingBeings;
     private LinkedList<JButton> imageIconButtons;
+    private Map<String, Boolean> cooldownImageIconsMapActive;
+    private Map<String, Long> cooldownImageIconsMapEndTime;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
@@ -82,6 +86,8 @@ public class GamePanel extends JPanel implements ActionListener {
         enemyWaitingBeings = new LinkedList<>();
         towersPlayer = new LinkedList<>();
         towersEnemy = new LinkedList<>();
+        cooldownImageIconsMapActive=new HashMap<>();
+        cooldownImageIconsMapEndTime=new HashMap<>();
   
     }
     
@@ -98,11 +104,17 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.layout=layout;
     	setLayout(new BorderLayout());
     	this.setPreferredSize(SCREENSIZE);
+    	
     	setImageIconButtons();
     }
     
     
     public void setImageIconButtons() {
+    	
+//    	for(JButton imageButton: imageIconButtons) {
+//    		cooldownImageIconsMapActive.put(imageButton.getName(), false);
+//    		
+//    	}
 
     	for(JButton imageButton: imageIconButtons) {
     		if(imageButton.getName().equals("NormalLizardButton")) {
@@ -119,6 +131,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                     normalFriend.getHealth(), normalFriend.isFriendly());
                             newLizard.resetState(normalFriend);
                 			friendlyLivingBeings.add(newLizard);
+                			startCooldown(imageButton);
                 		}else {
                 			System.out.println("Kann nicht gespawnt werden!");
                 		}
@@ -129,6 +142,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                 normalFriend.getHealth(), normalFriend.isFriendly());
                         newLizard.resetState(normalFriend);
                         friendlyLivingBeings.add(newLizard);
+                        startCooldown(imageButton);
                 	}
 
                 });
@@ -147,6 +161,8 @@ public class GamePanel extends JPanel implements ActionListener {
                                     intermediateFriend.getHealth(), intermediateFriend.isFriendly());
                             newLizard.resetState(intermediateFriend);
                 			friendlyLivingBeings.add(newLizard);
+                			startCooldown(imageButton);
+                		
                 		}else {
                 			System.out.println("Kann nicht gespawnt werden!");
                 		}
@@ -157,6 +173,7 @@ public class GamePanel extends JPanel implements ActionListener {
                                 intermediateFriend.getHealth(), intermediateFriend.isFriendly());
                         newLizard.resetState(intermediateFriend);
             			friendlyLivingBeings.add(newLizard);
+            			startCooldown(imageButton);
                 	}
 
                 });
@@ -174,6 +191,7 @@ public class GamePanel extends JPanel implements ActionListener {
         timer = new Timer(1000 / 60, this);
         timer.start();
     }
+    
     
 
     public boolean isGameStart() {
@@ -356,10 +374,88 @@ public class GamePanel extends JPanel implements ActionListener {
         gameStart = false;
     }
 
+    private void startCooldown(JButton button) {
+    	cooldownImageIconsMapActive.put(button.getName(), true);
+    	
+    	switch (button.getName()) {
+        	case "NormalLizardButton":
+        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 5000);
+        		for (JButton imageButton : imageIconButtons) {
+        			if(!imageButton.getName().equals(button.getName())) {
+        				cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + 1000);
+        				imageButton.setEnabled(false); 
+        			}
+        		}
+        		break;
+        	case "IntermediateLizardButton":
+        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 10000);
+        		for (JButton imageButton : imageIconButtons) {
+        			if(!imageButton.getName().equals(button.getName())) {
+        				cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + 1000);
+        				imageButton.setEnabled(false); 
+        			}
+        		}
+        		break;
+        	default:
+        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + 5000);
+    	}
+    	
+
+        button.setEnabled(false); 
+        updateImageIcons();
+    }
     
+    
+    private void updateImageIcons() {
+        long currentTime = System.currentTimeMillis();
+        for (JButton imageButton : imageIconButtons) {
+            if (imageButton.getName() != null && (imageButton.getName().equals("NormalLizardButton")
+                    || imageButton.getName().equals("IntermediateLizardButton"))) {
+
+                Boolean cooldownActive = cooldownImageIconsMapActive.get(imageButton.getName());
+                Long cooldownEndTime = cooldownImageIconsMapEndTime.get(imageButton.getName());
+
+                if(friendlyLivingBeings.size()> 0) {
+                	
+                	Beings normalFriend = Beings.FRIENDLY_NORMAL_LIZARD;
+                    if (cooldownActive != null && cooldownEndTime != null && normalFriend.getxPos()+normalFriend.getWaitingDistance() 
+    				<=friendlyLivingBeings.get(friendlyLivingBeings.size()-1).getRect().getX()) {
+                        if (!cooldownActive && currentTime >= cooldownEndTime) {
+                            cooldownImageIconsMapActive.put(imageButton.getName(), false);
+                            imageButton.setEnabled(true);
+                        } else {
+                            imageButton.setEnabled(false); 
+                        }
+                    }
+                	
+                }else {
+                	if (cooldownActive != null && cooldownEndTime != null) {
+                        if (!cooldownActive && currentTime >= cooldownEndTime) {
+                            cooldownImageIconsMapActive.put(imageButton.getName(), false);
+                            imageButton.setEnabled(true);
+                        } else {
+                            imageButton.setEnabled(false); 
+                        }
+                    }	  
+                }
+                
+            }
+        }
+    }
+
   
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		for (Map.Entry<String, Long> endTimeEntry : cooldownImageIconsMapEndTime.entrySet()) {
+	        String key = endTimeEntry.getKey();
+	        Long cooldownEndTime = endTimeEntry.getValue();
+	        
+	        if (System.currentTimeMillis() >= cooldownEndTime) {
+	            cooldownImageIconsMapActive.put(key, false); 
+	            updateImageIcons();
+	        }
+	    }
 		
 		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart) {
 			updateGame(); 
