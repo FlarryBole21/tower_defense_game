@@ -4,6 +4,7 @@ public enum Path {
 	
 	IMAGE_BACKGROUND_01("img/backgrounds/game_background_4.png"),
 	IMAGE_BACKGROUND_02("img/backgrounds/game_background_14.png"),
+	IMAGE_BACKGROUND_BOTTOM_PANEL("img/backgrounds/bottom_panel_background.png"),
 	IMAGE_CAVE_PLAYER("img/bases/cave_03.png"),
     IMAGE_CAVE_ENEMY("img/bases/cave_04.png"),
     IMAGE_FORTRESS_PLAYER("img/bases/fortress_03.png"),

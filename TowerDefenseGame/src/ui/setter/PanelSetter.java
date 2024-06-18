@@ -20,14 +20,18 @@ import javax.swing.JTextField;
 
 import game.GamePanel;
 import game.Main;
+import ui.BackgroundPanel;
+import utils.Path;
 
 public abstract class PanelSetter {
 	
 	public static GamePanel setGamePanel(JFrame frame, CardLayout layout, JLabel label,LinkedList<JButton> imageButtons) {
 		GamePanel panel = new GamePanel(170,200,100,20,frame,layout,label,imageButtons);
 
-		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		BackgroundPanel bottomPanel = new BackgroundPanel(Path.IMAGE_BACKGROUND_BOTTOM_PANEL);
+		//JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		bottomPanel.setBackground(Color.BLACK);
+		bottomPanel.setName("Bottom Panel");
         //add(bottomPanel, BorderLayout.SOUTH);
 
 		for(JButton imageButton: imageButtons) {

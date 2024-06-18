@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -305,20 +306,28 @@ public class ImageIconManager {
     
     public void refreshImageIcons() {
         //panel.removeAll();
-    	if(panel.getComponent(0) instanceof JPanel) {
+    	for(Component comp: panel.getComponents()) {
+    		
+    		if(comp instanceof JPanel) {
+    			
+    			if(comp.getName().equals("Bottom Panel")) {
 
-    		JPanel subPanel = (JPanel) panel.getComponent(0);
-        	subPanel.removeAll();
-            for (JButton button : imageIconButtons) {
-            
-            	subPanel.add(button);
-            }
-            subPanel.add(panel.getWaveManager().getWaveLabel());
-            subPanel.revalidate();
-            subPanel.repaint();
+    	    		JPanel subPanel = (JPanel) comp;
+    	        	subPanel.removeAll();
+    	            for (JButton button : imageIconButtons) {
+    	            
+    	            	subPanel.add(button);
+    	            }
+    	            subPanel.add(panel.getWaveManager().getWaveLabel());
+    	            subPanel.revalidate();
+    	            subPanel.repaint();
+
+    	    	}
+
+    		}
 
     	}
-    
+    	
     }
     
     

@@ -79,13 +79,6 @@ public class GamePanel extends JPanel implements ActionListener {
     private JLabel waveLabel; 
     private CardLayout layout;
 
-    
-    private static int LIFE_BAR_WIDTH_FRIEND = 100;
-    private static int LIFE_BAR_WIDTH_ENEMY = 100;
-    private static final int LIFE_BAR_HEIGHT = 15;
-    private static final int LIFE_BAR_X = 50;
-    private static final int LIFE_BAR_Y = 10;
-    
     {
     	friendlyLivingBeings = new LinkedList<>();
     	enemyLivingBeings = new LinkedList<>();
@@ -406,14 +399,9 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         
         friendlyLivingBeings.addAll(friendlyNewBeings);
-        
         friendlyNewBeings.clear();
-        
         enemyLivingBeings.addAll(enemyNewBeings);
-        
         enemyNewBeings.clear();
-        
-        
     }
 	
 
@@ -426,11 +414,6 @@ public class GamePanel extends JPanel implements ActionListener {
         baseLifeBar.drawLifeBarBorder(g, false); 
         baseLifeBar.drawLifeBar(g, friendlyBase.getHealth(), true);
         baseLifeBar.drawLifeBar(g, enemyBase.getHealth(), false);
-        
-//        beingLifeBar.drawLifeBarBorder(g, true);
-//        beingLifeBar.drawLifeBarBorder(g, false); 
-    
-        
         
         if(friendlyBase != null) {
 			friendlyBase.draw(g);
@@ -455,6 +438,9 @@ public class GamePanel extends JPanel implements ActionListener {
 			friendlyLivingBeings.get(i).draw(g);
 			if(i==0) {
 				beingLifeBar.drawLifeBarBorder(g, true); 
+				if(friendlyLivingBeings.get(i).getHealth()>0) {
+					beingLifeBar.drawLifeBar(g, friendlyLivingBeings.get(i).getHealth(), true);
+				}
 			}
 				
 		}
@@ -465,45 +451,15 @@ public class GamePanel extends JPanel implements ActionListener {
 			
 			enemyLivingBeings.get(i).draw(g);
 			if(i==0) {
-				beingLifeBar.drawLifeBarBorder(g, false); 
+				beingLifeBar.drawLifeBarBorder(g, false);
+				if(enemyLivingBeings.get(i).getHealth()>0) {
+					beingLifeBar.drawLifeBar(g, enemyLivingBeings.get(i).getHealth(), false);
+				}
 			}
 				
 		}
-		
-		
-		for(int i=0; i < friendlyLivingBeings.size();i++) {
 
-			if(i==0) {
-				beingLifeBar.drawLifeBar(g, friendlyLivingBeings.get(i).getHealth(), true);
-			}
-				
-		}
-		
-		
-		for(int i=0; i < enemyLivingBeings.size();i++) {
-			
-			if(i==0) {
-				beingLifeBar.drawLifeBar(g, enemyLivingBeings.get(i).getHealth(), false);
-			}
-				
-		}
-		
-		
-		
-		
-		
-//        for (LivingBeing being : friendlyLivingBeings) {
-//            being.draw(g);
-//            beingLifeBar.drawLifeBar(g, being.getHealth(), true);
-//        }
-//        
-//        for (LivingBeing being : enemyLivingBeings) {
-//            being.draw(g);
-//            beingLifeBar.drawLifeBar(g, being.getHealth(), false);
-//        }
-        
         
     }
-	
-	
+
 }
