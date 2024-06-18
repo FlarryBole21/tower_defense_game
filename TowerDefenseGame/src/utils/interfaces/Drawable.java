@@ -1,4 +1,4 @@
-package utils;
+package utils.interfaces;
 
 import java.awt.Graphics;
 

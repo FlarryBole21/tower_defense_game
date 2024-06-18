@@ -7,7 +7,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
-import ui.GamePanel;
+import game.GamePanel;
 
 public abstract class Spawner {
 	

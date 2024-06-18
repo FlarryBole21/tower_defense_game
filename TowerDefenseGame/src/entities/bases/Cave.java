@@ -14,7 +14,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import ui.GamePanel;
+import game.GamePanel;
 import utils.Path;
 
 public class Cave extends Base{

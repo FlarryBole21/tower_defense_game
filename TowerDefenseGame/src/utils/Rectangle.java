@@ -3,6 +3,9 @@ package utils;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import utils.interfaces.Drawable;
+import utils.interfaces.Moveable;
+
 public class Rectangle implements Drawable, Moveable{
 	
 	private int x;

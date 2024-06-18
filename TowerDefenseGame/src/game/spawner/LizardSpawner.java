@@ -7,7 +7,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
-import ui.GamePanel;
+import game.GamePanel;
 
 public class LizardSpawner extends Spawner{
 	

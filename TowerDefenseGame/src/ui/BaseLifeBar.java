@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import entities.bases.Bases;
 import entities.bases.Cave;
 import entities.bases.Fortress;
+import game.GamePanel;
 
 public class BaseLifeBar extends LifeBar{
 

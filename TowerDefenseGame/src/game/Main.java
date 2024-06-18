@@ -28,12 +28,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
-import ui.ButtonSetter;
-import ui.FrameSetter;
-import ui.GamePanel;
-import ui.LabelSetter;
-import ui.MenuBarSetter;
-import ui.PanelSetter;
+import ui.setter.ButtonSetter;
+import ui.setter.FrameSetter;
+import ui.setter.LabelSetter;
+import ui.setter.MenuBarSetter;
+import ui.setter.PanelSetter;
 import utils.Path;
 
 

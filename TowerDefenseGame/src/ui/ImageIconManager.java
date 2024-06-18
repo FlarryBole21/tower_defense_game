@@ -11,6 +11,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
 import entities.livingbeings.NormalLizard;
+import game.GamePanel;
 import game.Main;
 import utils.Path;
 

@@ -1,4 +1,4 @@
-package ui;
+package ui.setter;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import game.GamePanel;
 import game.Main;
 
 public abstract class PanelSetter {

@@ -1,4 +1,4 @@
-package ui;
+package ui.setter;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;

@@ -12,7 +12,6 @@ import entities.bases.Bases;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
-import ui.GamePanel;
 import utils.Path;
 
 public class WaveManager {

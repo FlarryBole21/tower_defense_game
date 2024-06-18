@@ -10,6 +10,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
 import entities.livingbeings.NormalLizard;
+import game.GamePanel;
 
 public class BeingLifeBar extends LifeBar{
 

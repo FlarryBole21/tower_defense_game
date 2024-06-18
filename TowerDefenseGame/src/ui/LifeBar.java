@@ -1,5 +1,7 @@
 package ui;
 
+import game.GamePanel;
+
 public abstract class LifeBar {
 	
 	private GamePanel panel;

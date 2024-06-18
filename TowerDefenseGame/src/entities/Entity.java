@@ -2,9 +2,10 @@ package entities;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-import utils.Drawable;
+
 import utils.Rectangle;
-import utils.Updateable;
+import utils.interfaces.Drawable;
+import utils.interfaces.Updateable;
 
 public abstract class Entity extends JFrame implements Updateable, Drawable {
 	

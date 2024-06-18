@@ -1,7 +1,7 @@
 package entities.livingbeings;
 
 import entities.bases.Bases;
-import ui.GamePanel;
+import game.GamePanel;
 
 public enum Beings {
 	

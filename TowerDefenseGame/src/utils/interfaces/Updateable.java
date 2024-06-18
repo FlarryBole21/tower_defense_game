@@ -1,8 +1,8 @@
-package utils;
+package utils.interfaces;
 
 import javax.swing.JPanel;
 
-import ui.GamePanel;
+import game.GamePanel;
 
 public interface Updateable {
 	

@@ -1,4 +1,4 @@
-package ui;
+package game;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -41,11 +41,12 @@ import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
-import game.Main;
-import game.WaveManager;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
+import ui.BaseLifeBar;
+import ui.BeingLifeBar;
+import ui.ImageIconManager;
 import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {

@@ -12,8 +12,8 @@ import javax.swing.ImageIcon;
 import audio.AudioPlayer;
 import entities.Entity;
 import entities.bases.Bases;
+import game.GamePanel;
 import game.Main;
-import ui.GamePanel;
 import utils.Path;
 
 public abstract class LivingBeing extends Entity{

@@ -15,8 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import audio.AudioPlayer;
+import game.GamePanel;
 import game.Main;
-import ui.GamePanel;
 import utils.Path;
 
 public abstract class Lizard extends LivingBeing{

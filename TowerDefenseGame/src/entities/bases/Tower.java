@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entities.Entity;
-import ui.GamePanel;
+import game.GamePanel;
 import utils.Path;
 
 public class Tower extends Entity{

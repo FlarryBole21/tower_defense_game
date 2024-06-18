@@ -1,6 +1,6 @@
 package entities.bases;
 
-import ui.GamePanel;
+import game.GamePanel;
 
 public enum Bases {
 	
