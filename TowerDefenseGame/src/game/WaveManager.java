@@ -86,10 +86,10 @@ public class WaveManager {
 //        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
 //        		(towerHeight+baseHeight),towerWidth,towerHeight,
 //        		1000,true));
-    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
-    	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase(),panel.getTowersEnemy());
-//    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase(),panel.getTowersPlayer());
-//    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
+//    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
+//    	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase(),panel.getTowersEnemy());
+    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase(),panel.getTowersPlayer());
+    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
 		
 		
 //        friendlySpawner = new LizardSpawner(30000,panel,true);
