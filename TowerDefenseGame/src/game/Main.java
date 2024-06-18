@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -128,8 +130,19 @@ public class Main {
         MAINPANEL.add(winningPanel, "WinningPanel");
         
         JMenuBar mb = MenuBarSetter.setMenuBar(closeRunnable,"Menü","Exit");
+        
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if (gd.isFullScreenSupported()) {
+            frame.setUndecorated(true);
+            gd.setFullScreenWindow(frame);
+        } else {
+            System.err.println("Full screen not supported");
+            frame.setSize(800, 600); 
+            frame.setVisible(true);
+        }
 		
 		FrameSetter.setFrame(frame,mb);
+		
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

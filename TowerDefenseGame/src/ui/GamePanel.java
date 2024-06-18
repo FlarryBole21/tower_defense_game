@@ -57,6 +57,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private Timer timer;
 	private Base friendlyBase;
 	private Base enemyBase;
+	private BaseLifeBar baseLifeBar;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
     private LinkedList<LivingBeing> friendlyNewBeings;
@@ -75,6 +76,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private boolean gameStart;
     private JLabel waveLabel; 
     private CardLayout layout;
+
     
     private static int LIFE_BAR_WIDTH_FRIEND = 100;
     private static int LIFE_BAR_WIDTH_ENEMY = 100;
@@ -104,8 +106,10 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.towerWidth=towerWidth;
     	this.waveLabel=waveLabel;
     	this.layout=layout;
+    	this.baseLifeBar=new BaseLifeBar(this,100,100,15,(GamePanel.SCREENSIZE.width/2)-500,10);
     	this.imageIconManager=new ImageIconManager(this,imageIconButtons);
     	setLayout(new BorderLayout());
+    	
     	this.setPreferredSize(SCREENSIZE);
     	imageIconManager.setImageIconButtonsEvents();
     	//setImageIconButtons();
@@ -304,9 +308,15 @@ public class GamePanel extends JPanel implements ActionListener {
         towersEnemy.clear();
         waveManager.reset();
         
+        for (Bases base : Bases.values()) {
+        	base.getBase().setHealth(base.getHealth());
+           
+        }
 
-        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
-        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
+//        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
+//        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
+//        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
+//        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
         gameStart = false;
         imageIconManager.returnToOriginalLineUp();
        
@@ -408,10 +418,10 @@ public class GamePanel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBackground(g);
-        drawLifeBarBorder(g, true);
-        drawLifeBarBorder(g, false); 
-        drawLifeBar(g, friendlyBase.getHealth(), true);
-        drawLifeBar(g, enemyBase.getHealth(), false);
+        baseLifeBar.drawLifeBarBorder(g, true);
+        baseLifeBar.drawLifeBarBorder(g, false); 
+        baseLifeBar.drawLifeBar(g, friendlyBase.getHealth(), true);
+        baseLifeBar.drawLifeBar(g, enemyBase.getHealth(), false);
         
         if(friendlyBase != null) {
 			friendlyBase.draw(g);
@@ -439,100 +449,5 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 	
-	
-	private void drawLifeBar(Graphics g, int health, boolean isFriendly) {
-        int maxHealth = 100; 
-        if(!(friendlyBase instanceof Cave)) {
-        	
-        	int divisor = 1;
-        	
-        	if(friendlyBase instanceof Fortress) {
-        		divisor = Bases.FRIENDLY_FORTRESS.getHealth()/Bases.FRIENDLY_CAVE.getHealth();
-        	}
-      
-        	
-        	LIFE_BAR_WIDTH_FRIEND= (isFriendly) ? maxHealth/divisor:LIFE_BAR_WIDTH_FRIEND;
-        	
-        }
-        
-        if(!(enemyBase instanceof Cave)) {
-        	int divisor = 1;
-        	
-        	if(enemyBase instanceof Fortress) {
-        		divisor = Bases.ENEMY_FORTRESS.getHealth()/Bases.ENEMY_CAVE.getHealth();
-        	}
-        	
-        	LIFE_BAR_WIDTH_ENEMY= (!isFriendly) ? maxHealth/divisor:LIFE_BAR_WIDTH_ENEMY;
-        }
-        
-        int lifeBarWidth=0;
-        if(isFriendly) {
-        	lifeBarWidth = (LIFE_BAR_WIDTH_FRIEND * health) / maxHealth;
-        }else {
-        	lifeBarWidth = (LIFE_BAR_WIDTH_ENEMY * health) / maxHealth;
-        }
-        
-        g.setColor(isFriendly ? Color.GREEN : Color.RED);
-        int x = LIFE_BAR_X;
-        int y = isFriendly ? LIFE_BAR_Y : LIFE_BAR_Y + LIFE_BAR_HEIGHT + 10;
-        g.fillRect(x, y, lifeBarWidth, LIFE_BAR_HEIGHT);
-        //g.setColor(Color.BLACK);
-        
-        //g.drawRect(x, y, LIFE_BAR_WIDTH, LIFE_BAR_HEIGHT);
-    }
-	
-	private void drawLifeBarBorder(Graphics g, boolean isFriendly) {
-        int maxHealth = 100;
-        int health = isFriendly ? Bases.FRIENDLY_CAVE.getHealth() : Bases.ENEMY_CAVE.getHealth();
-        
-        if(!(friendlyBase instanceof Cave)) {
-        	
-        	int divisor = 1;
-        	
-        	if(friendlyBase instanceof Fortress) {
-        		divisor = Bases.FRIENDLY_FORTRESS.getHealth()/Bases.FRIENDLY_CAVE.getHealth();
-        		
-        		if(isFriendly) {
-        			health = Bases.FRIENDLY_FORTRESS.getHealth();
-        		}
-        		
-        		
-        	}
-      
-        	
-        	LIFE_BAR_WIDTH_FRIEND= (isFriendly) ? maxHealth/divisor:LIFE_BAR_WIDTH_FRIEND;
-        	
-        }
-        
-        if(!(enemyBase instanceof Cave)) {
-        	int divisor = 1;
-        	
-        	if(enemyBase instanceof Fortress) {
-        		divisor = Bases.ENEMY_FORTRESS.getHealth()/Bases.ENEMY_CAVE.getHealth();
-        		
-        		if(!isFriendly) {
-        			health = Bases.ENEMY_FORTRESS.getHealth();
-        		}
-        	}
-        	
-        	LIFE_BAR_WIDTH_ENEMY= (!isFriendly) ? maxHealth/divisor:LIFE_BAR_WIDTH_ENEMY;
-        }
-        
-        int lifeBarWidth=0;
-        if(isFriendly) {
-        	lifeBarWidth = (LIFE_BAR_WIDTH_FRIEND * health) / maxHealth;
-        }else {
-        	lifeBarWidth = (LIFE_BAR_WIDTH_ENEMY * health) / maxHealth;
-        }
-   
-      
-        //g.setColor(isFriendly ? Color.GREEN : Color.RED);
-        int x = LIFE_BAR_X;
-        int y = isFriendly ? LIFE_BAR_Y : LIFE_BAR_Y + LIFE_BAR_HEIGHT + 10;
-        g.fillRect(x, y, lifeBarWidth, LIFE_BAR_HEIGHT);
-        //g.setColor(Color.BLACK);
-        g.drawRect(x-1, y-1, lifeBarWidth+1, LIFE_BAR_HEIGHT+1);
-     
-    }
 	
 }
