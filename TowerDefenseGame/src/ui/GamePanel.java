@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private Base friendlyBase;
 	private Base enemyBase;
 	private BaseLifeBar baseLifeBar;
+	private BeingLifeBar beingLifeBar;
     private LinkedList<LivingBeing> friendlyLivingBeings;
     private LinkedList<LivingBeing> enemyLivingBeings;
     private LinkedList<LivingBeing> friendlyNewBeings;
@@ -107,6 +108,8 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.waveLabel=waveLabel;
     	this.layout=layout;
     	this.baseLifeBar=new BaseLifeBar(this,100,100,15,(GamePanel.SCREENSIZE.width/2)-500,10);
+    	this.beingLifeBar=new BeingLifeBar(this,100,100,15,
+    			(GamePanel.SCREENSIZE.width/2)-100,(GamePanel.SCREENSIZE.height/2)+(GamePanel.SCREENSIZE.height/4));
     	this.imageIconManager=new ImageIconManager(this,imageIconButtons);
     	setLayout(new BorderLayout());
     	
@@ -423,6 +426,11 @@ public class GamePanel extends JPanel implements ActionListener {
         baseLifeBar.drawLifeBar(g, friendlyBase.getHealth(), true);
         baseLifeBar.drawLifeBar(g, enemyBase.getHealth(), false);
         
+//        beingLifeBar.drawLifeBarBorder(g, true);
+//        beingLifeBar.drawLifeBarBorder(g, false); 
+    
+        
+        
         if(friendlyBase != null) {
 			friendlyBase.draw(g);
 			LinkedList<Tower> towers = friendlyBase.getTowers();
@@ -440,13 +448,60 @@ public class GamePanel extends JPanel implements ActionListener {
             }
 		}
         
-        for (LivingBeing being : friendlyLivingBeings) {
-            being.draw(g);
-        }
+		for(int i=0; i < friendlyLivingBeings.size();i++) {
+			
+			
+			friendlyLivingBeings.get(i).draw(g);
+			if(i==0) {
+				beingLifeBar.drawLifeBarBorder(g, true); 
+			}
+				
+		}
+		
+		
+		for(int i=0; i < enemyLivingBeings.size();i++) {
+			
+			
+			enemyLivingBeings.get(i).draw(g);
+			if(i==0) {
+				beingLifeBar.drawLifeBarBorder(g, false); 
+			}
+				
+		}
+		
+		
+		for(int i=0; i < friendlyLivingBeings.size();i++) {
+
+			if(i==0) {
+				beingLifeBar.drawLifeBar(g, friendlyLivingBeings.get(i).getHealth(), true);
+			}
+				
+		}
+		
+		
+		for(int i=0; i < enemyLivingBeings.size();i++) {
+			
+			if(i==0) {
+				beingLifeBar.drawLifeBar(g, enemyLivingBeings.get(i).getHealth(), false);
+			}
+				
+		}
+		
+		
+		
+		
+		
+//        for (LivingBeing being : friendlyLivingBeings) {
+//            being.draw(g);
+//            beingLifeBar.drawLifeBar(g, being.getHealth(), true);
+//        }
+//        
+//        for (LivingBeing being : enemyLivingBeings) {
+//            being.draw(g);
+//            beingLifeBar.drawLifeBar(g, being.getHealth(), false);
+//        }
         
-        for (LivingBeing being : enemyLivingBeings) {
-            being.draw(g);
-        }
+        
     }
 	
 	
