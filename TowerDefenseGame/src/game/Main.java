@@ -80,7 +80,7 @@ public class Main {
 		resetImageIcons(imageIconButtons);
 
         
-		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Arial",Font.BOLD,70,Color.WHITE,Color.BLACK,20);
+		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Serif",Font.BOLD,70,Color.WHITE,new Color(0, 0, 0, 0),20);
         GamePanel gamePanel = PanelSetter.setGamePanel(frame,cardLayout,label,imageIconButtons);
         
         
@@ -118,9 +118,9 @@ public class Main {
         LinkedList<JButton> winningButtons = new LinkedList<>(
         		Arrays.asList(quitWinningTryAgainButton,quitWinningBackToMenuButton));
         
-        JPanel menuPanel = PanelSetter.setPanel("MenuPanel",menuText, menuButtons,100,18,120,10);
-        JPanel losingPanel = PanelSetter.setPanel("LosingPanel", losingText,losingButtons,100,18,120,10);
-        JPanel winningPanel = PanelSetter.setPanel("WinningPanel", winningText, winningButtons,100,18,120,10);
+        JPanel menuPanel = PanelSetter.setPanel("MenuPanel",menuText, menuButtons,100,18,10,10);
+        JPanel losingPanel = PanelSetter.setPanel("LosingPanel", losingText,losingButtons,100,18,10,10);
+        JPanel winningPanel = PanelSetter.setPanel("WinningPanel", winningText, winningButtons,100,18,10,10);
         
         
         MAINPANEL.add(menuPanel ,"MenuPanel");

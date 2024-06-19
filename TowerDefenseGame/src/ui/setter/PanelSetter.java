@@ -49,19 +49,20 @@ public abstract class PanelSetter {
 	
 	public static JPanel setPanel(String name,LinkedList<String> text,LinkedList<JButton> buttons,
 			int textFontSize, int buttonFontSize,int textButtonDistance, int buttonDistance) {
-		JPanel panel = new JPanel();
+		BackgroundPanel panel = new BackgroundPanel(Path.IMAGE_BACKGROUND_BOTTOM_PANEL);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(Box.createVerticalGlue());
+		panel.add(Box.createRigidArea(new Dimension(100, 120)));
+		
 		
 		JPanel subPanel = new JPanel();
 		subPanel.setLayout(new BoxLayout(subPanel, BoxLayout.Y_AXIS));
-		subPanel.setBackground(Color.BLACK);
+		subPanel.setBackground(new Color(0, 0, 0, 0));
 		
 		
 		if(text != null) {
 			for(String t: text) {
 				JLabel userLabel = new JLabel(t);
-				userLabel.setFont(new Font("Arial", Font.PLAIN, textFontSize));
+				userLabel.setFont(new Font("Serif", Font.BOLD, textFontSize));
 				userLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
 				userLabel.setHorizontalAlignment(JLabel.CENTER);
 				userLabel.setForeground(Color.WHITE);
@@ -77,9 +78,9 @@ public abstract class PanelSetter {
 				button.setAlignmentX(Component.CENTER_ALIGNMENT); 
 				button.setPreferredSize(new Dimension(100, 50)); 
 	            button.setMaximumSize(new Dimension(500, 50));
-	            button.setBackground(Color.BLACK);
+	            button.setBackground(Color.GRAY);
 	            button.setForeground(Color.WHITE); 
-	            button.setFont(new Font("Arial", Font.PLAIN, buttonFontSize));
+	            button.setFont(new Font("Serif", Font.BOLD, buttonFontSize));
 	            button.setFocusPainted(false); 
 				subPanel.add(button);
 				subPanel.add(Box.createVerticalStrut(buttonDistance));
@@ -90,7 +91,7 @@ public abstract class PanelSetter {
 		subPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(subPanel);
 		
-		panel.add(Box.createVerticalGlue());
+		panel.add(Box.createRigidArea(new Dimension(100, 120)));
 		panel.setBackground(Color.BLACK);
 		return panel;
 	
