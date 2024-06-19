@@ -9,6 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import entities.bases.Bases;
+import entities.bases.NormalStoneTower;
+import entities.bases.Tower;
+import entities.bases.Towers;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
@@ -80,11 +83,14 @@ public class WaveManager {
 	public void startConfig() {
 		updateWaveLabel();
     	changeBackground();
-//    	towersPlayer.add(new Tower(50,this.screenSize.height-(towerHeight+baseHeight),towerWidth,
-//        		towerHeight,1000,true));
-//        towersEnemy.add(new Tower(this.screenSize.width-towerWidth,this.screenSize.height-
-//        		(towerHeight+baseHeight),towerWidth,towerHeight,
-//        		1000,true));
+    	
+    	
+    	
+    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower());
+    	Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
+//    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower());
+//    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
+
     	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
     	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase(),panel.getTowersEnemy());
 //    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase(),panel.getTowersPlayer());

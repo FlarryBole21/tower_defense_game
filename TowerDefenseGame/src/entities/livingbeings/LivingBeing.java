@@ -316,10 +316,16 @@ public abstract class LivingBeing extends Entity{
         loadImage();
         setDeathAnimationChanged(true);
         
-        if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() 
-        		&& panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged()) {
-        	stopAttackSound();
+        
+        if(panel.getFriendlyLivingBeings().size() > 0 && panel.getEnemyLivingBeings().size() > 0) {
+        	
+        	if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() 
+            		&& panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged()) {
+            	stopAttackSound();
+            }
+        	
         }
+        
 		
 	}
 	

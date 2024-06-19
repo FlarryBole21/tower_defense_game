@@ -35,6 +35,7 @@ import entities.bases.Base;
 import entities.bases.Bases;
 import entities.bases.Cave;
 import entities.bases.Fortress;
+import entities.bases.Projectile;
 import entities.bases.Tower;
 import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
@@ -104,6 +105,7 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.baseLifeBar=new BaseLifeBar(this,100,100,15,(GamePanel.SCREENSIZE.width/2)-500,10);
     	this.beingLifeBar=new BeingLifeBar(this,100,100,15,
     			(GamePanel.SCREENSIZE.width/2)-100,(GamePanel.SCREENSIZE.height/2)+(GamePanel.SCREENSIZE.height/4));
+    	
     	this.imageIconManager=new ImageIconManager(this,imageIconButtons);
     	setLayout(new BorderLayout());
     	
@@ -152,8 +154,8 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-	public void setTowersPlayer(LinkedList<Tower> towersPlayer) {
-		this.towersPlayer = towersPlayer;
+	public void addTowersPlayer(Tower towersPlayer) {
+		this.towersPlayer.add(towersPlayer);
 	}
 
 
@@ -162,18 +164,10 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-	public void setTowersEnemy(LinkedList<Tower> towersEnemy) {
-		this.towersEnemy = towersEnemy;
+	public void addTowersEnemy(Tower towersEnemy) {
+		this.towersEnemy.add(towersEnemy);
 	}
 
-
-//    public void addBases(Base base, LinkedList<Tower> towers) {
-//    	bases.add(base);
-//    	for(Tower tower: towers) {
-//        	base.addTower(tower);
-//        }
-//
-//    }
     
     public void setFriendlyBase(Base base, LinkedList<Tower> towers) {
     	friendlyBase=base;
@@ -352,14 +346,23 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	private void updateGame() {
 		
-//		if(friendlyBase != null) {
-//			friendlyBase.update(this);
-//			LinkedList<Tower> towers = friendlyBase.getTowers();
-//            for(Tower tower: towers) {
-//            	tower.update(this);
-//            }
-//		}
-//		
+		if(friendlyBase != null) {
+			friendlyBase.update(this);
+			LinkedList<Tower> towers = friendlyBase.getTowers();
+            for(Tower tower: towers) {
+            	tower.update(this);
+            	for(Projectile projectile:tower.getProjectiles()) {
+            		
+            		if(enemyLivingBeings.size()>0) {
+            			projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+40);
+            			
+            		}
+            		
+            		projectile.update(this);
+            	}
+            }
+		}
+		
 //		
 //		if(enemyBase != null) {
 //			enemyBase.update(this);
@@ -368,6 +371,8 @@ public class GamePanel extends JPanel implements ActionListener {
 //            	tower.update(this);
 //            }
 //		}
+		
+		System.out.println();
       
         
         Iterator<LivingBeing> iterator = friendlyLivingBeings.iterator();
@@ -420,6 +425,27 @@ public class GamePanel extends JPanel implements ActionListener {
 			LinkedList<Tower> towers = friendlyBase.getTowers();
 			for (Tower tower : towers) {
                 tower.draw(g);
+                
+                if(enemyLivingBeings.size()>0) {
+                	Iterator<Projectile> iterator = tower.getProjectiles().iterator();
+                    while (iterator.hasNext()) {
+                    	Projectile projectile = iterator.next();
+                    	projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+40);
+                    	projectile.draw(g);
+                    	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
+                    		enemyLivingBeings.get(0).setHealth(enemyLivingBeings.get(0).getHealth()-projectile.getAttack());
+                    		iterator.remove();
+                            break;
+                    	}
+                    	
+                    	
+                    }
+
+                	
+                	System.out.println("Anzahl der Projectiles " + tower.getProjectiles().size());
+                	
+                }
+                
             }
 		}
 		
@@ -429,6 +455,9 @@ public class GamePanel extends JPanel implements ActionListener {
 			LinkedList<Tower> towers = enemyBase.getTowers();
 			for (Tower tower : towers) {
                 tower.draw(g);
+                for(Projectile projectile:tower.getProjectiles()) {
+                	projectile.draw(g);
+            	}
             }
 		}
         

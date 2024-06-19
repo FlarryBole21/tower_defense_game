@@ -3,63 +3,131 @@ package entities.bases;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
 import entities.Entity;
 import game.GamePanel;
 import utils.Path;
 
-public class Tower extends Entity{
-	private Image image;
-	private Weapon weapon; 
-	
-	public Tower(int xPos, int yPos, int width, int height, int health, boolean friendly) {
-		super(xPos, yPos, width, height, health, friendly);
-		loadImage();
-	}
-	
-	 private void loadImage() {
-	        try {
-	        	URI uri = null;
-	        	if(super.isFriendly()) {
-	        		uri = new URI(Path.IMAGE_CAVE_TOWER_PLAYER.getName());
-	        	}else {
-	        		uri = new URI(Path.IMAGE_CAVE_TOWER_ENEMY.getName());
-		           
-	        	}
-	            image = ImageIO.read(uri.toURL());
-	        } catch (IOException | URISyntaxException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	
-	public void addWeapon(Weapon weapon) {
-		this.weapon=weapon;
-	}
+public abstract class Tower extends Entity{
 
-	public Weapon getWeapons() {
-		return weapon;
-	}
+	private static final long serialVersionUID = 1L;
+    private ImageIcon imageIcon;
+    private String pathImage;
+    private LinkedList<Projectile> projectiles;
+    private boolean active;
+    private ScheduledExecutorService scheduler;
+    private int loadingDelay;
+    private int spawnDelay;
 
+    {
+        projectiles = new LinkedList<>();
+    }
 
-	@Override
-	public void update(GamePanel panel) {
-		//System.out.println("Update");
-		
-	}
+    public Tower(int xPos, int yPos, int width, int height, int health, boolean friendly) {
+        super(xPos, yPos, width, height, health, friendly);
+        active = true;
+        loadingDelay = 700;
+        spawnDelay = 80000;
+    }
 
-	@Override
-	public void draw(Graphics g) {
-		if (image != null) {
-            g.drawImage(image, super.getRect().getX(), super.getRect().getY(), null);
+    public void startLoading() {
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(new LoadingTask(), loadingDelay, TimeUnit.MILLISECONDS);
+    }
+
+    public void stopLoading() {
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdownNow();
         }
-	}
+    }
+
+    private class LoadingTask implements Runnable {
+        @Override
+        public void run() {
+            startSpawning();
+            //stopSpawning();
+        }
+    }
+
+    public void startSpawning() {
+        scheduler.scheduleAtFixedRate(new SpawnTask(), 2000, spawnDelay, TimeUnit.MILLISECONDS);
+    }
+
+    public void stopSpawning() {
+        stopLoading();
+    }
+
+    private class SpawnTask implements Runnable {
+        @Override
+        public void run() {
+            if (isActive()) {
+            	
+            	setProjectile();
+            	
+               
+                //stopSpawning();
+                //stopLoading();
+                startLoading();
+            } else {
+                stopSpawning();
+            }
+        }
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
+    }
+
+    public void loadImage() {
+        imageIcon = new ImageIcon(getPathImage());
+    }
+
+    public LinkedList<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public void addProjectile(Projectile projectile) {
+        this.projectiles.add(projectile);
+    }
+
+    public abstract void setProjectile();
+
+    @Override
+    public void update(GamePanel panel) {
+        // Implementation of the update method
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        if (imageIcon != null) {
+            imageIcon.paintIcon(null, g, getRect().getX(), getRect().getY());
+        }
+    }
 
 
 }
