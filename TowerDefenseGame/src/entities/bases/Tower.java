@@ -28,9 +28,11 @@ public abstract class Tower extends Entity{
     private String pathImage;
     private LinkedList<Projectile> projectiles;
     private boolean active;
-    private ScheduledExecutorService scheduler;
+    private Timer timer;
+    //private ScheduledExecutorService scheduler;
     private int loadingDelay;
     private int spawnDelay;
+    private boolean cancelled;
 
     {
         projectiles = new LinkedList<>();
@@ -40,70 +42,117 @@ public abstract class Tower extends Entity{
         super(xPos, yPos, width, height, health, friendly);
         active = true;
         loadingDelay = 700;
-        spawnDelay = 80000;
+        spawnDelay = 2000;
+        cancelled=true;
     }
     
     public void resetTower() {
     	active=false;
-        stopLoading();
+    	cancelled=false;
+        //stopLoading();
         stopSpawning();
         projectiles.clear();
         //setActive(true);
         //scheduler=null;
         //scheduler = Executors.newScheduledThreadPool(1);
     }
+    
+    
+    
 
 
-    public ScheduledExecutorService getScheduler() {
-		return scheduler;
+//    public ScheduledExecutorService getScheduler() {
+//		return scheduler;
+//	}
+//
+//
+//
+//	public void setScheduler(ScheduledExecutorService scheduler) {
+//		this.scheduler = scheduler;
+//	}
+
+
+
+	public Timer getTimer() {
+		return timer;
 	}
 
-
-
-	public void setScheduler(ScheduledExecutorService scheduler) {
-		this.scheduler = scheduler;
+	public void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 
+//	public void startLoading() {
+//		active=true;
+//        scheduler = Executors.newScheduledThreadPool(1);
+//        scheduler.schedule(new LoadingTask(), loadingDelay, TimeUnit.MILLISECONDS);
+//    }
+//
+//    public void stopLoading() {
+//        if (scheduler != null && !scheduler.isShutdown()) {
+//            scheduler.shutdownNow();
+//            scheduler=null;
+//            //projectiles.clear();
+//        }
+//    }
 
+//    private class LoadingTask implements Runnable {
+//        @Override
+//        public void run() {
+//            startSpawning();
+//            //stopSpawning();
+//        }
+//    }
 
-	public void startLoading() {
-		active=true;
-        scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(new LoadingTask(), loadingDelay, TimeUnit.MILLISECONDS);
-    }
-
-    public void stopLoading() {
-        if (scheduler != null && !scheduler.isShutdown()) {
-            scheduler.shutdownNow();
-            scheduler=null;
-            //projectiles.clear();
-        }
-    }
-
-    private class LoadingTask implements Runnable {
-        @Override
-        public void run() {
-            startSpawning();
-            //stopSpawning();
-        }
-    }
-
+	
+	
+	
     public void startSpawning() {
-        scheduler.scheduleAtFixedRate(new SpawnTask(), 2000, spawnDelay, TimeUnit.MILLISECONDS);
+    	//stopSpawning(); 
+    	 
+    	if(timer == null || cancelled == true) {
+    		timer = new Timer();
+    		cancelled = false;
+    	}
+        
+        active = true;
+        
+       
+        timer.schedule(new SpawnTask(), spawnDelay);
+        
+      
+        
+  
+    	
     }
 
-    public void stopSpawning() {
-        stopLoading();
+    public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
+	public void stopSpawning() {
+    	
+    	if(timer != null) {
+    		timer.cancel();
+    		cancelled=true;
+    		timer = null;
+    	}
+    	
+    	
+        //stopLoading();
     }
 
-    private class SpawnTask implements Runnable {
+    private class SpawnTask extends TimerTask {
         @Override
         public void run() {
             if (isActive()) {
             	setProjectile();
-                stopSpawning();
-                stopLoading();
-                startLoading();
+                //stopSpawning();
+//                stopLoading();
+//                startLoading();
             } else {
             	resetTower();
             }
@@ -144,9 +193,8 @@ public abstract class Tower extends Entity{
     public void update(GamePanel panel) {
     	
     	if(panel.isGameStart()) {
-    		startLoading();
-    	}else {
-    		resetTower();
+    		//startLoading();
+    		startSpawning();
     	}
  
       

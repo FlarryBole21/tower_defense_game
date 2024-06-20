@@ -22,10 +22,6 @@ public abstract class StoneTower extends Tower{
 					projectile.getHealth(),projectile.isFriendly(),this);
 			newProjectile.resetState(projectile);
 			super.addProjectile(newProjectile);
-			
-			
-			
-			
 		}
 		
 		

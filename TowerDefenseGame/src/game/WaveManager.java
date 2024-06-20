@@ -86,15 +86,15 @@ public class WaveManager {
     	
     	
     	
-    	//panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower());
-    	panel.addTowersPlayer(new NormalStoneTower(100,600,100,
-        		100,1000,true));
+    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower());
+//    	panel.addTowersPlayer(new NormalStoneTower(100,600,100,
+//        		100,1000,true));
     	//Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
-//    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower());
+    	//panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
-    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase(),panel.getTowersPlayer());
-    	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase(),null);
+    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
+    	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase());
 //    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase(),panel.getTowersPlayer());
 //    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
 		

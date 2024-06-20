@@ -17,11 +17,11 @@ public abstract class Base extends Entity{
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 	private String pathImage;
-	private LinkedList<Tower> towers;
+	//private LinkedList<Tower> towers;
 	
 	public Base(int xPos, int yPos, int width, int height, int health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
-		towers = new LinkedList<>();
+		//towers = new LinkedList<>();
 	}
 	
 	
@@ -33,17 +33,17 @@ public abstract class Base extends Entity{
 		this.pathImage = pathImage;
 	}
 	
-	public void addTower(Tower tower) {
-		towers.add(tower);
-	}
-
-	public LinkedList<Tower> getTowers() {
-		return towers;
-	}
-
-	public void setTowers(LinkedList<Tower> towers) {
-		this.towers = towers;
-	}
+//	public void addTower(Tower tower) {
+//		towers.add(tower);
+//	}
+//
+//	public LinkedList<Tower> getTowers() {
+//		return towers;
+//	}
+//
+//	public void setTowers(LinkedList<Tower> towers) {
+//		this.towers = towers;
+//	}
 	
 	public void loadImage() {
 		 try {

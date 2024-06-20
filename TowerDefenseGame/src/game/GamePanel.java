@@ -155,21 +155,13 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-    public void setFriendlyBase(Base base, LinkedList<Tower> towers) {
+    public void setFriendlyBase(Base base) {
     	friendlyBase=base;
-    	for(Tower tower: towers) {
-        	base.addTower(tower);
-        }
     }
     
     
-    public void setEnemyBase(Base base, LinkedList<Tower> towers) {
+    public void setEnemyBase(Base base) {
     	enemyBase=base;
-    	if(towers != null) {
-    		for(Tower tower: towers) {
-            	base.addTower(tower);
-            }
-    	}
     }
     
     
@@ -276,11 +268,18 @@ public class GamePanel extends JPanel implements ActionListener {
         enemyWaitingBeings.clear();
         
         for (Tower tower : towersPlayer) {
-            tower.update(panel);;
-            shutdownAndAwaitTermination(tower.getScheduler());
+        	tower.resetTower();
+            //shutdownAndAwaitTermination(tower.getScheduler());
         }
         
         towersPlayer.clear();
+        
+//        for(Tower tower: friendlyBase.getTowers()) {
+//        	tower.resetTower();
+//        }
+//        
+//        friendlyBase.getTowers().clear();
+        
         waveManager.reset();
         
         for (Bases base : Bases.values()) {
@@ -294,34 +293,34 @@ public class GamePanel extends JPanel implements ActionListener {
 //        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
        
         imageIconManager.returnToOriginalLineUp();
-        shutdownAndAwaitTermination();
+        //shutdownAndAwaitTermination();
        
     }
     
     
-    private void shutdownAndAwaitTermination(ScheduledExecutorService scheduler) {
-        if (scheduler != null && !scheduler.isShutdown()) {
-            scheduler.shutdownNow();
-            try {
-                if (!scheduler.awaitTermination(60, TimeUnit.SECONDS)) {
-                    System.err.println("Scheduler did not terminate in time");
-                }
-            } catch (InterruptedException e) {
-                scheduler.shutdownNow();
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
+//    private void shutdownAndAwaitTermination(ScheduledExecutorService scheduler) {
+//        if (scheduler != null && !scheduler.isShutdown()) {
+//            scheduler.shutdownNow();
+//            try {
+//                if (!scheduler.awaitTermination(60, TimeUnit.SECONDS)) {
+//                    System.err.println("Scheduler did not terminate in time");
+//                }
+//            } catch (InterruptedException e) {
+//                scheduler.shutdownNow();
+//                Thread.currentThread().interrupt();
+//            }
+//        }
+//    }
 
 
     
-    private void shutdownAndAwaitTermination() {
-        // Ensure all ScheduledExecutorServices are properly terminated
-        for (Tower tower : towersPlayer) {
-            shutdownAndAwaitTermination(tower.getScheduler());
-            tower.setScheduler(null);
-        }
-    }
+//    private void shutdownAndAwaitTermination() {
+//        // Ensure all ScheduledExecutorServices are properly terminated
+//        for (Tower tower : towersPlayer) {
+//            shutdownAndAwaitTermination(tower.getScheduler());
+//            tower.setScheduler(null);
+//        }
+//    }
    
     
  
@@ -357,17 +356,31 @@ public class GamePanel extends JPanel implements ActionListener {
 		
 		if(friendlyBase != null) {
 			friendlyBase.update(this);
-			LinkedList<Tower> towers = friendlyBase.getTowers();
+			LinkedList<Tower> towers = towersPlayer;
             for(Tower tower: towers) {
-            	//tower.update(this);
+
+            	if(enemyLivingBeings.size()>0) {
+            		
+            		if(enemyLivingBeings.get(0).getRect().getX() < 900) {
+            			tower.update(this);
+            		}
+            		
+            	
+            	}else {
+            		tower.getProjectiles().clear();
+            	}
+            	
             	for(Projectile projectile:tower.getProjectiles()) {
             		
             		if(enemyLivingBeings.size()>0) {
-            			//projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+40);
+            			
+            			if(enemyLivingBeings.get(0).getRect().getX() < 900) {
+            				projectile.update(this);
+            			}
             			
             		}
             		
-            		projectile.update(this);
+            		
             	}
             }
 		}
@@ -420,58 +433,61 @@ public class GamePanel extends JPanel implements ActionListener {
         
         if(friendlyBase != null) {
 			friendlyBase.draw(g);
-			LinkedList<Tower> towers = friendlyBase.getTowers();
+			LinkedList<Tower> towers = towersPlayer;
 			for (Tower tower : towers) {
 
                 tower.draw(g);
                 if(enemyLivingBeings.size()>0) {
-                	tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
-                	tower.loadImage();
-                	tower.update(panel);
                 	
-          
-                	Iterator<Projectile> iterator = tower.getProjectiles().iterator();
-                    while (iterator.hasNext()) {
-                    	Projectile projectile = iterator.next();
+                	if(enemyLivingBeings.get(0).getRect().getX() < 900) {
+                		
+                		tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
+                    	tower.loadImage();
+                    	//tower.update(panel);
                     	
-                    	int distance = 60;
-                    	int realignSpawning = 200;
-                    	
-                    	if(enemyLivingBeings.get(0).isMovingState()) {
-                    		distance = -30;
-                    	}
-                    	
-                    	if(projectile.getRect().getY() < realignSpawning) {
-                    		projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+distance);
-                    	}
-                    	
-                    	projectile.draw(g);
-                    	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
-                    		
-//                    		System.out.println(projectile.getRect().getX());
-//                    		System.out.println(enemyLivingBeings.get(0).getRect().getX());
-                    		
-                    		
-                    		if(projectile.getRect().getX() > enemyLivingBeings.get(0).getRect().getX() && 
-                    				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+90) {
-                    			enemyLivingBeings.get(0).setHealth(enemyLivingBeings.get(0).getHealth()-projectile.getAttack());
-                    		}
-                    		
-                    		
-                    		iterator.remove();
-                            break;
-                    	}
-                    	
-                    	
-                    }
-
-                	System.out.println("Türme " + towersPlayer.size());
-                	System.out.println("Anzahl der Projectiles " + tower.getProjectiles().size());
+              
+                    	Iterator<Projectile> iterator = tower.getProjectiles().iterator();
+                        while (iterator.hasNext()) {
+                        	Projectile projectile = iterator.next();
+                        	
+                        	int distance = 60;
+                        	int realignSpawning = 200;
+                        	
+                        	if(enemyLivingBeings.get(0).isMovingState()) {
+                        		distance = -30;
+                        	}
+                        	
+                        	if(projectile.getRect().getY() < realignSpawning) {
+                        		projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+distance);
+                        	}
+                        	
+                        	projectile.draw(g);
+                        	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
+       
+                        		if(projectile.getRect().getX() > enemyLivingBeings.get(0).getRect().getX() && 
+                        				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+90) {
+                        			enemyLivingBeings.get(0).setHealth(enemyLivingBeings.get(0).getHealth()-projectile.getAttack());
+                        		}
+         
+                        		iterator.remove();
+                                break;
+                        	}
+                        	
+                        	
+                        }
+                		
+                		
+                	}else {
+                		
+                		tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+                    	tower.loadImage();
+                		
+                	}
                 	
                 }else {
                 	tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
                 	tower.loadImage();
-                	tower.resetTower();
+                	
                 }
                 
             }
@@ -480,13 +496,6 @@ public class GamePanel extends JPanel implements ActionListener {
 		
 		if(enemyBase != null) {
 			enemyBase.draw(g);
-			LinkedList<Tower> towers = enemyBase.getTowers();
-			for (Tower tower : towers) {
-                tower.draw(g);
-                for(Projectile projectile:tower.getProjectiles()) {
-                	projectile.draw(g);
-            	}
-            }
 		}
         
 		for(int i=0; i < friendlyLivingBeings.size();i++) {
