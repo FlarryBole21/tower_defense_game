@@ -49,7 +49,7 @@ public abstract class Tower extends Entity{
         stopSpawning();
         projectiles.clear();
         //setActive(true);
-        scheduler=null;
+        //scheduler=null;
         //scheduler = Executors.newScheduledThreadPool(1);
     }
 
@@ -75,6 +75,8 @@ public abstract class Tower extends Entity{
     public void stopLoading() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdownNow();
+            scheduler=null;
+            //projectiles.clear();
         }
     }
 
@@ -140,7 +142,14 @@ public abstract class Tower extends Entity{
 
     @Override
     public void update(GamePanel panel) {
-        // Implementation of the update method
+    	
+    	if(panel.isGameStart()) {
+    		startLoading();
+    	}else {
+    		resetTower();
+    	}
+ 
+      
     }
 
     @Override
