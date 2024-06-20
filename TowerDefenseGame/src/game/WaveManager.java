@@ -87,7 +87,7 @@ public class WaveManager {
     	
     	
     	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower());
-    	Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
+    	//Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
 //    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 

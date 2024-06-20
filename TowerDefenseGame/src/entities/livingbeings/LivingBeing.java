@@ -36,6 +36,7 @@ public abstract class LivingBeing extends Entity{
 	private Path attackingPath; 
 	private Path waitingPath;
 	private Path deathPath;
+	private boolean movingState;
 	private boolean attackingBase;
 	private LinkedList<AudioPlayer> attackingAudio;
 	//private AudioPlayer attackingAudio;
@@ -52,6 +53,17 @@ public abstract class LivingBeing extends Entity{
         this.dead = false;
 	
 	}
+	
+
+	public boolean isMovingState() {
+		return movingState;
+	}
+
+
+	public void setMovingState(boolean movingState) {
+		this.movingState = movingState;
+	}
+
 
 	public GamePanel getPanel() {
 		return panel;
@@ -587,6 +599,8 @@ public abstract class LivingBeing extends Entity{
 	
 	
 	private void attack() {
+		
+		movingState=false;
 
 		setPathImage(attackingPath.getName());
 
@@ -632,7 +646,7 @@ public abstract class LivingBeing extends Entity{
 	}
 	
 	private void waiting() {
-		
+		movingState=false;
 		stopAttackSound();
 		
 		if(this.isFriendly() && !panel.getFriendlyWaitingBeings().contains(this)) {
@@ -663,7 +677,7 @@ public abstract class LivingBeing extends Entity{
 	}
 	
 	private void move() {
-		
+		movingState=true;
 		stopAttackSound();
 		
 		if(isFriendly()) {

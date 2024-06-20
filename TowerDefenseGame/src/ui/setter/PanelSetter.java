@@ -26,7 +26,7 @@ import utils.Path;
 public abstract class PanelSetter {
 	
 	public static GamePanel setGamePanel(JFrame frame, CardLayout layout, JLabel label,LinkedList<JButton> imageButtons) {
-		GamePanel panel = new GamePanel(170,200,100,20,frame,layout,label,imageButtons);
+		GamePanel panel = new GamePanel(170,200,frame,layout,label,imageButtons);
 
 		BackgroundPanel bottomPanel = new BackgroundPanel(Path.IMAGE_BACKGROUND_BOTTOM_PANEL);
 		//JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

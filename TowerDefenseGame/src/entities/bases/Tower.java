@@ -42,8 +42,32 @@ public abstract class Tower extends Entity{
         loadingDelay = 700;
         spawnDelay = 80000;
     }
+    
+    public void resetTower() {
+    	active=false;
+        stopLoading();
+        stopSpawning();
+        projectiles.clear();
+        //setActive(true);
+        scheduler=null;
+        //scheduler = Executors.newScheduledThreadPool(1);
+    }
 
-    public void startLoading() {
+
+    public ScheduledExecutorService getScheduler() {
+		return scheduler;
+	}
+
+
+
+	public void setScheduler(ScheduledExecutorService scheduler) {
+		this.scheduler = scheduler;
+	}
+
+
+
+	public void startLoading() {
+		active=true;
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(new LoadingTask(), loadingDelay, TimeUnit.MILLISECONDS);
     }
@@ -74,15 +98,12 @@ public abstract class Tower extends Entity{
         @Override
         public void run() {
             if (isActive()) {
-            	
             	setProjectile();
-            	
-               
-                //stopSpawning();
-                //stopLoading();
+                stopSpawning();
+                stopLoading();
                 startLoading();
             } else {
-                stopSpawning();
+            	resetTower();
             }
         }
     }
