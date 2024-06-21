@@ -1,4 +1,4 @@
-package entities.projectiles;
+package projectiles;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -10,18 +10,19 @@ import entities.livingbeings.Beings;
 import entities.towers.Tower;
 import game.GamePanel;
 import utils.Path;
+import utils.Rectangle;
 
-public abstract class Projectile extends Entity{
+public abstract class Projectile{
 
-	private static final long serialVersionUID = 1L;
 	private ImageIcon imageIcon;
 	private String pathImage;
 	private int speed;
+	private Rectangle rect; 
 	private Tower tower;
 	private int attack;
 
-	public Projectile(int xPos, int yPos, int width, int height,int attack, int health,boolean friendly,Tower tower) {
-		super(xPos, yPos, width, height, health,friendly);
+	public Projectile(int xPos, int yPos, int width, int height,int attack, Tower tower) {
+		rect = new Rectangle(xPos,yPos,width,height);
 		this.tower=tower;
 		this.attack=attack;
 	}
@@ -29,12 +30,22 @@ public abstract class Projectile extends Entity{
 	
 	public void resetState(Projectiles projectile) {
         if(projectile != null) {
-        	super.getRect().setX(projectile.getxPos());
-        	super.getRect().setY(projectile.getyPos());
-        	super.setHealth(projectile.getHealth());
-        	
+        	getRect().setX(projectile.getxPos());
+        	getRect().setY(projectile.getyPos());
         }
     }
+	
+	
+	public Rectangle getRect() {
+		return rect;
+	}
+	
+	
+
+	public void setRect(Rectangle rect) {
+		this.rect = rect;
+	}
+
 	
 	
 	public int getAttack() {
@@ -81,7 +92,6 @@ public abstract class Projectile extends Entity{
 		this.speed += speed;
 	}
 
-	@Override
 	public void update(GamePanel panel) {
 	    if (getTower().isActive()) {
 	        move();
@@ -89,7 +99,6 @@ public abstract class Projectile extends Entity{
 	}
 
 
-	@Override
 	public void draw(Graphics g) {
 		if (imageIcon != null) {
             imageIcon.paintIcon(null, g, getRect().getX(), getRect().getY());
@@ -98,11 +107,7 @@ public abstract class Projectile extends Entity{
 	}
 	
 	private void move() {
-
-		if(isFriendly()) {
-			super.getRect().setY(super.getRect().getY()+getSpeed());
-		}
-	
+		getRect().setY(getRect().getY()+getSpeed());
 	}
 
 }

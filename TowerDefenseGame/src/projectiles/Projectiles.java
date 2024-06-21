@@ -1,11 +1,11 @@
-package entities.projectiles;
+package projectiles;
 
 import entities.towers.Tower;
 import entities.towers.Towers;
 
 public enum Projectiles {
 	
-	STONE_PROJECTILE(new StoneProjectile(300, 100, 100, 100, 50,200, true,
+	STONE_PROJECTILE(new StoneProjectile(300, 100, 100, 100, 50,
 			Towers.NORMAL_STONE_TOWER_01.getTower()));
 	
 	private Projectile projectile;
@@ -26,10 +26,7 @@ public enum Projectiles {
 		this.width=projectile.getRect().getWidth();
 		this.heigth=projectile.getRect().getHeight();
 		this.attack=projectile.getAttack();
-		this.health=projectile.getHealth();
 		this.tower=projectile.getTower();
-		this.friendly=projectile.isFriendly();
-		
 	}
 	
 	public Tower getTower() {

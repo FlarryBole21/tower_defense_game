@@ -8,7 +8,7 @@ public class NormalStoneTower extends StoneTower{
 
 	public NormalStoneTower(int xPos, int yPos, int width, int height, int health,int rangeShot,int spawnDelay) {
 		super(xPos, yPos, width, height, health,rangeShot, spawnDelay);
-		setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+		setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
 		loadImage();
 	}
 

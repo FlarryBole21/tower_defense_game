@@ -175,7 +175,7 @@ public class WaveManager {
 	
 	private void updateWaveLabel() {
         SwingUtilities.invokeLater(() -> {
-            waveLabel.setText("Welle " + wave);
+            waveLabel.setText("Welle " + wave + " Gold " + panel.getCoins());
         });
     }
 	

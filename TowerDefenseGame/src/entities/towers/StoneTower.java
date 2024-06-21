@@ -2,8 +2,8 @@ package entities.towers;
 
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
-import entities.projectiles.Projectiles;
-import entities.projectiles.StoneProjectile;
+import projectiles.Projectiles;
+import projectiles.StoneProjectile;
 import utils.Path;
 
 public abstract class StoneTower extends Tower{
@@ -20,8 +20,7 @@ public abstract class StoneTower extends Tower{
 		if(getProjectiles().size() == 0) {
 			Projectiles projectile = Projectiles.STONE_PROJECTILE;
 			StoneProjectile newProjectile = new StoneProjectile(projectile.getxPos(),projectile.getyPos(),
-					projectile.getWidth(),projectile.getHeigth(),projectile.getAttack(),
-					projectile.getHealth(),projectile.isFriendly(),this);
+					projectile.getWidth(),projectile.getHeigth(),projectile.getAttack(),this);
 			newProjectile.resetState(projectile);
 			super.addProjectile(newProjectile);
 		}

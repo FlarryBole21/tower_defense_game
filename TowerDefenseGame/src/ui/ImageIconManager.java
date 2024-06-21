@@ -84,8 +84,43 @@ public class ImageIconManager {
 	    		}else if(imageButton.getName().equals("NormalStoneTowerButton")) {
 	    			imageButton.addActionListener(e -> {
 	    				spawnNormalStoneTower(imageButton);
+	    				
+	    				for(JButton button: imageIconButtons) {
+	    					if(button.getName().equals("NormalStoneTowerRemoveButton")) {
+	    						button.setEnabled(true);
+	    					}
+	    				}
+	    				
 
 	                });
+	    		}else if(imageButton.getName().equals("NormalStoneTowerRemoveButton")) {
+	    			imageButton.addActionListener(e -> {
+	    				if(panel.getTowers().size() > 0) {
+	    					panel.getTowers().remove(panel.getTowers().size()-1);
+	    					
+	    					if(panel.getTowers().size() == 0) {
+	    						imageButton.setEnabled(false);
+	    					}
+	    					
+	    					
+	    					
+	    					if(panel.getTowers().size() < 3) {
+	    						for(JButton button: imageIconButtons) {
+			    					if(button.getName().contains("Tower") && !button.getName().contains("Remove")) {
+			    						button.setEnabled(true);
+			    					}
+			    				}
+	    						
+	    					}
+	    					
+	    					
+	    					
+	    				}else {
+	    					imageButton.setEnabled(false);
+	    				}
+	    				
+
+	             });
 	    		}
 	    	}
 		}
@@ -197,7 +232,9 @@ public class ImageIconManager {
 	        		break;
 	    	}
 	    	
-	        button.setEnabled(false); 
+	    	if (!button.getName().contains("Tower")) {
+                button.setEnabled(false);
+            }
 	        updateImageIcons();
 
 		}
@@ -220,7 +257,9 @@ public class ImageIconManager {
 	        		break;
 	    	}
 	    	
-	        button.setEnabled(false); 
+	    	if (!button.getName().contains("Tower")) {
+                button.setEnabled(false);
+            }
 	        updateImageIcons();
 		}
     }
@@ -235,12 +274,17 @@ public class ImageIconManager {
 					
 					if(!cooldownImageIconsMapActive.get(imageButton.getName())) {
 						cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + defaultCoolDown);
-						imageButton.setEnabled(false); 
+						if (!imageButton.getName().contains("Tower")) {
+		                    imageButton.setEnabled(false);
+		                }
 					}
 					
 				}else {
 					cooldownImageIconsMapEndTime.put(imageButton.getName(), System.currentTimeMillis() + defaultCoolDown);
-					imageButton.setEnabled(false); 
+					if (!imageButton.getName().contains("Tower")) {
+	                    imageButton.setEnabled(false);
+	                }
+
 				}
 				
 				
@@ -288,12 +332,14 @@ public class ImageIconManager {
             if ((!cooldownActive && currentTime >= cooldownEndTime)|| !panel.isGameStart()) {
                 cooldownImageIconsMapActive.put(imageButton.getName(), false);
                 
-                if(!imageButton.getName().equals("NormalStoneTowerButton")) {
-                	imageButton.setEnabled(true);
+                if (!imageButton.getName().contains("Tower")) {
+                    imageButton.setEnabled(true);
                 }
                 
             } else {
-                imageButton.setEnabled(false); 
+            	if (!imageButton.getName().contains("Tower")) {
+                    imageButton.setEnabled(false);
+                }
             }
         }	  
     	

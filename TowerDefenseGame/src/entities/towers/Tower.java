@@ -18,8 +18,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import entities.Entity;
-import entities.projectiles.Projectile;
 import game.GamePanel;
+import projectiles.Projectile;
 import utils.Path;
 
 public abstract class Tower extends Entity{

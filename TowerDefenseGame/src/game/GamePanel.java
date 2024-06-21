@@ -42,11 +42,11 @@ import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
-import entities.projectiles.Projectile;
 import entities.towers.Tower;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
+import projectiles.Projectile;
 import ui.BaseLifeBar;
 import ui.BeingLifeBar;
 import ui.ImageIconManager;
@@ -77,6 +77,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private boolean gameStart;
     private JLabel waveLabel; 
     private CardLayout layout;
+    private int coins;
 
     {
     	friendlyLivingBeings = new LinkedList<>();
@@ -86,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener {
         friendlyWaitingBeings = new LinkedList<>();
         enemyWaitingBeings = new LinkedList<>();
         towers = new LinkedList<>();
+        coins=100;
   
     }
     
@@ -109,8 +111,16 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
 
-    
-    public void startConfig() {
+    public int getCoins() {
+		return coins;
+	}
+
+	public void setCoins(int coins) {
+		this.coins = coins;
+	}
+
+
+	public void startConfig() {
     	waveManager = new WaveManager(this,waveLabel);
     	waveManager.startConfig();
     	if (timer != null) {
@@ -423,10 +433,12 @@ public class GamePanel extends JPanel implements ActionListener {
                 tower.draw(g);
                 if(enemyLivingBeings.size()>0) {
                 	
+                	
+                	
                 	if(enemyLivingBeings.get(0).getRect().getX() < tower.getRangeShot()) {
                 		
                 		if(!tower.isAnimationChanged()) {
-                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
+                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_02.getName());
                         	tower.loadImage();
                         	tower.setAnimationChanged(true);
                 			
@@ -453,6 +465,11 @@ public class GamePanel extends JPanel implements ActionListener {
                         	}
                         	projectile.update(this);
                         	projectile.draw(g);
+                        	
+                        	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()-200) {
+                        		
+                        	}
+                        	
                         	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
                         		
 //                        		System.out.println(projectile.getRect().getX());
@@ -461,6 +478,9 @@ public class GamePanel extends JPanel implements ActionListener {
                         		
                         		if(projectile.getRect().getX() > enemyLivingBeings.get(0).getRect().getX() && 
                         				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+caveDistance) {
+                        			
+                        			
+                        			
                         			enemyLivingBeings.get(0).setHealth(enemyLivingBeings.get(0).getHealth()-projectile.getAttack());
                         		}
                         		
@@ -474,7 +494,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 	}else {
                 		
                 		if(tower.isAnimationChanged()) {
-                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
                         	tower.loadImage();
                         	tower.setAnimationChanged(false);
                 		}
@@ -483,7 +503,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
                 }else {
                 	if(tower.isAnimationChanged()) {
-            			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+            			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
                     	tower.loadImage();
                     	tower.setAnimationChanged(false);
             		}
