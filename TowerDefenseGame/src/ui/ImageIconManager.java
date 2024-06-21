@@ -12,6 +12,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
 import entities.livingbeings.NormalLizard;
+import entities.towers.Towers;
 import game.GamePanel;
 import game.Main;
 import utils.Path;
@@ -80,10 +81,29 @@ public class ImageIconManager {
 	    				spawnNormalBearEvent(imageButton);
 
 	                });
+	    		}else if(imageButton.getName().equals("NormalStoneTowerButton")) {
+	    			imageButton.addActionListener(e -> {
+	    				spawnNormalStoneTower(imageButton);
+
+	                });
 	    		}
 	    	}
 		}
     }
+	
+	
+	private void spawnNormalStoneTower(JButton imageButton) {
+		
+		if(panel.getTowers().size()==0) {
+			panel.addTowers(Towers.NORMAL_STONE_TOWER_01.getTower());
+		}else if(panel.getTowers().size()==1) {
+			panel.addTowers(Towers.NORMAL_STONE_TOWER_02.getTower());
+		}else if(panel.getTowers().size()==2) {
+			panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
+			imageButton.setEnabled(false); 
+		}
+		
+	}
 	
 
 	private void spawnNormalLizardEvent(JButton imageButton) {
@@ -267,7 +287,11 @@ public class ImageIconManager {
     	if (cooldownActive != null && cooldownEndTime != null) {
             if ((!cooldownActive && currentTime >= cooldownEndTime)|| !panel.isGameStart()) {
                 cooldownImageIconsMapActive.put(imageButton.getName(), false);
-                imageButton.setEnabled(true);
+                
+                if(!imageButton.getName().equals("NormalStoneTowerButton")) {
+                	imageButton.setEnabled(true);
+                }
+                
             } else {
                 imageButton.setEnabled(false); 
             }

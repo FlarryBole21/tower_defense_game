@@ -425,8 +425,13 @@ public class GamePanel extends JPanel implements ActionListener {
                 	
                 	if(enemyLivingBeings.get(0).getRect().getX() < tower.getRangeShot()) {
                 		
-                		tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
-                    	tower.loadImage();
+                		if(!tower.isAnimationChanged()) {
+                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
+                        	tower.loadImage();
+                        	tower.setAnimationChanged(true);
+                			
+                		}
+                		
                     	//tower.update(panel);
                     	
               
@@ -467,15 +472,21 @@ public class GamePanel extends JPanel implements ActionListener {
                         }
 
                 	}else {
-
-                		tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
-                    	tower.loadImage();
                 		
+                		if(tower.isAnimationChanged()) {
+                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+                        	tower.loadImage();
+                        	tower.setAnimationChanged(false);
+                		}
+
                 	}
 
                 }else {
-                	tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
-                	tower.loadImage();
+                	if(tower.isAnimationChanged()) {
+            			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
+                    	tower.loadImage();
+                    	tower.setAnimationChanged(false);
+            		}
                 	
                 }
                 

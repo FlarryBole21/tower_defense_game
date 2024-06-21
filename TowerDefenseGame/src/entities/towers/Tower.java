@@ -34,6 +34,7 @@ public abstract class Tower extends Entity{
     private int spawnDelay;
     private boolean cancelled;
     private int rangeShot;
+    private boolean animationChanged;
 
     {
         projectiles = new LinkedList<>();
@@ -47,7 +48,21 @@ public abstract class Tower extends Entity{
         cancelled=true;
     }
     
-    public void resetTower() {
+    
+    
+    public boolean isAnimationChanged() {
+		return animationChanged;
+	}
+
+
+
+	public void setAnimationChanged(boolean animationChanged) {
+		this.animationChanged = animationChanged;
+	}
+
+
+
+	public void resetTower() {
     	active=false;
     	cancelled=false;
         stopSpawning();

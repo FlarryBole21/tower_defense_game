@@ -36,6 +36,7 @@ public enum Path {
     IMAGE_NORMAL_BEAR_ENEMY_ATTACK("img/lifeforms/bear_06.gif"),
     IMAGE_NORMAL_BEAR_ENEMY_DEATH("img/lifeforms/bear_07.gif"),
     IMAGE_NORMAL_BEAR_ENEMY_WAIT("img/lifeforms/bear_08.gif"),
+    IMAGE_ICON_NORMAL_STONE_TOWER("img/towers_icons/normal_stone_tower.png"),
     IMAGE_ICON_NORMAL_LIZARD("img/lifeforms_icons/normal_lizard.png"),
     IMAGE_ICON_INTERMEDIATE_LIZARD("img/lifeforms_icons/intermediate_lizard.png"),
     IMAGE_ICON_NORMAL_BEAR("img/lifeforms_icons/normal_bear.png"),

@@ -86,12 +86,12 @@ public class WaveManager {
     	
     	
     	
-    	panel.addTowers(Towers.NORMAL_STONE_TOWER_01.getTower());
+    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_01.getTower());
 //    	panel.addTowersPlayer(new NormalStoneTower(100,600,100,
 //        		100,1000,true));
     	//Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
-    	panel.addTowers(Towers.NORMAL_STONE_TOWER_02.getTower());
-    	panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
+    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_02.getTower());
+    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
     	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
