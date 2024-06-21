@@ -1,4 +1,4 @@
-package entities.bases;
+package entities.towers;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import entities.Entity;
+import entities.projectiles.Projectile;
 import game.GamePanel;
 import utils.Path;
 
@@ -30,48 +31,33 @@ public abstract class Tower extends Entity{
     private boolean active;
     private Timer timer;
     //private ScheduledExecutorService scheduler;
-    private int loadingDelay;
     private int spawnDelay;
     private boolean cancelled;
+    private int rangeShot;
 
     {
         projectiles = new LinkedList<>();
     }
 
-    public Tower(int xPos, int yPos, int width, int height, int health, boolean friendly) {
-        super(xPos, yPos, width, height, health, friendly);
+    public Tower(int xPos, int yPos, int width, int height, int health, int rangeShot, int spawnDelay) {
+        super(xPos, yPos, width, height, health, true);
+        this.rangeShot=rangeShot;
         active = true;
-        loadingDelay = 700;
-        spawnDelay = 2000;
+        this.spawnDelay = spawnDelay;
         cancelled=true;
     }
     
     public void resetTower() {
     	active=false;
     	cancelled=false;
-        //stopLoading();
         stopSpawning();
         projectiles.clear();
-        //setActive(true);
-        //scheduler=null;
-        //scheduler = Executors.newScheduledThreadPool(1);
     }
     
-    
-    
 
-
-//    public ScheduledExecutorService getScheduler() {
-//		return scheduler;
-//	}
-//
-//
-//
-//	public void setScheduler(ScheduledExecutorService scheduler) {
-//		this.scheduler = scheduler;
-//	}
-
-
+	public int getRangeShot() {
+		return rangeShot;
+	}
 
 	public Timer getTimer() {
 		return timer;
@@ -81,33 +67,8 @@ public abstract class Tower extends Entity{
 		this.timer = timer;
 	}
 
-//	public void startLoading() {
-//		active=true;
-//        scheduler = Executors.newScheduledThreadPool(1);
-//        scheduler.schedule(new LoadingTask(), loadingDelay, TimeUnit.MILLISECONDS);
-//    }
-//
-//    public void stopLoading() {
-//        if (scheduler != null && !scheduler.isShutdown()) {
-//            scheduler.shutdownNow();
-//            scheduler=null;
-//            //projectiles.clear();
-//        }
-//    }
-
-//    private class LoadingTask implements Runnable {
-//        @Override
-//        public void run() {
-//            startSpawning();
-//            //stopSpawning();
-//        }
-//    }
-
-	
-	
-	
     public void startSpawning() {
-    	//stopSpawning(); 
+    
     	 
     	if(timer == null || cancelled == true) {
     		timer = new Timer();
@@ -115,13 +76,8 @@ public abstract class Tower extends Entity{
     	}
         
         active = true;
-        
-       
-        timer.schedule(new SpawnTask(), spawnDelay);
-        
-      
-        
   
+        timer.schedule(new SpawnTask(), spawnDelay);
     	
     }
 
@@ -140,9 +96,7 @@ public abstract class Tower extends Entity{
     		cancelled=true;
     		timer = null;
     	}
-    	
-    	
-        //stopLoading();
+
     }
 
     private class SpawnTask extends TimerTask {
@@ -150,9 +104,7 @@ public abstract class Tower extends Entity{
         public void run() {
             if (isActive()) {
             	setProjectile();
-                //stopSpawning();
-//                stopLoading();
-//                startLoading();
+
             } else {
             	resetTower();
             }
@@ -193,7 +145,6 @@ public abstract class Tower extends Entity{
     public void update(GamePanel panel) {
     	
     	if(panel.isGameStart()) {
-    		//startLoading();
     		startSpawning();
     	}
  

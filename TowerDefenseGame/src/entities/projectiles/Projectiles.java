@@ -1,9 +1,12 @@
-package entities.bases;
+package entities.projectiles;
+
+import entities.towers.Tower;
+import entities.towers.Towers;
 
 public enum Projectiles {
 	
-	FRIENDLY_STONE_PROJECTILE(new StoneProjectile(300, 100, 100, 100, 50,200, true,
-			Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower()));
+	STONE_PROJECTILE(new StoneProjectile(300, 100, 100, 100, 50,200, true,
+			Towers.NORMAL_STONE_TOWER_01.getTower()));
 	
 	private Projectile projectile;
 	private int xPos;

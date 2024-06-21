@@ -37,13 +37,13 @@ import entities.bases.Base;
 import entities.bases.Bases;
 import entities.bases.Cave;
 import entities.bases.Fortress;
-import entities.bases.Projectile;
-import entities.bases.Tower;
 import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
+import entities.projectiles.Projectile;
+import entities.towers.Tower;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
@@ -57,7 +57,6 @@ public class GamePanel extends JPanel implements ActionListener {
 	public final static Dimension SCREENSIZE = Toolkit.getDefaultToolkit().getScreenSize(); 
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private GamePanel panel;
 	private Timer timer;
 	private Base friendlyBase;
 	private Base enemyBase;
@@ -73,7 +72,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
-    private LinkedList<Tower>towersPlayer; 
+    private LinkedList<Tower>towers; 
     private WaveManager waveManager;
     private boolean gameStart;
     private JLabel waveLabel; 
@@ -86,14 +85,13 @@ public class GamePanel extends JPanel implements ActionListener {
     	enemyNewBeings = new LinkedList<>();
         friendlyWaitingBeings = new LinkedList<>();
         enemyWaitingBeings = new LinkedList<>();
-        towersPlayer = new LinkedList<>();
+        towers = new LinkedList<>();
   
     }
     
     public GamePanel(int baseWidth,int baseHeight,
     		JFrame frame,CardLayout layout,JLabel waveLabel,LinkedList<JButton> imageIconButtons) {
     	this.frame=frame;
-    	this.panel=this;
     	this.baseWidth=baseWidth;
     	this.baseHeight=baseHeight;
     	this.waveLabel=waveLabel;
@@ -145,13 +143,13 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 
-	public LinkedList<Tower> getTowersPlayer() {
-		return towersPlayer;
+	public LinkedList<Tower> getTowers() {
+		return towers;
 	}
 
 
-	public void addTowersPlayer(Tower towersPlayer) {
-		this.towersPlayer.add(towersPlayer);
+	public void addTowers(Tower towersPlayer) {
+		this.towers.add(towersPlayer);
 	}
 
 
@@ -267,12 +265,12 @@ public class GamePanel extends JPanel implements ActionListener {
         friendlyWaitingBeings.clear();
         enemyWaitingBeings.clear();
         
-        for (Tower tower : towersPlayer) {
+        for (Tower tower : towers) {
         	tower.resetTower();
             //shutdownAndAwaitTermination(tower.getScheduler());
         }
         
-        towersPlayer.clear();
+        towers.clear();
         
 //        for(Tower tower: friendlyBase.getTowers()) {
 //        	tower.resetTower();
@@ -356,12 +354,11 @@ public class GamePanel extends JPanel implements ActionListener {
 		
 		if(friendlyBase != null) {
 			friendlyBase.update(this);
-			LinkedList<Tower> towers = towersPlayer;
             for(Tower tower: towers) {
 
             	if(enemyLivingBeings.size()>0) {
             		
-            		if(enemyLivingBeings.get(0).getRect().getX() < 900) {
+            		if(enemyLivingBeings.get(0).getRect().getX() < tower.getRangeShot()) {
             			tower.update(this);
             		}
             		
@@ -369,19 +366,7 @@ public class GamePanel extends JPanel implements ActionListener {
             	}else {
             		tower.getProjectiles().clear();
             	}
-            	
-            	for(Projectile projectile:tower.getProjectiles()) {
-            		
-            		if(enemyLivingBeings.size()>0) {
-            			
-            			if(enemyLivingBeings.get(0).getRect().getX() < 900) {
-            				projectile.update(this);
-            			}
-            			
-            		}
-            		
-            		
-            	}
+
             }
 		}
 		
@@ -433,13 +418,12 @@ public class GamePanel extends JPanel implements ActionListener {
         
         if(friendlyBase != null) {
 			friendlyBase.draw(g);
-			LinkedList<Tower> towers = towersPlayer;
 			for (Tower tower : towers) {
 
                 tower.draw(g);
                 if(enemyLivingBeings.size()>0) {
                 	
-                	if(enemyLivingBeings.get(0).getRect().getX() < 900) {
+                	if(enemyLivingBeings.get(0).getRect().getX() < tower.getRangeShot()) {
                 		
                 		tower.setPathImage(Path.IMAGE_CAVE_TOWER_02_PLAYER.getName());
                     	tower.loadImage();
@@ -450,8 +434,10 @@ public class GamePanel extends JPanel implements ActionListener {
                         while (iterator.hasNext()) {
                         	Projectile projectile = iterator.next();
                         	
+                        	
                         	int distance = 60;
                         	int realignSpawning = 200;
+                        	int caveDistance = 90;
                         	
                         	if(enemyLivingBeings.get(0).isMovingState()) {
                         		distance = -30;
@@ -460,30 +446,33 @@ public class GamePanel extends JPanel implements ActionListener {
                         	if(projectile.getRect().getY() < realignSpawning) {
                         		projectile.getRect().setX(enemyLivingBeings.get(0).getRect().getX()+distance);
                         	}
-                        	
+                        	projectile.update(this);
                         	projectile.draw(g);
                         	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
-       
+                        		
+//                        		System.out.println(projectile.getRect().getX());
+//                        		System.out.println(enemyLivingBeings.get(0).getRect().getX());
+                        		
+                        		
                         		if(projectile.getRect().getX() > enemyLivingBeings.get(0).getRect().getX() && 
-                        				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+90) {
+                        				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+caveDistance) {
                         			enemyLivingBeings.get(0).setHealth(enemyLivingBeings.get(0).getHealth()-projectile.getAttack());
                         		}
-         
+                        		
+                        		
                         		iterator.remove();
                                 break;
                         	}
-                        	
-                        	
+
                         }
-                		
-                		
+
                 	}else {
-                		
+
                 		tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
                     	tower.loadImage();
                 		
                 	}
-                	
+
                 }else {
                 	tower.setPathImage(Path.IMAGE_CAVE_TOWER_01_PLAYER.getName());
                 	tower.loadImage();

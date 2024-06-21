@@ -1,5 +1,6 @@
-package entities.bases;
+package entities.projectiles;
 
+import entities.towers.Tower;
 import utils.Path;
 
 public class StoneProjectile extends Projectile{

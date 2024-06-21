@@ -1,11 +1,13 @@
-package entities.bases;
+package entities.projectiles;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 
 import entities.Entity;
 import entities.livingbeings.Beings;
+import entities.towers.Tower;
 import game.GamePanel;
 import utils.Path;
 
@@ -81,13 +83,11 @@ public abstract class Projectile extends Entity{
 
 	@Override
 	public void update(GamePanel panel) {
-		
-
-		if(getTower().isActive()) {
-			move();
-		}
-		
+	    if (getTower().isActive()) {
+	        move();
+	    }
 	}
+
 
 	@Override
 	public void draw(Graphics g) {

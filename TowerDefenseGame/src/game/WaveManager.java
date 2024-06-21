@@ -9,9 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import entities.bases.Bases;
-import entities.bases.NormalStoneTower;
-import entities.bases.Tower;
-import entities.bases.Towers;
+import entities.towers.NormalStoneTower;
+import entities.towers.Tower;
+import entities.towers.Towers;
 import game.spawner.BearSpawner;
 import game.spawner.LizardSpawner;
 import game.spawner.Spawner;
@@ -86,11 +86,12 @@ public class WaveManager {
     	
     	
     	
-    	panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower());
+    	panel.addTowers(Towers.NORMAL_STONE_TOWER_01.getTower());
 //    	panel.addTowersPlayer(new NormalStoneTower(100,600,100,
 //        		100,1000,true));
     	//Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
-    	//panel.addTowersPlayer(Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower());
+    	panel.addTowers(Towers.NORMAL_STONE_TOWER_02.getTower());
+    	panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
     	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
