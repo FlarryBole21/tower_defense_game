@@ -157,6 +157,8 @@ public class Main {
 	public static void resetImageIcons(LinkedList<JButton> imageIconButtons) {
 		JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
 				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 64, 64);
+		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
+				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 64, 64);
 		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
 				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 64, 64);
 		JButton normalLizardImageButton = ButtonSetter.setImageIconButton
@@ -165,6 +167,7 @@ public class Main {
 				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton", 64, 64);
 		
 		imageIconButtons.add(normalStoneTowerImageButton);
+		imageIconButtons.add(normalMagicTowerImageButton);
 		imageIconButtons.add(normalStoneTowerRemoveImageButton);
 		normalStoneTowerRemoveImageButton.setEnabled(false);
         imageIconButtons.add(normalLizardImageButton);

@@ -42,9 +42,10 @@ import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.LivingBeing;
 import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
+import entities.towers.MagicTower;
 import entities.towers.Tower;
-import game.spawner.BearSpawner;
-import game.spawner.LizardSpawner;
+import game.spawner.SecondLineUpSpawner;
+import game.spawner.FirstLineUpSpawner;
 import game.spawner.Spawner;
 import projectiles.Projectile;
 import ui.BaseLifeBar;
@@ -277,16 +278,11 @@ public class GamePanel extends JPanel implements ActionListener {
         
         for (Tower tower : towers) {
         	tower.resetTower();
-            //shutdownAndAwaitTermination(tower.getScheduler());
+            
         }
         
         towers.clear();
         
-//        for(Tower tower: friendlyBase.getTowers()) {
-//        	tower.resetTower();
-//        }
-//        
-//        friendlyBase.getTowers().clear();
         
         waveManager.reset();
         
@@ -294,43 +290,12 @@ public class GamePanel extends JPanel implements ActionListener {
         	base.getBase().setHealth(base.getHealth());
            
         }
-
-//        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
-//        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
-//        Bases.FRIENDLY_CAVE.getBase().setHealth(Bases.FRIENDLY_CAVE.getHealth());
-//        Bases.ENEMY_CAVE.getBase().setHealth(Bases.ENEMY_CAVE.getHealth());
        
         imageIconManager.returnToOriginalLineUp();
-        //shutdownAndAwaitTermination();
        
     }
     
-    
-//    private void shutdownAndAwaitTermination(ScheduledExecutorService scheduler) {
-//        if (scheduler != null && !scheduler.isShutdown()) {
-//            scheduler.shutdownNow();
-//            try {
-//                if (!scheduler.awaitTermination(60, TimeUnit.SECONDS)) {
-//                    System.err.println("Scheduler did not terminate in time");
-//                }
-//            } catch (InterruptedException e) {
-//                scheduler.shutdownNow();
-//                Thread.currentThread().interrupt();
-//            }
-//        }
-//    }
 
-
-    
-//    private void shutdownAndAwaitTermination() {
-//        // Ensure all ScheduledExecutorServices are properly terminated
-//        for (Tower tower : towersPlayer) {
-//            shutdownAndAwaitTermination(tower.getScheduler());
-//            tower.setScheduler(null);
-//        }
-//    }
-   
-    
  
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -437,7 +402,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 	
                 	if(enemyLivingBeings.get(0).getRect().getX() < tower.getRangeShot()) {
                 		
-                		if(!tower.isAnimationChanged()) {
+                		if(!tower.isAnimationChanged() && !(tower instanceof MagicTower)) {
                 			tower.setPathImage(Path.IMAGE_CAVE_TOWER_02.getName());
                         	tower.loadImage();
                         	tower.setAnimationChanged(true);
@@ -493,9 +458,10 @@ public class GamePanel extends JPanel implements ActionListener {
 
                 	}else {
                 		
-                		if(tower.isAnimationChanged()) {
+                		if(tower.isAnimationChanged() && !(tower instanceof MagicTower)) {
                 			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
                         	tower.loadImage();
+                        	tower.getProjectiles().clear();
                         	tower.setAnimationChanged(false);
                 		}
 
@@ -503,9 +469,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
                 }else {
                 	if(tower.isAnimationChanged()) {
-            			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
-                    	tower.loadImage();
-                    	tower.setAnimationChanged(false);
+                		if(!(tower instanceof MagicTower)) {
+                			tower.setPathImage(Path.IMAGE_CAVE_TOWER_01.getName());
+                        	tower.loadImage();
+                        	tower.getProjectiles().clear();
+                        	tower.setAnimationChanged(false);
+                			
+                		}
             		}
                 	
                 }

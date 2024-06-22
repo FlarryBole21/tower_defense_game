@@ -12,9 +12,10 @@ import entities.bases.Bases;
 import entities.towers.NormalStoneTower;
 import entities.towers.Tower;
 import entities.towers.Towers;
-import game.spawner.BearSpawner;
-import game.spawner.LizardSpawner;
+import game.spawner.SecondLineUpSpawner;
+import game.spawner.FirstLineUpSpawner;
 import game.spawner.Spawner;
+import ui.setter.ButtonSetter;
 import utils.Path;
 
 public class WaveManager {
@@ -25,6 +26,7 @@ public class WaveManager {
     private int wave;
     private java.util.Timer waveTimer;
     private JLabel waveLabel; 
+    private int waveDelay;
     
     {
     	waveTimer = new java.util.Timer();
@@ -34,6 +36,7 @@ public class WaveManager {
 		this.panel=panel;
 		this.waveLabel=waveLabel;
 		this.wave=1;
+		this.waveDelay=100000;
 //    	updateWaveLabel();
 //    	changeBackground();
     	//startConfig();
@@ -102,7 +105,7 @@ public class WaveManager {
 		
 //        friendlySpawner = new LizardSpawner(30000,panel,true);
 //        friendlySpawner.startSpawning();
-        enemySpawner = new LizardSpawner(3000,panel,false);
+        enemySpawner = new FirstLineUpSpawner(5000,panel,false);
         enemySpawner.startSpawning();
         
         waveSpawning();
@@ -132,10 +135,18 @@ public class WaveManager {
 	                if(wave >= 4) {
 	                	//friendlySpawner.stopSpawning();
 	                	panel.getImageIconManager().getImageIconButtons().clear();
-	                	ImageIcon normalBearIcon = new ImageIcon(Path.IMAGE_ICON_NORMAL_BEAR.getName());
-	                	JButton normalBearImageButton = new JButton(normalBearIcon);
-	                	normalBearImageButton.setPreferredSize(new Dimension(64, 64));
-	                	normalBearImageButton.setName("NormalBearButton");
+	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
+	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 64, 64);
+	            		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
+	            				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 64, 64);
+	            		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
+	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 64, 64);
+	            		JButton normalBearImageButton = ButtonSetter.setImageIconButton
+	            				(Path.IMAGE_ICON_NORMAL_BEAR, "NormalBearButton", 64, 64);
+	                	
+	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerImageButton);
+	            		panel.getImageIconManager().addImageIconButton(normalMagicTowerImageButton);
+	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerRemoveImageButton);
 	                	panel.getImageIconManager().addImageIconButton(normalBearImageButton);
 	                	panel.getImageIconManager().refreshImageIcons();
 	                	panel.getImageIconManager().setImageIconButtonsEvents();
@@ -144,7 +155,7 @@ public class WaveManager {
 	                	enemySpawner.stopSpawning();
 //	                	friendlySpawner = new BearSpawner(30000,panel,true);
 //	                    friendlySpawner.startSpawning();
-	                    enemySpawner = new BearSpawner(3000,panel,false);
+	                    enemySpawner = new SecondLineUpSpawner(5000,panel,false);
 	                    enemySpawner.startSpawning();
 	//                    removeBaseBases();
 	//                    addBaseBases(Bases.FRIENDLY_FORTRESS.getBase(),towersPlayer);
@@ -157,7 +168,7 @@ public class WaveManager {
             }
         };
         
-        waveTimer.schedule(task, 50000);
+        waveTimer.schedule(task, waveDelay);
 		
 	}
 	

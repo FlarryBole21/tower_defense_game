@@ -9,9 +9,9 @@ import entities.livingbeings.Lizard;
 import entities.livingbeings.NormalLizard;
 import game.GamePanel;
 
-public class LizardSpawner extends Spawner{
+public class FirstLineUpSpawner extends Spawner{
 	
-	private LizardSpawner spawner;
+	private FirstLineUpSpawner spawner;
 	private boolean friendly;
 	private int basicSpawnerLimit;
 	private int friendlyCount;
@@ -29,7 +29,7 @@ public class LizardSpawner extends Spawner{
 		
 	}
 
-	public LizardSpawner(long delay,GamePanel panel,boolean friendly) {
+	public FirstLineUpSpawner(long delay,GamePanel panel,boolean friendly) {
 		super(delay,panel);
 		spawner = this;
 		this.friendly=friendly;

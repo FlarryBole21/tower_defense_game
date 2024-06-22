@@ -9,15 +9,15 @@ import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
 import game.GamePanel;
 
-public class BearSpawner extends Spawner{
+public class SecondLineUpSpawner extends Spawner{
 	
-	private BearSpawner spawner;
+	private SecondLineUpSpawner spawner;
 	private boolean friendly;
 	private int basicSpawnerLimit;
 	private int friendlyCount;
 	private int enemyCount;
 
-	public BearSpawner(long delay,GamePanel panel,boolean friendly) {
+	public SecondLineUpSpawner(long delay,GamePanel panel,boolean friendly) {
 		super(delay,panel);
 		spawner = this;
 		this.friendly=friendly;

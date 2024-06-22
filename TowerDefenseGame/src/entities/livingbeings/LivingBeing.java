@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import audio.AudioPlayer;
 import entities.Entity;
 import entities.bases.Bases;
+import entities.towers.MagicTower;
+import entities.towers.Tower;
 import game.GamePanel;
 import game.Main;
 import utils.Path;
@@ -38,6 +40,7 @@ public abstract class LivingBeing extends Entity{
 	private Path deathPath;
 	private boolean movingState;
 	private boolean attackingBase;
+	private boolean debuff;
 	private LinkedList<AudioPlayer> attackingAudio;
 	//private AudioPlayer attackingAudio;
 	
@@ -54,6 +57,16 @@ public abstract class LivingBeing extends Entity{
 	
 	}
 	
+
+	public boolean isDebuff() {
+		return debuff;
+	}
+
+
+	public void setDebuff(boolean debuff) {
+		this.debuff = debuff;
+	}
+
 
 	public boolean isMovingState() {
 		return movingState;
@@ -611,7 +624,33 @@ public abstract class LivingBeing extends Entity{
         	if(panel.getEnemyLivingBeings().get(0).isDeathAnimationChanged() == false) {
             	
             	playAttackSound();
-            	panel.getFriendlyLivingBeings().get(0).removeHealth(panel.getEnemyLivingBeings().get(0).getAttack()/10);
+            	
+            	double multiplier = 1;
+
+            	if(panel.getTowers().size()> 0 && !panel.getEnemyLivingBeings().get(0).isDebuff()) {
+            		
+            		boolean alreadyThere = false;
+            		double premult = 1;
+					
+					for(Tower tower :panel.getTowers()) {
+						if(tower instanceof MagicTower) {
+							alreadyThere=true;
+							premult=((MagicTower) tower).getDebuff();
+						}
+						
+					}
+					
+					if(alreadyThere) {
+						multiplier=premult;
+						panel.getEnemyLivingBeings().get(0).setDebuff(true);
+					}
+            	}else {
+            		panel.getEnemyLivingBeings().get(0).setDebuff(false);
+            	}
+            	
+            	int damage = (int) ((panel.getEnemyLivingBeings().get(0).getAttack() / 10.0) * multiplier);
+            	
+            	panel.getFriendlyLivingBeings().get(0).removeHealth(damage);
             }
             
             if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
