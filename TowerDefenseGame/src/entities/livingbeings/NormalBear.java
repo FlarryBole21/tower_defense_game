@@ -7,7 +7,7 @@ public class NormalBear extends Bear{
 
 	private static final long serialVersionUID = 1L;
 
-	public NormalBear(int xPos, int yPos, int width, int height, int attack, int health, boolean friendly) {
+	public NormalBear(int xPos, int yPos, int width, int height, int attack, double health, boolean friendly) {
 		super(xPos, yPos, width, height, attack, health, friendly);
 		if (friendly) {
 		    super.setWalkingPath(Path.IMAGE_NORMAL_BEAR_PLAYER_WALK);

@@ -15,7 +15,7 @@ public enum Bases {
 	private int yPos;
 	private int width;
 	private int height;
-	private int health;
+	private double health;
 	private boolean friendly;
 
 	Bases(Base base){
@@ -50,7 +50,7 @@ public enum Bases {
 	}
 
 
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 

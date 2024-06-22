@@ -11,17 +11,11 @@ public abstract class Entity extends JFrame implements Updateable, Drawable {
 	
 	private static final long serialVersionUID = 1L;
 	private Rectangle rect; 
-	private int health;
+	private double health;
 	private boolean friendly;
 	
-	public Entity(int xPos, int yPos, int width, int height, int health, boolean friendly,Color color) {
-		rect = new Rectangle(xPos,yPos,width,height,color);
-		this.health = health;
-		this.friendly=friendly;
-	}
 	
-	
-	public Entity(int xPos, int yPos, int width, int height, int health, boolean friendly) {
+	public Entity(int xPos, int yPos, int width, int height, double health, boolean friendly) {
 		rect = new Rectangle(xPos,yPos,width,height);
 		this.health = health;
 		this.friendly=friendly;
@@ -38,16 +32,16 @@ public abstract class Entity extends JFrame implements Updateable, Drawable {
 	}
 
 
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 	
 	
-	public void removeHealth(int health) {
+	public void removeHealth(double health) {
 		this.health -= health;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(double health) {
 		this.health = health;
 	}
 

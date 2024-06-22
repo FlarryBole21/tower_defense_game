@@ -23,7 +23,7 @@ public abstract class Bear extends LivingBeing{
 
 	private static final long serialVersionUID = 1L;
 
-	public Bear(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
+	public Bear(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
 		super.addAttackingAudio(Main.BEAR_ATTACK_PLAYER);

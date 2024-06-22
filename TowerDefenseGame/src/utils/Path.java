@@ -12,6 +12,7 @@ public enum Path {
     IMAGE_CAVE_TOWER_01("img/towers/gif/cave_tower_03.gif"),
     IMAGE_CAVE_TOWER_02("img/towers/gif/cave_tower_04.gif"),
     IMAGE_MAGIC_TOWER_01("img/towers/gif/magic_tower_04.gif"),
+    IMAGE_MAGIC_TOWER_02("img/towers/gif/magic_tower_05.gif"),
     IMAGE_CAVE_TOWER_ROCK("img/towers/pics/cave_tower_rock_02.png"),
 	IMAGE_NORMAL_LIZARD_PLAYER_WALK("img/lifeforms/lizard_01.gif"),
     IMAGE_NORMAL_LIZARD_PLAYER_ATTACK("img/lifeforms/lizard_02.gif"),

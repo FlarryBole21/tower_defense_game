@@ -97,10 +97,10 @@ public class WaveManager {
     	//panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
-    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
+    	//panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
     	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase());
-//    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase(),panel.getTowersPlayer());
-//    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase(),panel.getTowersEnemy());
+    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
+//    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
 		
 		
 //        friendlySpawner = new LizardSpawner(30000,panel,true);

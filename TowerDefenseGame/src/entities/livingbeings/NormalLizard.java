@@ -7,7 +7,7 @@ public class NormalLizard extends Lizard{
 
 	private static final long serialVersionUID = 1L;
 
-	public NormalLizard(int xPos, int yPos, int width, int height, int attack, int health, boolean friendly) {
+	public NormalLizard(int xPos, int yPos, int width, int height, int attack, double health, boolean friendly) {
 		super(xPos, yPos, width, height, attack, health, friendly);
 		if(friendly) {
 			super.setWalkingPath(Path.IMAGE_NORMAL_LIZARD_PLAYER_WALK);

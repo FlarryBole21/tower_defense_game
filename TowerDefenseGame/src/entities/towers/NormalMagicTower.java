@@ -8,6 +8,7 @@ public class NormalMagicTower extends MagicTower{
 
 	public NormalMagicTower(int xPos, int yPos, int width, int height, int health, int rangeShot, int spawnDelay) {
 		super(xPos, yPos, width, height, health, rangeShot, spawnDelay);
+		setBuff(2);
 		setPathImage(Path.IMAGE_MAGIC_TOWER_01.getName());
 		loadImage();
 	}

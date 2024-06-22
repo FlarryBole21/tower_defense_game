@@ -40,7 +40,7 @@ public abstract class LivingBeing extends Entity{
 	private Path deathPath;
 	private boolean movingState;
 	private boolean attackingBase;
-	private boolean debuff;
+	private boolean buff;
 	private LinkedList<AudioPlayer> attackingAudio;
 	//private AudioPlayer attackingAudio;
 	
@@ -48,7 +48,7 @@ public abstract class LivingBeing extends Entity{
 		attackingAudio=new LinkedList<>();
 	}
 	
-	public LivingBeing(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
+	public LivingBeing(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
 		super(xPos, yPos, width, height, health,friendly);
 		this.attack=attack;
 		this.deathAnimationChanged = false;
@@ -58,13 +58,13 @@ public abstract class LivingBeing extends Entity{
 	}
 	
 
-	public boolean isDebuff() {
-		return debuff;
+	public boolean isBuff() {
+		return buff;
 	}
 
 
-	public void setDebuff(boolean debuff) {
-		this.debuff = debuff;
+	public void setBuff(boolean buff) {
+		this.buff = buff;
 	}
 
 
@@ -625,9 +625,17 @@ public abstract class LivingBeing extends Entity{
             	
             	playAttackSound();
             	
+            	int damage = (int) ((panel.getEnemyLivingBeings().get(0).getAttack() / 10.0));
+            	panel.getFriendlyLivingBeings().get(0).removeHealth(damage);
+            }
+            
+            if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
+            	
+            	playAttackSound();
+            	
             	double multiplier = 1;
 
-            	if(panel.getTowers().size()> 0 && !panel.getEnemyLivingBeings().get(0).isDebuff()) {
+            	if(panel.getTowers().size()> 0 && !panel.getFriendlyLivingBeings().get(0).isBuff()) {
             		
             		boolean alreadyThere = false;
             		double premult = 1;
@@ -635,28 +643,22 @@ public abstract class LivingBeing extends Entity{
 					for(Tower tower :panel.getTowers()) {
 						if(tower instanceof MagicTower) {
 							alreadyThere=true;
-							premult=((MagicTower) tower).getDebuff();
+							premult=((MagicTower) tower).getBuff();
 						}
 						
 					}
 					
 					if(alreadyThere) {
 						multiplier=premult;
-						panel.getEnemyLivingBeings().get(0).setDebuff(true);
+						panel.getFriendlyLivingBeings().get(0).setBuff(true);
 					}
             	}else {
-            		panel.getEnemyLivingBeings().get(0).setDebuff(false);
+            		panel.getFriendlyLivingBeings().get(0).setBuff(false);
             	}
             	
-            	int damage = (int) ((panel.getEnemyLivingBeings().get(0).getAttack() / 10.0) * multiplier);
+            	double damage = ((panel.getFriendlyLivingBeings().get(0).getAttack() / 10.0) * multiplier);
             	
-            	panel.getFriendlyLivingBeings().get(0).removeHealth(damage);
-            }
-            
-            if(panel.getFriendlyLivingBeings().get(0).isDeathAnimationChanged() == false) {
-            	
-            	playAttackSound();
-            	panel.getEnemyLivingBeings().get(0).removeHealth(panel.getFriendlyLivingBeings().get(0).getAttack()/10);
+            	panel.getEnemyLivingBeings().get(0).removeHealth(damage);
             }
         	
         }else {

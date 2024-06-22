@@ -396,6 +396,28 @@ public class GamePanel extends JPanel implements ActionListener {
 			for (Tower tower : towers) {
 
                 tower.draw(g);
+                
+                
+                if(friendlyLivingBeings.size()>0) {
+                	
+                	if(!tower.isAnimationChanged() && (tower instanceof MagicTower)) {
+            			tower.setPathImage(Path.IMAGE_MAGIC_TOWER_02.getName());
+                    	tower.loadImage();
+                    	tower.setAnimationChanged(true);
+            			
+            		}
+                	
+                }else {
+                	if(tower.isAnimationChanged() && (tower instanceof MagicTower)) {
+            			tower.setPathImage(Path.IMAGE_MAGIC_TOWER_01.getName());
+                    	tower.loadImage();
+                    	tower.setAnimationChanged(false);
+            			
+            		}
+                	
+                }
+                
+                
                 if(enemyLivingBeings.size()>0) {
                 	
                 	

@@ -23,7 +23,7 @@ public enum Beings {
 	private int width;
 	private int heigth;
 	private int attack;
-	private int health;
+	private double health;
 	private boolean friendly;
 	private int waitingDistance;
 	
@@ -44,7 +44,7 @@ public enum Beings {
 		return attack;
 	}
 
-	public int getHealth() {
+	public double getHealth() {
 		return health;
 	}
 

@@ -64,6 +64,36 @@ public class ImageIconManager {
 
 	public void setImageIconButtonsEvents() {
 		
+		if(panel == null) {
+			return;
+		}
+		
+		
+		Beings normalFriend = Beings.FRIENDLY_NORMAL_LIZARD;
+		
+		
+		if(panel.getFriendlyLivingBeings().size() > 0) {
+			if(normalFriend.getxPos()+normalFriend.getWaitingDistance() 
+			>panel.getFriendlyLivingBeings().get(panel.getFriendlyLivingBeings().size()-1).getRect().getX()) {
+				
+				for(JButton button: imageIconButtons) {
+					if(!button.getName().contains("Tower")) {
+						startCooldown(button);
+					}
+				}
+			}
+
+		}
+		
+
+		if(panel.getTowers().size() > 2) {
+			for(JButton button: imageIconButtons) {
+				if(button.getName().contains("Tower") && !button.getName().contains("Remove")) {
+					button.setEnabled(false);
+				}
+			}
+		}
+		
 		if(imageIconButtons.size() > 0) {
 			for(JButton imageButton: imageIconButtons) {
 	    		if(imageButton.getName().equals("NormalLizardButton")) {
@@ -84,6 +114,7 @@ public class ImageIconManager {
 
 	                });
 	    		}else if(imageButton.getName().equals("NormalStoneTowerButton")) {
+	    			
 	    			imageButton.addActionListener(e -> {
 	    				spawnNormalStoneTower(imageButton);
 	    				
@@ -181,6 +212,17 @@ public class ImageIconManager {
 	
 	private void spawnMagicStoneTower(JButton imageButton) {
 		
+		
+		Runnable run = ()->{
+			
+			for(JButton button: imageIconButtons) {
+				if(button.getName().contains("Magic")) {
+					button.setEnabled(false);
+				}
+			}
+			
+		};
+		
 		if(panel.getTowers().size()==0) {
 			
 			boolean alreadyThere = false;
@@ -195,11 +237,7 @@ public class ImageIconManager {
 			if(!alreadyThere) {
 				panel.addTowers(Towers.NORMAL_MAGIC_TOWER_01.getTower());	
 				
-				for(JButton button: imageIconButtons) {
-					if(button.getName().contains("Magic")) {
-						button.setEnabled(false);
-					}
-				}
+				run.run();
 			}
 		
 		}else if(panel.getTowers().size()==1) {
@@ -215,11 +253,7 @@ public class ImageIconManager {
 			if(!alreadyThere) {
 				panel.addTowers(Towers.NORMAL_MAGIC_TOWER_02.getTower());	
 				
-				for(JButton button: imageIconButtons) {
-					if(button.getName().contains("Magic")) {
-						button.setEnabled(false);
-					}
-				}
+				run.run();
 			}
 			
 		}else if(panel.getTowers().size()==2) {
@@ -322,24 +356,12 @@ public class ImageIconManager {
 	
 	private void startCooldown(JButton button) {
 		
-//		int normalLizardCoolDown = 2000;
-//		int intermediateLizardCoolDown = 5000;
-		
 		if(imageIconButtons.size() > 0) {
 			
 			cooldownImageIconsMapActive.put(button.getName(), true);
 			cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis());
 			defaultCoolDowns(button);
-//	    	switch (button.getName()) {
-//	        	case "NormalLizardButton":
-//	        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + normalLizardCoolDown);
-//	        		defaultCoolDowns(button);
-//	        		break;
-//	        	case "IntermediateLizardButton":
-//	        		cooldownImageIconsMapEndTime.put(button.getName(), System.currentTimeMillis() + intermediateLizardCoolDown);
-//	        		defaultCoolDowns(button);
-//	        		break;
-//	    	}
+
 	    	
 	    	if (!button.getName().contains("Tower")) {
                 button.setEnabled(false);

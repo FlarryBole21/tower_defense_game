@@ -20,7 +20,7 @@ public class BeingLifeBar extends LifeBar{
 	}
 	
 	
-	public void drawLifeBar(Graphics g, int health, boolean isFriendly) {
+	public void drawLifeBar(Graphics g, double health, boolean isFriendly) {
         int maxHealth = 100; 
    
         if(getPanel().getFriendlyLivingBeings().size() > 0) {
@@ -30,9 +30,9 @@ public class BeingLifeBar extends LifeBar{
             	int divisor = 1;
             	
             	if(getPanel().getFriendlyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             	}else if (getPanel().getFriendlyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             	}
           
             	if(isFriendly) {
@@ -56,9 +56,9 @@ public class BeingLifeBar extends LifeBar{
             	int divisor = 1;
             	
             	if(getPanel().getEnemyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             	}else if (getPanel().getEnemyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             	}
             	
             	if(!isFriendly) {
@@ -78,9 +78,9 @@ public class BeingLifeBar extends LifeBar{
         
         int lifeBarWidth=0;
         if(isFriendly) {
-        	lifeBarWidth = (getLifeBarWidthFriend()  * health) / maxHealth;
+        	lifeBarWidth = (int)((getLifeBarWidthFriend()  * health) / maxHealth);
         }else {
-        	lifeBarWidth = (getLifeBarWidthEnemy() * health) / maxHealth;
+        	lifeBarWidth = (int)((getLifeBarWidthEnemy() * health) / maxHealth);
         }
         
         g.setColor(isFriendly ? Color.GREEN : Color.RED);
@@ -93,7 +93,7 @@ public class BeingLifeBar extends LifeBar{
 	
 	public void drawLifeBarBorder(Graphics g, boolean isFriendly) {
         int maxHealth = 100;
-        int health = isFriendly ? Beings.FRIENDLY_NORMAL_LIZARD.getHealth() : Beings.ENEMY_NORMAL_LIZARD.getHealth();
+        double health = isFriendly ? Beings.FRIENDLY_NORMAL_LIZARD.getHealth() : Beings.ENEMY_NORMAL_LIZARD.getHealth();
         
 	
         if(getPanel().getFriendlyLivingBeings().size() > 0) {
@@ -103,13 +103,13 @@ public class BeingLifeBar extends LifeBar{
             	int divisor = 1;
             	
             	if(getPanel().getFriendlyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             		
             		if(isFriendly) {
             			health = Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth();
             		}
             	}else if (getPanel().getFriendlyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             		
             		if(isFriendly) {
             			health = Beings.FRIENDLY_NORMAL_BEAR.getHealth();
@@ -137,14 +137,14 @@ public class BeingLifeBar extends LifeBar{
             	int divisor = 1;
             	
             	if(getPanel().getEnemyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             		
             		if(!isFriendly) {
             			health = Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth();
             		}
             		
             	}else if (getPanel().getEnemyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth();
+            		divisor = (int)(Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             		
             		if(!isFriendly) {
             			health = Beings.ENEMY_NORMAL_BEAR.getHealth();
@@ -169,9 +169,9 @@ public class BeingLifeBar extends LifeBar{
         
         int lifeBarWidth=0;
         if(isFriendly) {
-        	lifeBarWidth = (getLifeBarWidthFriend()  * health) / maxHealth;
+        	lifeBarWidth = (int)((getLifeBarWidthFriend()  * health) / maxHealth);
         }else {
-        	lifeBarWidth = (getLifeBarWidthEnemy() * health) / maxHealth;
+        	lifeBarWidth = (int)((getLifeBarWidthEnemy() * health) / maxHealth);
         }
    
       

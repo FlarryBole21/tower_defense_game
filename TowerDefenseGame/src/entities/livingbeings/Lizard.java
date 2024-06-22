@@ -23,7 +23,7 @@ public abstract class Lizard extends LivingBeing{
 
 	private static final long serialVersionUID = 1L;
 
-	public Lizard(int xPos, int yPos, int width, int height, int attack, int health,boolean friendly) {
+	public Lizard(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
 		super.addAttackingAudio(Main.LIZARD_ATTACK_PLAYER);
