@@ -50,8 +50,8 @@ import game.spawner.Spawner;
 import projectiles.Projectile;
 import ui.BaseLifeBar;
 import ui.BeingLifeBar;
-import ui.CoinValues;
 import ui.ImageIconManager;
+import utils.CoinValues;
 import utils.Path;
 
 public class GamePanel extends JPanel implements ActionListener {

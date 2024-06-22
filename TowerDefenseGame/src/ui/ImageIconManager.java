@@ -28,6 +28,7 @@ import entities.towers.Towers;
 import game.GamePanel;
 import game.Main;
 import ui.setter.PanelSetter;
+import utils.CoinValues;
 import utils.Path;
 
 public class ImageIconManager {
@@ -233,7 +234,35 @@ public class ImageIconManager {
 				button.setEnabled(false);
 				
 			}else if(coinTester(button) && !button.getName().contains("Remove")) {
-				button.setEnabled(true);
+				
+				
+				if(button.getName().contains("Tower") && panel.getTowers().size() < 3) {
+					
+					
+					if(button.getName().contains("Magic")) {
+						
+						
+						boolean alreadyThere = false;
+						
+						for(Tower tower :panel.getTowers()) {
+							if(tower instanceof MagicTower) {
+								alreadyThere=true;
+							}
+							
+						}
+						
+						if(!alreadyThere) {
+							button.setEnabled(true);
+						}
+						
+					}else {
+						
+						button.setEnabled(true);
+						
+					}
+
+				}
+				
 			}
 		}
 	}
@@ -473,6 +502,14 @@ public class ImageIconManager {
 	
     
     public void updateImageIcons() {
+    	
+    	
+    	for(JButton button: imageIconButtons) {
+			if(!coinTester(button) && button.getName().contains("Tower") &&!button.getName().contains("Remove")) {
+				button.setEnabled(false);
+				
+			}
+		}
     	
     	if(imageIconButtons.size() > 0){
     		

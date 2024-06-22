@@ -8,9 +8,9 @@ public enum Beings {
 	FRIENDLY_NORMAL_LIZARD(new NormalLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 10, 200, true)),
 	ENEMY_NORMAL_LIZARD(new NormalLizard(GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-30,
 			570, 100, 100, 10, 200, false)),
-	FRIENDLY_INTERMEDIATE_LIZARD(new IntermediateLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 20, 800, true)),
+	FRIENDLY_INTERMEDIATE_LIZARD(new IntermediateLizard(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 20, 500, true)),
 	ENEMY_INTERMEDIATE_LIZARD(new IntermediateLizard(GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-30,
-			570, 100, 100, 20, 800, false)),
+			570, 100, 100, 20, 500, false)),
 	FRIENDLY_NORMAL_BEAR(new NormalBear(Bases.FRIENDLY_CAVE.getBase().getRect().getWidth()-70, 570, 100, 100, 50, 2000, true)),
 	ENEMY_NORMAL_BEAR(new NormalBear(GamePanel.SCREENSIZE.width-Bases.ENEMY_CAVE.getBase().getRect().getWidth()-30,
 	        570, 100, 100, 50, 2000, false));

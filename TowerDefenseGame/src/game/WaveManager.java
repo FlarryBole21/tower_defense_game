@@ -16,8 +16,8 @@ import entities.towers.Towers;
 import game.spawner.SecondLineUpSpawner;
 import game.spawner.FirstLineUpSpawner;
 import game.spawner.Spawner;
-import ui.CoinValues;
 import ui.setter.ButtonSetter;
+import utils.CoinValues;
 import utils.Path;
 
 public class WaveManager {

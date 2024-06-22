@@ -16,6 +16,7 @@ import entities.towers.MagicTower;
 import entities.towers.Tower;
 import game.GamePanel;
 import game.Main;
+import utils.CoinValues;
 import utils.Path;
 
 public abstract class LivingBeing extends Entity{
@@ -266,6 +267,18 @@ public abstract class LivingBeing extends Entity{
         	if(isFriendly()) {
         		deathStart();
         	}else {
+        		
+        		
+        		if(this instanceof NormalLizard) {
+        			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_LIZARD_LOOT.getValue());
+        		}else if(this instanceof IntermediateLizard) {
+        			panel.setCoins(panel.getCoins()+CoinValues.INTERMEDIATE_LIZARD_LOOT.getValue());
+        		}else if(this instanceof NormalBear) {
+        			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_BEAR_LOOT.getValue());
+        		}
+        		
+        		panel.getWaveManager().updateWaveLabel();
+            	panel.getImageIconManager().coinTestingForAllButRemove();
         		deathStart();
         	}
         	

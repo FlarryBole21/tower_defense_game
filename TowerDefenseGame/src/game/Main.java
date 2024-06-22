@@ -29,12 +29,12 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
-import ui.CoinValues;
 import ui.setter.ButtonSetter;
 import ui.setter.FrameSetter;
 import ui.setter.LabelSetter;
 import ui.setter.MenuBarSetter;
 import ui.setter.PanelSetter;
+import utils.CoinValues;
 import utils.Path;
 
 
