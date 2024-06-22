@@ -1,7 +1,8 @@
 package ui;
 
-public enum ImageIconCoinValues {
+public enum CoinValues {
 	
+	START_COIN_VALUE(200),
 	NORMAL_LIZARD(15),
 	INTERMEDIATE_LIZARD(50),
 	NORMAL_BEAR(50),
@@ -10,7 +11,7 @@ public enum ImageIconCoinValues {
 	
 	private int value;
 	
-	ImageIconCoinValues(int value){
+	CoinValues(int value){
 		this.value=value;
 		
 	}

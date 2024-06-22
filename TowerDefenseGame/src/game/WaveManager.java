@@ -16,7 +16,7 @@ import entities.towers.Towers;
 import game.spawner.SecondLineUpSpawner;
 import game.spawner.FirstLineUpSpawner;
 import game.spawner.Spawner;
-import ui.ImageIconCoinValues;
+import ui.CoinValues;
 import ui.setter.ButtonSetter;
 import utils.Path;
 
@@ -134,20 +134,27 @@ public class WaveManager {
             	
             	if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() >0) {
 	                wave++;
+//	                if(wave==2) {
+//	                	panel.setCoins(200);
+//	                	updateWaveLabel();
+//	                	panel.getImageIconManager().coinTestingForAllButRemove();
+//	                	
+//	                
+//	                }
 	                if(wave >= 4) {
 	                	//friendlySpawner.stopSpawning();
 	                	panel.getImageIconManager().getImageIconButtons().clear();
 	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 
-	            						ImageIconCoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
+	            						CoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
 	            		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 
-	            						ImageIconCoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
+	            						CoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
 	            		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 0,64, 64);
 	            		JButton normalBearImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_BEAR, "NormalBearButton", 
-	            						ImageIconCoinValues.NORMAL_BEAR.getValue(),64, 64);
+	            						CoinValues.NORMAL_BEAR.getValue(),64, 64);
 	                	
 	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerImageButton);
 	            		panel.getImageIconManager().addImageIconButton(normalMagicTowerImageButton);
@@ -193,7 +200,7 @@ public class WaveManager {
         });
 	}
 	
-	private void updateWaveLabel() {
+	public void updateWaveLabel() {
         SwingUtilities.invokeLater(() -> {
             waveLabel.setText("Welle " + wave + " Gold " + panel.getCoins());
         });

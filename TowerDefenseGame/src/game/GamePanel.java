@@ -50,6 +50,7 @@ import game.spawner.Spawner;
 import projectiles.Projectile;
 import ui.BaseLifeBar;
 import ui.BeingLifeBar;
+import ui.CoinValues;
 import ui.ImageIconManager;
 import utils.Path;
 
@@ -88,7 +89,7 @@ public class GamePanel extends JPanel implements ActionListener {
         friendlyWaitingBeings = new LinkedList<>();
         enemyWaitingBeings = new LinkedList<>();
         towers = new LinkedList<>();
-        coins=100;
+        coins=CoinValues.START_COIN_VALUE.getValue();
   
     }
     
@@ -283,7 +284,7 @@ public class GamePanel extends JPanel implements ActionListener {
         
         towers.clear();
         
-        
+        coins=CoinValues.START_COIN_VALUE.getValue();
         waveManager.reset();
         
         for (Bases base : Bases.values()) {

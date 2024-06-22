@@ -29,7 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
-import ui.ImageIconCoinValues;
+import ui.CoinValues;
 import ui.setter.ButtonSetter;
 import ui.setter.FrameSetter;
 import ui.setter.LabelSetter;
@@ -164,15 +164,15 @@ public class Main {
 	
 	public static void resetImageIcons(LinkedList<JButton> imageIconButtons) {
 		JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", ImageIconCoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
+				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", CoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
 		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", ImageIconCoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
+				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", CoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
 		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
 				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 0,64, 64);
 		JButton normalLizardImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", ImageIconCoinValues.NORMAL_LIZARD.getValue(),64, 64);
+				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", CoinValues.NORMAL_LIZARD.getValue(),64, 64);
 		JButton intermediateLizardImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton",ImageIconCoinValues.INTERMEDIATE_LIZARD.getValue(), 64, 64);
+				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton",CoinValues.INTERMEDIATE_LIZARD.getValue(), 64, 64);
 		
 		imageIconButtons.add(normalStoneTowerImageButton);
 		imageIconButtons.add(normalMagicTowerImageButton);
