@@ -1,11 +1,21 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import entities.livingbeings.Beings;
@@ -17,6 +27,7 @@ import entities.towers.Tower;
 import entities.towers.Towers;
 import game.GamePanel;
 import game.Main;
+import ui.setter.PanelSetter;
 import utils.Path;
 
 public class ImageIconManager {
@@ -485,7 +496,7 @@ public class ImageIconManager {
     
     
     
-    public void refreshImageIcons() {
+    public void refreshImageIcons() throws IOException {
         //panel.removeAll();
     	for(Component comp: panel.getComponents()) {
     		
@@ -496,8 +507,8 @@ public class ImageIconManager {
     	    		JPanel subPanel = (JPanel) comp;
     	        	subPanel.removeAll();
     	            for (JButton button : imageIconButtons) {
-    	            
-    	            	subPanel.add(button);
+    	            	
+    	            	PanelSetter.coinLabelSetting(button, subPanel);
     	            }
     	            subPanel.add(panel.getWaveManager().getWaveLabel());
     	            subPanel.revalidate();
@@ -512,7 +523,7 @@ public class ImageIconManager {
     }
     
     
-    public void returnToOriginalLineUp() {
+    public void returnToOriginalLineUp() throws IOException {
     	
     	resetCoolDowns();
     	imageIconButtons.clear();

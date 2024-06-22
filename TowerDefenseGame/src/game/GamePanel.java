@@ -264,7 +264,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
     
     
-    public void resetGame() {
+    public void resetGame() throws IOException {
     	gameStart = false;
     	Main.stopAudio();
     	Main.BACKGROUND_PLAYER.resetFrame();
@@ -314,10 +314,19 @@ public class GamePanel extends JPanel implements ActionListener {
 	        repaint(); 
 		}else {
 		    if(friendlyBase.getHealth() <= 0) {
-		    	resetGame();
+		    	try {
+					resetGame();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 		    	layout.show(Main.MAINPANEL, "LosingPanel");
 		    }else if(enemyBase.getHealth() <= 0) {
-		    	resetGame();
+		    	try {
+					resetGame();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 		    	layout.show(Main.MAINPANEL, "WinningPanel");
 		    }
 		   

@@ -22,12 +22,13 @@ public abstract class ButtonSetter {
 	}
 	
 	
-	public static JButton setImageIconButton(Path path,String name,int sizeX, int sizeY) {
+	public static JButton setImageIconButton(Path path,String name,int coinValue,int sizeX, int sizeY) {
 		
 		ImageIcon icon = new ImageIcon(path.getName());
 		JButton button = new JButton(icon);
 		button.setPreferredSize(new Dimension(sizeX,sizeY));
 		button.setName(name);
+		button.putClientProperty("coinValue", coinValue);
 		
 		return button;
 	}

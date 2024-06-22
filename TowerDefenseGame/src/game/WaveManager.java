@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,7 @@ import entities.towers.Towers;
 import game.spawner.SecondLineUpSpawner;
 import game.spawner.FirstLineUpSpawner;
 import game.spawner.Spawner;
+import ui.ImageIconCoinValues;
 import ui.setter.ButtonSetter;
 import utils.Path;
 
@@ -97,9 +99,9 @@ public class WaveManager {
     	//panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
 //    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
-    	//panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
+    	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
     	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase());
-    	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
+    	//panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
 //    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
 		
 		
@@ -125,7 +127,7 @@ public class WaveManager {
 	    }
 	}
 
-	private void waveSpawning() {
+	private void waveSpawning(){
 		TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -136,19 +138,26 @@ public class WaveManager {
 	                	//friendlySpawner.stopSpawning();
 	                	panel.getImageIconManager().getImageIconButtons().clear();
 	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
-	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 64, 64);
+	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 
+	            						ImageIconCoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
 	            		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
-	            				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 64, 64);
+	            				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 
+	            						ImageIconCoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
 	            		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
-	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 64, 64);
+	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 0,64, 64);
 	            		JButton normalBearImageButton = ButtonSetter.setImageIconButton
-	            				(Path.IMAGE_ICON_NORMAL_BEAR, "NormalBearButton", 64, 64);
+	            				(Path.IMAGE_ICON_NORMAL_BEAR, "NormalBearButton", 
+	            						ImageIconCoinValues.NORMAL_BEAR.getValue(),64, 64);
 	                	
 	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerImageButton);
 	            		panel.getImageIconManager().addImageIconButton(normalMagicTowerImageButton);
 	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerRemoveImageButton);
 	                	panel.getImageIconManager().addImageIconButton(normalBearImageButton);
-	                	panel.getImageIconManager().refreshImageIcons();
+	                	try {
+							panel.getImageIconManager().refreshImageIcons();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 	                	panel.getImageIconManager().setImageIconButtonsEvents();
 	                	
 	                	

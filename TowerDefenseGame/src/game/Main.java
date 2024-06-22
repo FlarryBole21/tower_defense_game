@@ -10,6 +10,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -28,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
+import ui.ImageIconCoinValues;
 import ui.setter.ButtonSetter;
 import ui.setter.FrameSetter;
 import ui.setter.LabelSetter;
@@ -65,11 +67,17 @@ public class Main {
 	}
 	
 	public Main() {
-		initialize();
+		try {
+			initialize();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			e.getMessage();
+		}
 	}
 
 	
-	private void initialize() {
+	private void initialize() throws IOException {
 		frame = new JFrame();
 		
 		MAINPANEL.setLayout(new CardLayout());
@@ -156,15 +164,15 @@ public class Main {
 	
 	public static void resetImageIcons(LinkedList<JButton> imageIconButtons) {
 		JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 64, 64);
+				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", ImageIconCoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
 		JButton normalMagicTowerImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", 64, 64);
+				(Path.IMAGE_ICON_NORMAL_MAGIC_TOWER, "NormalMagicTowerButton", ImageIconCoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
 		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 64, 64);
+				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 0,64, 64);
 		JButton normalLizardImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", 64, 64);
+				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", ImageIconCoinValues.NORMAL_LIZARD.getValue(),64, 64);
 		JButton intermediateLizardImageButton = ButtonSetter.setImageIconButton
-				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton", 64, 64);
+				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton",ImageIconCoinValues.INTERMEDIATE_LIZARD.getValue(), 64, 64);
 		
 		imageIconButtons.add(normalStoneTowerImageButton);
 		imageIconButtons.add(normalMagicTowerImageButton);
