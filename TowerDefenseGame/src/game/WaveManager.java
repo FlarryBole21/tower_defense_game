@@ -29,6 +29,7 @@ public class WaveManager {
     private java.util.Timer waveTimer;
     private JLabel waveLabel; 
     private int waveDelay;
+    private int waveMax;
     
     {
     	waveTimer = new java.util.Timer();
@@ -39,6 +40,7 @@ public class WaveManager {
 		this.waveLabel=waveLabel;
 		this.wave=1;
 		this.waveDelay=100000;
+		this.waveMax=5;
 //    	updateWaveLabel();
 //    	changeBackground();
     	//startConfig();
@@ -46,6 +48,15 @@ public class WaveManager {
 	}
 	
 	
+	public int getWaveMax() {
+		return waveMax;
+	}
+
+
+	public void setWaveMax(int waveMax) {
+		this.waveMax = waveMax;
+	}
+
 	public void setFriendlySpawner(Spawner friendlySpawner) {
 		this.friendlySpawner = friendlySpawner;
 	}
@@ -141,7 +152,7 @@ public class WaveManager {
 //	                	
 //	                
 //	                }
-	                if(wave >= 4) {
+	                if(wave >= 4 && wave <= waveMax) {
 	                	//friendlySpawner.stopSpawning();
 	                	panel.getImageIconManager().getImageIconButtons().clear();
 	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton

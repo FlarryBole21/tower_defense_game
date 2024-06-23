@@ -108,31 +108,38 @@ public class Main {
         JButton startButton = ButtonSetter.setButton("Spiel starten", startGameRunnable);
         JButton quitLosingTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
         JButton quitWinningTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
+        JButton quitWinningTryAgainButton2 = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
         JButton quitLosingBackToMenuButton = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
         JButton quitWinningBackToMenuButton = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
-        
+        JButton quitWinningBackToMenuButton2 = ButtonSetter.setButton("Zurück zum Menü", switchToMainMenuRunnable);
         
         LinkedList<String> menuText = new LinkedList<>(Arrays.asList("War Of Age"));
         LinkedList<String> losingText = new LinkedList<>(
         		Arrays.asList("Deine Basis wurde zerstört.","Du hast verloren!"));
         LinkedList<String> winningText = new LinkedList<>(
         		Arrays.asList("Die Basis des Gegners wurde zerstört.","Du hast gewonnen!"));
+        LinkedList<String> winningText2 = new LinkedList<>(
+        		Arrays.asList("Du hast die Wellen des Gegners überlebt.","Du hast gewonnen!"));
         
         LinkedList<JButton> menuButtons = new LinkedList<>(Arrays.asList(startButton));
         LinkedList<JButton> losingButtons = new LinkedList<>(
         		Arrays.asList(quitLosingTryAgainButton,quitLosingBackToMenuButton));
         LinkedList<JButton> winningButtons = new LinkedList<>(
         		Arrays.asList(quitWinningTryAgainButton,quitWinningBackToMenuButton));
+        LinkedList<JButton> winningButtons2 = new LinkedList<>(
+        		Arrays.asList(quitWinningTryAgainButton2,quitWinningBackToMenuButton2));
         
         JPanel menuPanel = PanelSetter.setPanel("MenuPanel",menuText, menuButtons,100,18,10,10);
         JPanel losingPanel = PanelSetter.setPanel("LosingPanel", losingText,losingButtons,100,18,10,10);
         JPanel winningPanel = PanelSetter.setPanel("WinningPanel", winningText, winningButtons,100,18,10,10);
+        JPanel winningPanel2 = PanelSetter.setPanel("WinningPanel2", winningText2, winningButtons2,100,18,10,10);
         
         
         MAINPANEL.add(menuPanel ,"MenuPanel");
         MAINPANEL.add(gamePanel, "GamePanel");
         MAINPANEL.add(losingPanel, "LosingPanel");
         MAINPANEL.add(winningPanel, "WinningPanel");
+        MAINPANEL.add(winningPanel2, "WinningPanel2");
         
         JMenuBar mb = MenuBarSetter.setMenuBar(closeRunnable,"Menü","Exit");
         

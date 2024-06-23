@@ -21,18 +21,18 @@ public class BeingLifeBar extends LifeBar{
 	
 	
 	public void drawLifeBar(Graphics g, double health, boolean isFriendly) {
-        int maxHealth = 100; 
+        double maxHealth = 100; 
    
         if(getPanel().getFriendlyLivingBeings().size() > 0) {
 
         	if(!(getPanel().getFriendlyLivingBeings().get(0) instanceof NormalLizard)) {
             	
-            	int divisor = 1;
+            	double divisor = 1;
             	
             	if(getPanel().getFriendlyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = (int)(Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             	}else if (getPanel().getFriendlyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = (int)(Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             	}
           
             	if(isFriendly) {
@@ -40,12 +40,12 @@ public class BeingLifeBar extends LifeBar{
             	}
      
             }else {
-            	int divisor = 1;
+            	double divisor = 1;
             	setLifeBarWidthFriend(maxHealth/divisor); 
             }
         	
         }else {
-        	int divisor = 1;
+        	double divisor = 1;
         	setLifeBarWidthFriend(maxHealth/divisor); 
         	
         }
@@ -53,12 +53,12 @@ public class BeingLifeBar extends LifeBar{
         if(getPanel().getEnemyLivingBeings().size() > 0) {
 
         	if(!(getPanel().getEnemyLivingBeings().get(0) instanceof NormalLizard)) {
-            	int divisor = 1;
+            	double divisor = 1;
             	
             	if(getPanel().getEnemyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = (int)(Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             	}else if (getPanel().getEnemyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = (int)(Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             	}
             	
             	if(!isFriendly) {
@@ -66,12 +66,12 @@ public class BeingLifeBar extends LifeBar{
             	}
 
             }else {
-            	int divisor = 1;
+            	double divisor = 1;
             	setLifeBarWidthEnemy(maxHealth/divisor); 
             	
             }		
         }else {
-        	int divisor = 1;
+        	double divisor = 1;
         	setLifeBarWidthEnemy(maxHealth/divisor); 
         	
         }
@@ -92,7 +92,7 @@ public class BeingLifeBar extends LifeBar{
     }
 	
 	public void drawLifeBarBorder(Graphics g, boolean isFriendly) {
-        int maxHealth = 100;
+        double maxHealth = 100;
         double health = isFriendly ? Beings.FRIENDLY_NORMAL_LIZARD.getHealth() : Beings.ENEMY_NORMAL_LIZARD.getHealth();
         
 	
@@ -100,16 +100,16 @@ public class BeingLifeBar extends LifeBar{
 
         	if(!(getPanel().getFriendlyLivingBeings().get(0) instanceof NormalLizard)) {
             	
-            	int divisor = 1;
+            	double divisor = 1;
             	
             	if(getPanel().getFriendlyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = (int)(Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             		
             		if(isFriendly) {
             			health = Beings.FRIENDLY_INTERMEDIATE_LIZARD.getHealth();
             		}
             	}else if (getPanel().getFriendlyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = (int)(Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.FRIENDLY_NORMAL_BEAR.getHealth()/Beings.FRIENDLY_NORMAL_LIZARD.getHealth());
             		
             		if(isFriendly) {
             			health = Beings.FRIENDLY_NORMAL_BEAR.getHealth();
@@ -121,12 +121,12 @@ public class BeingLifeBar extends LifeBar{
             	}
      
             }else {
-            	int divisor = 1;
+            	double divisor = 1;
             	setLifeBarWidthFriend(maxHealth/divisor); 	
             }
         	
         }else {
-        	int divisor = 1;
+        	double divisor = 1;
         	setLifeBarWidthFriend(maxHealth/divisor); 
         	
         }
@@ -134,17 +134,17 @@ public class BeingLifeBar extends LifeBar{
         if(getPanel().getEnemyLivingBeings().size() > 0) {
 
         	if(!(getPanel().getEnemyLivingBeings().get(0) instanceof NormalLizard)) {
-            	int divisor = 1;
+            	double divisor = 1;
             	
             	if(getPanel().getEnemyLivingBeings().get(0) instanceof IntermediateLizard) {
-            		divisor = (int)(Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             		
             		if(!isFriendly) {
             			health = Beings.ENEMY_INTERMEDIATE_LIZARD.getHealth();
             		}
             		
             	}else if (getPanel().getEnemyLivingBeings().get(0) instanceof NormalBear) {
-            		divisor = (int)(Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
+            		divisor = (Beings.ENEMY_NORMAL_BEAR.getHealth()/Beings.ENEMY_NORMAL_LIZARD.getHealth());
             		
             		if(!isFriendly) {
             			health = Beings.ENEMY_NORMAL_BEAR.getHealth();
@@ -156,11 +156,11 @@ public class BeingLifeBar extends LifeBar{
             	}
 
             }else {
-            	int divisor = 1;
+            	double divisor = 1;
             	setLifeBarWidthEnemy(maxHealth/divisor); 
             }		
         }else {
-        	int divisor = 1;
+        	double divisor = 1;
         	
         	setLifeBarWidthEnemy(maxHealth/divisor); 
         	

@@ -5,13 +5,13 @@ import game.GamePanel;
 public abstract class LifeBar {
 	
 	private GamePanel panel;
-	private int lifeBarWidthFriend;
-    private int lifeBarWidthEnemy;
+	private double lifeBarWidthFriend;
+    private double lifeBarWidthEnemy;
     private int lifeBarHeight;
     private int lifeBarX;
     private int lifeBarY;
     
-	public LifeBar(GamePanel panel,int lifeBarWidthFriend, int lifeBarWidthEnemy, 
+	public LifeBar(GamePanel panel,double lifeBarWidthFriend, double lifeBarWidthEnemy, 
 			int lifeBarHeight, int lifeBarX, int lifeBarY) {
 		this.panel=panel;
 		this.lifeBarWidthFriend = lifeBarWidthFriend;
@@ -29,19 +29,19 @@ public abstract class LifeBar {
 
 
 
-	public int getLifeBarWidthFriend() {
+	public double getLifeBarWidthFriend() {
 		return lifeBarWidthFriend;
 	}
 
-	public void setLifeBarWidthFriend(int lifeBarWidthFriend) {
+	public void setLifeBarWidthFriend(double lifeBarWidthFriend) {
 		this.lifeBarWidthFriend = lifeBarWidthFriend;
 	}
 
-	public int getLifeBarWidthEnemy() {
+	public double getLifeBarWidthEnemy() {
 		return lifeBarWidthEnemy;
 	}
 
-	public void setLifeBarWidthEnemy(int lifeBarWidthEnemy) {
+	public void setLifeBarWidthEnemy(double lifeBarWidthEnemy) {
 		this.lifeBarWidthEnemy = lifeBarWidthEnemy;
 	}
 

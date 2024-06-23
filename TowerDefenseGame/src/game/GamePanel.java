@@ -312,8 +312,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
 		}
 		
-		
-		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart) {
+
+		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart && waveManager.getWave() <= waveManager.getWaveMax()) {
 			updateGame(); 
 	        repaint(); 
 		}else {
@@ -332,6 +332,18 @@ public class GamePanel extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 		    	layout.show(Main.MAINPANEL, "WinningPanel");
+		    }else if(waveManager.getWave() > waveManager.getWaveMax()){
+		    	
+		    	
+		    	
+		    	
+		    	try {
+					resetGame();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		    	layout.show(Main.MAINPANEL, "WinningPanel2");
+
 		    }
 		   
 		}
