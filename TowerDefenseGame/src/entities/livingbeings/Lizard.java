@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import audio.AudioPlayer;
+import audio.AudioPlayers;
 import game.GamePanel;
 import game.Main;
 import utils.Path;
@@ -26,8 +27,8 @@ public abstract class Lizard extends LivingBeing{
 	public Lizard(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
-		super.addAttackingAudio(Main.LIZARD_ATTACK_PLAYER);
-		super.addAttackingAudio(Main.LIZARD_SPEAK_PLAYER);
+		super.addAttackingAudio(AudioPlayers.LIZARD_ATTACK_PLAYER.getPlayer());
+		super.addAttackingAudio(AudioPlayers.LIZARD_SPEAK_PLAYER.getPlayer());
 		super.setAttackingDistance(20);
 		super.setWaitingDistance(110);
 		super.setFrameDelay(100);

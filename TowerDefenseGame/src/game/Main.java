@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import audio.AudioPlayer;
+import audio.AudioPlayers;
 import ui.setter.ButtonSetter;
 import ui.setter.FrameSetter;
 import ui.setter.LabelSetter;
@@ -43,14 +44,11 @@ public class Main {
 	private JFrame frame;
 	public final static JPanel MAINPANEL = new JPanel();
 	public final static Main WINDOW = new Main();
-	public final static AudioPlayer BACKGROUND_PLAYER=new AudioPlayer(Path.MAIN_BACKGROUND_MUSIC.getName(),true,true,true);
-	public final static AudioPlayer DANGER_PLAYER=new AudioPlayer(Path.DANGER_BACKGROUND_MUSIC.getName(),false,true,false);
-	public final static AudioPlayer LIZARD_ATTACK_PLAYER= new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true,false);
-	public final static AudioPlayer LIZARD_SPEAK_PLAYER= new AudioPlayer(Path.LIZARD_SPEAK_SOUND.getName(),false,false,false);
-	public final static AudioPlayer BEAR_ATTACK_PLAYER= new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true,false);
-	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,BEAR_ATTACK_PLAYER};
-	public final static AudioPlayer[] AUDIO_FILES = new AudioPlayer[] {BACKGROUND_PLAYER,DANGER_PLAYER,LIZARD_ATTACK_PLAYER,LIZARD_SPEAK_PLAYER,
-			BEAR_ATTACK_PLAYER};
+	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {
+			AudioPlayers.LIZARD_ATTACK_PLAYER.getPlayer(),
+			AudioPlayers.LIZARD_SPEAK_PLAYER.getPlayer(),
+			AudioPlayers.BEAR_ATTACK_PLAYER.getPlayer()
+			};
 	private static boolean FIRSTTIME;
 
 	public static void main(String[] args) {
@@ -187,11 +185,11 @@ public class Main {
 	
 	public static void startGame(GamePanel gamePanel, CardLayout cardLayout) {
 		if(FIRSTTIME) {
-			WINDOW.startAudio(BACKGROUND_PLAYER);
+			WINDOW.startAudio(AudioPlayers.BACKGROUND_PLAYER.getPlayer());
 			FIRSTTIME=false;
 		}else {
-			BACKGROUND_PLAYER.resetFrame();
-			BACKGROUND_PLAYER.play();
+			AudioPlayers.BACKGROUND_PLAYER.getPlayer().resetFrame();
+			AudioPlayers.BACKGROUND_PLAYER.getPlayer().play();
 		}
 		
         gamePanel.setGameStart(true);
@@ -218,7 +216,9 @@ public class Main {
 	
 	
 	public static void stopAudio() {
-		for(AudioPlayer player: AUDIO_FILES) {
+		for(AudioPlayers players: AudioPlayers.values()) {
+			AudioPlayer player = players.getPlayer();
+
     		if(player != null) {
     			player.stop();            		
     		}

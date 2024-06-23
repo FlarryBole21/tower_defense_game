@@ -25,6 +25,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.Timer;
+
+import audio.AudioPlayers;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -268,7 +271,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void resetGame() throws IOException {
     	gameStart = false;
     	Main.stopAudio();
-    	Main.BACKGROUND_PLAYER.resetFrame();
+    	AudioPlayers.BACKGROUND_PLAYER.getPlayer().resetFrame();
     	
     	friendlyLivingBeings.clear();
         enemyLivingBeings.clear();

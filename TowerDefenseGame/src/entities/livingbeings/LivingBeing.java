@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
 import audio.AudioPlayer;
+import audio.AudioPlayers;
 import entities.Entity;
 import entities.bases.Bases;
 import entities.towers.MagicTower;
@@ -307,19 +308,20 @@ public abstract class LivingBeing extends Entity{
 			if(panel.getEnemyLivingBeings().size() > 0) {
 				
 				if(!isFriendly() && this == panel.getEnemyLivingBeings().get(0) 
-						&&this.getRect().getX()<= panel.getFriendlyBase().getRect().getWidth()+dangerDistance && !Main.DANGER_PLAYER.isPlay()) {
-					Main.BACKGROUND_PLAYER.stop();
-					Main.DANGER_PLAYER.setPlay(true);
+						&&this.getRect().getX()<= panel.getFriendlyBase().getRect().getWidth()+dangerDistance 
+						&& !AudioPlayers.DANGER_PLAYER.getPlayer().isPlay()) {
+					AudioPlayers.BACKGROUND_PLAYER.getPlayer().stop();
+					AudioPlayers.DANGER_PLAYER.getPlayer().setPlay(true);
 				}else if(panel.getEnemyLivingBeings().size() > 1) {
 					
-					if(!Main.BACKGROUND_PLAYER.isPlay() && !isFriendly() && 
+					if(!AudioPlayers.BACKGROUND_PLAYER.getPlayer().isPlay() && !isFriendly() && 
 							panel.getEnemyLivingBeings().get(0).getRect().getX()> 
 					panel.getFriendlyBase().getRect().getWidth()+dangerDistance
 							&& panel.getEnemyLivingBeings().get(1).getRect().getX()> 
 					panel.getFriendlyBase().getRect().getWidth()+(dangerDistance*4) ){
 						
-						Main.DANGER_PLAYER.stop();
-						Main.BACKGROUND_PLAYER.setPlay(true);
+						AudioPlayers.DANGER_PLAYER.getPlayer().stop();
+						AudioPlayers.BACKGROUND_PLAYER.getPlayer().setPlay(true);
 						attackingBase=false;
 						
 						for(AudioPlayer player: attackingAudio) {
@@ -331,9 +333,9 @@ public abstract class LivingBeing extends Entity{
 					}
 				}
 
-			}else if(!Main.BACKGROUND_PLAYER.isPlay()){
-				Main.DANGER_PLAYER.stop();
-				Main.BACKGROUND_PLAYER.setPlay(true);
+			}else if(!AudioPlayers.BACKGROUND_PLAYER.getPlayer().isPlay()){
+				AudioPlayers.DANGER_PLAYER.getPlayer().stop();
+				AudioPlayers.BACKGROUND_PLAYER.getPlayer().setPlay(true);
 				attackingBase=false;
 				for(AudioPlayer player: attackingAudio) {
 					if(!player.isLoop() && player.isPlay()) {
