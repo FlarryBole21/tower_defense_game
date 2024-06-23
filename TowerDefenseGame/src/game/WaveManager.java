@@ -23,6 +23,7 @@ import utils.Path;
 public class WaveManager {
 	
 	private GamePanel panel;
+	private static final int LINEUPSPAWNERDELAY = 5000;
 	private Spawner friendlySpawner;
     private Spawner enemySpawner;
     private int wave;
@@ -118,7 +119,7 @@ public class WaveManager {
 		
 //        friendlySpawner = new LizardSpawner(30000,panel,true);
 //        friendlySpawner.startSpawning();
-        enemySpawner = new FirstLineUpSpawner(5000,panel,false);
+        enemySpawner = new FirstLineUpSpawner(LINEUPSPAWNERDELAY ,panel,false);
         enemySpawner.startSpawning();
         
         waveSpawning();
@@ -182,7 +183,7 @@ public class WaveManager {
 	                	enemySpawner.stopSpawning();
 //	                	friendlySpawner = new BearSpawner(30000,panel,true);
 //	                    friendlySpawner.startSpawning();
-	                    enemySpawner = new SecondLineUpSpawner(5000,panel,false);
+	                    enemySpawner = new SecondLineUpSpawner(LINEUPSPAWNERDELAY,panel,false);
 	                    enemySpawner.startSpawning();
 	//                    removeBaseBases();
 	//                    addBaseBases(Bases.FRIENDLY_FORTRESS.getBase(),towersPlayer);

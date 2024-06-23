@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import entities.livingbeings.AdvancedLizard;
 import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
@@ -126,6 +127,15 @@ public class ImageIconManager {
 	    				panel.setCoins(panel.getCoins()-CoinValues.INTERMEDIATE_LIZARD.getValue());
 	    				panel.getWaveManager().updateWaveLabel();
 	    				spawnIntermediateLizardEvent(imageButton);
+	    				
+
+	                });
+	    		}else if(imageButton.getName().equals("AdvancedLizardButton")) {
+	    			imageButton.addActionListener(e -> {
+	    				
+	    				panel.setCoins(panel.getCoins()-CoinValues.ADVANCED_LIZARD.getValue());
+	    				panel.getWaveManager().updateWaveLabel();
+	    				spawnAdvancedLizardEvent(imageButton);
 	    				
 
 	                });
@@ -414,6 +424,24 @@ public class ImageIconManager {
 	}
 	
 	
+	private void spawnAdvancedLizardEvent(JButton imageButton) {
+		
+		Beings friend = Beings.FRIENDLY_ADVANCED_LIZARD;
+
+		Runnable runnable = () -> {
+			AdvancedLizard newLizard = new AdvancedLizard(friend.getxPos(), friend.getyPos(),
+					friend.getWidth(), friend.getHeigth(), friend.getAttack(),
+	                friend.getHealth(), friend.isFriendly());
+			newLizard.resetState(friend);
+			panel.getFriendlyLivingBeings().add(newLizard);
+			startCooldown(imageButton);
+		};
+
+		spawnFriend(friend, runnable);
+	}
+
+	
+	
 	private void spawnNormalBearEvent(JButton imageButton) {
 		
 		Beings friend = Beings.FRIENDLY_NORMAL_BEAR;
@@ -579,7 +607,12 @@ public class ImageIconManager {
     		if(panel.getCoins() < CoinValues.INTERMEDIATE_LIZARD.getValue()) {
         		return false;
         	}
-    	}else if(imageButton.getName().equals("NormalBearButton")) {
+    	}else if(imageButton.getName().equals("AdvancedLizardButton")) {
+    		if(panel.getCoins() < CoinValues.ADVANCED_LIZARD.getValue()) {
+        		return false;
+        	}
+    	}
+    	else if(imageButton.getName().equals("NormalBearButton")) {
     		if(panel.getCoins() < CoinValues.NORMAL_BEAR.getValue()) {
         		return false;
         	}

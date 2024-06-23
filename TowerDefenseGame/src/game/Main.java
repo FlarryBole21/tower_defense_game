@@ -178,6 +178,8 @@ public class Main {
 				(Path.IMAGE_ICON_NORMAL_LIZARD, "NormalLizardButton", CoinValues.NORMAL_LIZARD.getValue(),64, 64);
 		JButton intermediateLizardImageButton = ButtonSetter.setImageIconButton
 				(Path.IMAGE_ICON_INTERMEDIATE_LIZARD, "IntermediateLizardButton",CoinValues.INTERMEDIATE_LIZARD.getValue(), 64, 64);
+		JButton advancedLizardImageButton = ButtonSetter.setImageIconButton
+				(Path.IMAGE_ICON_ADVANCED_LIZARD, "AdvancedLizardButton",CoinValues.ADVANCED_LIZARD.getValue(), 64, 64);
 		
 		imageIconButtons.add(normalStoneTowerImageButton);
 		imageIconButtons.add(normalMagicTowerImageButton);
@@ -185,6 +187,7 @@ public class Main {
 		normalStoneTowerRemoveImageButton.setEnabled(false);
         imageIconButtons.add(normalLizardImageButton);
         imageIconButtons.add(intermediateLizardImageButton);
+        imageIconButtons.add(advancedLizardImageButton);
 	}
 	
 	

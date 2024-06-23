@@ -23,7 +23,7 @@ import utils.Path;
 public abstract class LivingBeing extends Entity{
 	
 	private static final long serialVersionUID = 1L;
-	
+	private static final int MIDDLE_HITBOX = 900;
 	private int attack;
 	private ImageIcon imageIcon;
 	private String pathImage;
@@ -274,6 +274,8 @@ public abstract class LivingBeing extends Entity{
         			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_LIZARD_LOOT.getValue());
         		}else if(this instanceof IntermediateLizard) {
         			panel.setCoins(panel.getCoins()+CoinValues.INTERMEDIATE_LIZARD_LOOT.getValue());
+        		}else if(this instanceof AdvancedLizard) {
+        			panel.setCoins(panel.getCoins()+CoinValues.ADVANCED_LIZARD_LOOT.getValue());
         		}else if(this instanceof NormalBear) {
         			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_BEAR_LOOT.getValue());
         		}
@@ -519,8 +521,8 @@ public abstract class LivingBeing extends Entity{
 		//System.out.println(panel.getBaseWidth());
 		int differenceMiddle=0;
 		
-		if(panel.getEnemyLivingBeings().get(0).getRect().getX() < 900) {
-			differenceMiddle=  Math.abs(panel.getEnemyLivingBeings().get(0).getRect().getX()-900);
+		if(panel.getEnemyLivingBeings().get(0).getRect().getX() < MIDDLE_HITBOX) {
+			differenceMiddle=  Math.abs(panel.getEnemyLivingBeings().get(0).getRect().getX()-MIDDLE_HITBOX);
 		}
 		
 	
