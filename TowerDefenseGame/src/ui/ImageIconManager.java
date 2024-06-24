@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -23,6 +24,7 @@ import entities.livingbeings.Beings;
 import entities.livingbeings.IntermediateLizard;
 import entities.livingbeings.NormalBear;
 import entities.livingbeings.NormalLizard;
+import entities.livingbeings.NormalSpider;
 import entities.towers.MagicTower;
 import entities.towers.Tower;
 import entities.towers.Towers;
@@ -137,6 +139,14 @@ public class ImageIconManager {
 	    				panel.getWaveManager().updateWaveLabel();
 	    				spawnAdvancedLizardEvent(imageButton);
 	    				
+
+	                });
+	    		}else if(imageButton.getName().equals("NormalSpiderButton")) {
+	    			imageButton.addActionListener(e -> {
+	    				panel.setCoins(panel.getCoins()-CoinValues.NORMAL_SPIDER.getValue());
+	    				panel.getWaveManager().updateWaveLabel();
+	    				spawnNormalSpiderEvent(imageButton);
+	    			
 
 	                });
 	    		}else if(imageButton.getName().equals("NormalBearButton")) {
@@ -440,7 +450,22 @@ public class ImageIconManager {
 		spawnFriend(friend, runnable);
 	}
 
-	
+	private void spawnNormalSpiderEvent(JButton imageButton) {
+	    
+	    Beings friend = Beings.FRIENDLY_NORMAL_SPIDER;
+	    
+	    Runnable runnable = ()->{
+	        NormalSpider newSpider = new NormalSpider(friend.getxPos(), friend.getyPos(),
+	                friend.getWidth(), friend.getHeigth(), friend.getAttack(),
+	                friend.getHealth(), friend.isFriendly());
+	        newSpider.resetState(friend);
+	        panel.getFriendlyLivingBeings().add(newSpider);
+	        startCooldown(imageButton);
+	    };
+	    
+	    spawnFriend(friend, runnable);
+	}
+
 	
 	private void spawnNormalBearEvent(JButton imageButton) {
 		
@@ -460,6 +485,8 @@ public class ImageIconManager {
 		
 	} 
 	
+	
+
 	
 	private void spawnFriend(Beings friend,Runnable runnable) {
 		
@@ -609,6 +636,10 @@ public class ImageIconManager {
         	}
     	}else if(imageButton.getName().equals("AdvancedLizardButton")) {
     		if(panel.getCoins() < CoinValues.ADVANCED_LIZARD.getValue()) {
+        		return false;
+        	}
+    	}else if(imageButton.getName().equals("NormalSpiderButton")) {
+    		if(panel.getCoins() < CoinValues.NORMAL_SPIDER.getValue()) {
         		return false;
         	}
     	}

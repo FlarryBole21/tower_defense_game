@@ -18,32 +18,33 @@ public class BaseLifeBar extends LifeBar{
 	
 	public void drawLifeBar(Graphics g, double health, boolean isFriendly) {
         int maxHealth = 100; 
+        int divisor = 1;
         if(!(getPanel().getFriendlyBase() instanceof Cave)) {
-        	
-        	int divisor = 1;
         	
         	if(getPanel().getFriendlyBase() instanceof Fortress) {
         		divisor = (int) (Bases.FRIENDLY_FORTRESS.getHealth()/Bases.FRIENDLY_CAVE.getHealth());
         	}
-      
-        	if(isFriendly) {
-        		setLifeBarWidthFriend(maxHealth/divisor); 
-        	}
+     
  
         }
         
+        
+    	if(isFriendly) {
+    		setLifeBarWidthFriend(maxHealth/divisor); 
+    	}
+
         if(!(getPanel().getEnemyBase() instanceof Cave)) {
-        	int divisor = 1;
+        	
         	
         	if(getPanel().getEnemyBase() instanceof Fortress) {
         		divisor = (int) (Bases.ENEMY_FORTRESS.getHealth()/Bases.ENEMY_CAVE.getHealth());
         	}
-        	
-        	if(!isFriendly) {
-        		setLifeBarWidthEnemy(maxHealth/divisor); 
-        	}
-
+  
         }
+        
+        if(!isFriendly) {
+    		setLifeBarWidthEnemy(maxHealth/divisor); 
+    	}
         
         int lifeBarWidth=0;
         if(isFriendly) {
@@ -62,11 +63,12 @@ public class BaseLifeBar extends LifeBar{
 	
 	public void drawLifeBarBorder(Graphics g, boolean isFriendly) {
         int maxHealth = 100;
+        int divisor = 1;
         double health = isFriendly ? Bases.FRIENDLY_CAVE.getHealth() : Bases.ENEMY_CAVE.getHealth();
         
         if(!(getPanel().getFriendlyBase() instanceof Cave)) {
         	
-        	int divisor = 1;
+        
         	
         	if(getPanel().getFriendlyBase() instanceof Fortress) {
         		divisor = (int)(Bases.FRIENDLY_FORTRESS.getHealth()/Bases.FRIENDLY_CAVE.getHealth());
@@ -78,15 +80,13 @@ public class BaseLifeBar extends LifeBar{
         		
         	}
       
-        	
-        	if(isFriendly) {
-        		setLifeBarWidthFriend(maxHealth/divisor); 
-        	}
-        	
         }
         
+        if(isFriendly) {
+    		setLifeBarWidthFriend(maxHealth/divisor); 
+    	}
+        
         if(!(getPanel().getEnemyBase() instanceof Cave)) {
-        	int divisor = 1;
         	
         	if(getPanel().getEnemyBase() instanceof Fortress) {
         		divisor = (int)(Bases.ENEMY_FORTRESS.getHealth()/Bases.ENEMY_CAVE.getHealth());

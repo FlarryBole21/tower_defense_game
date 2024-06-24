@@ -47,6 +47,7 @@ public class Main {
 	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {
 			AudioPlayers.LIZARD_ATTACK_PLAYER.getPlayer(),
 			AudioPlayers.LIZARD_SPEAK_PLAYER.getPlayer(),
+			AudioPlayers.SPIDER_ATTACK_PLAYER.getPlayer(),
 			AudioPlayers.BEAR_ATTACK_PLAYER.getPlayer()
 			};
 	private static boolean FIRSTTIME;

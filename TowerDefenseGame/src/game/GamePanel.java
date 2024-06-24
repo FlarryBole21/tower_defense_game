@@ -291,6 +291,7 @@ public class GamePanel extends JPanel implements ActionListener {
         waveManager.reset();
         
         for (Bases base : Bases.values()) {
+        	
         	base.getBase().setHealth(base.getHealth());
            
         }

@@ -100,25 +100,11 @@ public class WaveManager {
 	public void startConfig() {
 		updateWaveLabel();
     	changeBackground();
-    	
-    	
-    	
-    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_01.getTower());
-//    	panel.addTowersPlayer(new NormalStoneTower(100,600,100,
-//        		100,1000,true));
-    	//Towers.FRIENDLY_NORMAL_STONE_TOWER_01.getTower().startLoading();
-    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_02.getTower());
-    	//panel.addTowers(Towers.NORMAL_STONE_TOWER_03.getTower());
-//    	Towers.FRIENDLY_NORMAL_STONE_TOWER_02.getTower().startLoading();
 
     	panel.setFriendlyBase(Bases.FRIENDLY_CAVE.getBase());
     	panel.setEnemyBase(Bases.ENEMY_CAVE.getBase());
-    	//panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
-//    	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
-		
-		
-//        friendlySpawner = new LizardSpawner(30000,panel,true);
-//        friendlySpawner.startSpawning();
+
+
         enemySpawner = new FirstLineUpSpawner(LINEUPSPAWNERDELAY ,panel,false);
         enemySpawner.startSpawning();
         
@@ -147,14 +133,16 @@ public class WaveManager {
             	if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() >0) {
 	                wave++;
 //	                if(wave==2) {
-//	                	panel.setCoins(200);
-//	                	updateWaveLabel();
-//	                	panel.getImageIconManager().coinTestingForAllButRemove();
+//	                	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
+//	                	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
 //	                	
 //	                
 //	                }
 	                if(wave >= 4 && wave <= waveMax) {
 	                	//friendlySpawner.stopSpawning();
+//	                	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
+//	                	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
+	                	
 	                	panel.getImageIconManager().getImageIconButtons().clear();
 	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 
@@ -164,14 +152,20 @@ public class WaveManager {
 	            						CoinValues.NORMAL_MAGIC_TOWER.getValue(),64, 64);
 	            		JButton normalStoneTowerRemoveImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER_REMOVE, "NormalStoneTowerRemoveButton", 0,64, 64);
+	            		JButton normalSpiderImageButton = ButtonSetter.setImageIconButton
+	            				(Path.IMAGE_ICON_NORMAL_SPIDER, "NormalSpiderButton", 
+	            						CoinValues.NORMAL_SPIDER.getValue(),64, 64);
 	            		JButton normalBearImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_BEAR, "NormalBearButton", 
 	            						CoinValues.NORMAL_BEAR.getValue(),64, 64);
+	           
 	                	
 	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerImageButton);
 	            		panel.getImageIconManager().addImageIconButton(normalMagicTowerImageButton);
 	            		panel.getImageIconManager().addImageIconButton(normalStoneTowerRemoveImageButton);
+	            		panel.getImageIconManager().addImageIconButton(normalSpiderImageButton);
 	                	panel.getImageIconManager().addImageIconButton(normalBearImageButton);
+	               
 	                	try {
 							panel.getImageIconManager().refreshImageIcons();
 						} catch (IOException e) {

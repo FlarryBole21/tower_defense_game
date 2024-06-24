@@ -20,15 +20,15 @@ import game.GamePanel;
 import game.Main;
 import utils.Path;
 
-public abstract class Bear extends LivingBeing{
+public abstract class Spider extends LivingBeing{
 
 	private static final long serialVersionUID = 1L;
 	private boolean attackState;
 
-	public Bear(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
+	public Spider(int xPos, int yPos, int width, int height, int attack, double health,boolean friendly) {
 		super(xPos, yPos, width,height, attack, health,friendly);
 		super.addSpeed(2);
-		super.addAttackingAudio(AudioPlayers.BEAR_ATTACK_PLAYER.getPlayer());
+		super.addAttackingAudio(AudioPlayers.SPIDER_ATTACK_PLAYER.getPlayer());
 		super.setAttackingDistance(20);
 		super.setWaitingDistance(110);
 		super.setFrameDelay(100);

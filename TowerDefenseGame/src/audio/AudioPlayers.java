@@ -8,6 +8,7 @@ public enum AudioPlayers {
 	DANGER_PLAYER(new AudioPlayer(Path.DANGER_BACKGROUND_MUSIC.getName(),false,true,false)),
 	LIZARD_ATTACK_PLAYER(new AudioPlayer(Path.LIZARD_ATTACK_SOUND.getName(),false,true,false)),
 	LIZARD_SPEAK_PLAYER( new AudioPlayer(Path.LIZARD_SPEAK_SOUND.getName(),false,false,false)),
+	SPIDER_ATTACK_PLAYER(new AudioPlayer(Path.SPIDER_ATTACK_SOUND.getName(),false,true,false)),
 	BEAR_ATTACK_PLAYER(new AudioPlayer(Path.BEAR_ATTACK_SOUND.getName(),false,true,false));
 	
 	private AudioPlayer player;

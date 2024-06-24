@@ -255,7 +255,7 @@ public abstract class LivingBeing extends Entity{
 		}
 		
 		
-		enemyNearCave();
+		nearCave();
 		
 		if (this.getHealth() > 0) {
 			if(isFriendly()) {
@@ -276,6 +276,8 @@ public abstract class LivingBeing extends Entity{
         			panel.setCoins(panel.getCoins()+CoinValues.INTERMEDIATE_LIZARD_LOOT.getValue());
         		}else if(this instanceof AdvancedLizard) {
         			panel.setCoins(panel.getCoins()+CoinValues.ADVANCED_LIZARD_LOOT.getValue());
+        		}else if(this instanceof NormalSpider) {
+        			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_SPIDER_LOOT.getValue());
         		}else if(this instanceof NormalBear) {
         			panel.setCoins(panel.getCoins()+CoinValues.NORMAL_BEAR_LOOT.getValue());
         		}
@@ -300,7 +302,7 @@ public abstract class LivingBeing extends Entity{
 		
 	}
 	
-	private void enemyNearCave() {
+	private void nearCave() {
 		int dangerDistance = 50;
 		
 		
@@ -345,6 +347,7 @@ public abstract class LivingBeing extends Entity{
 					}
 				}
 			}
+			
 			
 		}
 		
@@ -630,6 +633,15 @@ public abstract class LivingBeing extends Entity{
 	
 	private void attack() {
 		
+		if(this instanceof Bear) {
+			Bear bear = (Bear)this;
+			if(!bear.isAttackState()) {
+				getRect().setY(getRect().getY()-30);
+				bear.setAttackState(true);
+			}
+			
+		}
+		
 		movingState=false;
 
 		setPathImage(attackingPath.getName());
@@ -734,8 +746,19 @@ public abstract class LivingBeing extends Entity{
 		
 	}
 	
+	
+	
 	private void move() {
 		movingState=true;
+		
+		if(this instanceof Bear) {
+			Bear bear = (Bear)this;
+			if(bear.isAttackState()) {
+				getRect().setY(getRect().getY()+30);
+				bear.setAttackState(false);
+			}
+			
+		}
 		stopAttackSound();
 		
 		if(isFriendly()) {
