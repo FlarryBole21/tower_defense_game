@@ -41,9 +41,13 @@ import utils.Path;
 
 public class Main {
 	
+	
 	private JFrame frame;
 	public final static JPanel MAINPANEL = new JPanel();
 	public final static Main WINDOW = new Main();
+	
+	//Alle Audio-Files, die während Kampfszenen abgespielt werden --> Werden übder die LivingBeings-Klasse
+	//eingeschaltet oder ausgeschaltet
 	public final static AudioPlayer[] ATTACK_PLAYERS = new AudioPlayer[] {
 			AudioPlayers.LIZARD_ATTACK_PLAYER.getPlayer(),
 			AudioPlayers.LIZARD_SPEAK_PLAYER.getPlayer(),
@@ -52,6 +56,8 @@ public class Main {
 			};
 	private static boolean FIRSTTIME;
 
+	
+	//Main-Methode --> Aufruf der graphischen Oberfläche
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -65,12 +71,15 @@ public class Main {
 
 	}
 	
+	//Initilaizierungsaufurf der GUI + Fehlerabfangen
 	public Main() {
 		try {
 			initialize();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getMessage();
 		} catch (RuntimeException e) {
+			e.getMessage();
+		} catch (Exception e) {
 			e.getMessage();
 		}
 	}
@@ -79,6 +88,7 @@ public class Main {
 	private void initialize() throws IOException {
 		frame = new JFrame();
 		
+		//CardLayout -- MainPanel gilt als CardLayout, um Switches zwischen Panels zu ermöglichen
 		MAINPANEL.setLayout(new CardLayout());
 		CardLayout cardLayout = (CardLayout) MAINPANEL.getLayout();
 		
@@ -86,7 +96,7 @@ public class Main {
 		
 		resetImageIcons(imageIconButtons);
 
-        
+        //Setzen des Labels wo Infos übder die Welle und die Währung stehen und später aktualisiert werden
 		JLabel label = LabelSetter.setLabel(SwingConstants.CENTER,"Serif",Font.BOLD,70,Color.WHITE,new Color(0, 0, 0, 0),20);
         GamePanel gamePanel = PanelSetter.setGamePanel(frame,cardLayout,label,imageIconButtons);
         
@@ -106,6 +116,7 @@ public class Main {
         };
         
         
+        //Festlegen der Button für die einzelnen Menüs
         JButton startButton = ButtonSetter.setButton("Spiel starten", startGameRunnable);
         JButton quitLosingTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
         JButton quitWinningTryAgainButton = ButtonSetter.setButton("Nochmal versuchen", startGameRunnable);
@@ -130,6 +141,8 @@ public class Main {
         LinkedList<JButton> winningButtons2 = new LinkedList<>(
         		Arrays.asList(quitWinningTryAgainButton2,quitWinningBackToMenuButton2));
         
+        
+        //Setzten der vier Menü-Panels
         JPanel menuPanel = PanelSetter.setPanel("MenuPanel",menuText, menuButtons,100,18,10,10);
         JPanel losingPanel = PanelSetter.setPanel("LosingPanel", losingText,losingButtons,100,18,10,10);
         JPanel winningPanel = PanelSetter.setPanel("WinningPanel", winningText, winningButtons,100,18,10,10);
@@ -168,6 +181,7 @@ public class Main {
 	}
 	
 	
+	//Alle Icons werden zu ihrem Ursprung zurückgesetzt
 	public static void resetImageIcons(LinkedList<JButton> imageIconButtons) {
 		JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
 				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", CoinValues.NORMAL_STONE_TOWER.getValue(),64, 64);
@@ -194,6 +208,7 @@ public class Main {
 	
 	
 	
+	//Starten des Spiels, der Hintergrundmusik 
 	public static void startGame(GamePanel gamePanel, CardLayout cardLayout) {
 		if(FIRSTTIME) {
 			WINDOW.startAudio(AudioPlayers.BACKGROUND_PLAYER.getPlayer());
@@ -210,6 +225,7 @@ public class Main {
 	}
 
 
+	//Audio wird abgespielt und läufft im eigenen Thread
 	public void startAudio(AudioPlayer player) {
         new Thread(new Runnable() {
             @Override
@@ -226,6 +242,7 @@ public class Main {
     }
 	
 	
+	//Alle Audios werden gestoppt
 	public static void stopAudio() {
 		for(AudioPlayers players: AudioPlayers.values()) {
 			AudioPlayer player = players.getPlayer();

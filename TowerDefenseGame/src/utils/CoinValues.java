@@ -2,6 +2,7 @@ package utils;
 
 public enum CoinValues {
 	
+	//Setzen aller Münzwerte für die Icons
 	START_COIN_VALUE(175),
 	NORMAL_LIZARD(15),
 	INTERMEDIATE_LIZARD(100),

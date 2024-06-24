@@ -22,7 +22,9 @@ public class BeingLifeBar extends LifeBar{
 		super(panel, lifeBarWidthFriend, lifeBarWidthEnemy, lifeBarHeight, lifeBarX, lifeBarY);
 	}
 	
-	
+	//Zeichnen des Lebensbalkens
+	//Lebensbalken wird immer mit 100 Prozent verrechnet
+	// Soll immer gleiche Länge haben
 	public void drawLifeBar(Graphics g, double health, boolean isFriendly) {
         double maxHealth = 100; 
    
@@ -97,10 +99,11 @@ public class BeingLifeBar extends LifeBar{
         int x = getLifeBarX();
         int y = isFriendly ? getLifeBarY() : getLifeBarY()  + getLifeBarHeight()  + 10;
         g.fillRect(x, y, lifeBarWidth, getLifeBarHeight());
-        //g.setColor(Color.BLACK);
-        //g.drawRect(x, y, LIFE_BAR_WIDTH, LIFE_BAR_HEIGHT);
+
     }
 	
+	
+	//Zeichnen des darunter liegenden schawrzen Balkens
 	public void drawLifeBarBorder(Graphics g, boolean isFriendly) {
         double maxHealth = 100;
         double health = isFriendly ? Beings.FRIENDLY_NORMAL_LIZARD.getHealth() : Beings.ENEMY_NORMAL_LIZARD.getHealth();
@@ -208,8 +211,7 @@ public class BeingLifeBar extends LifeBar{
         	lifeBarWidth = (int)((getLifeBarWidthEnemy() * health) / maxHealth);
         }
    
-      
-        //g.setColor(isFriendly ? Color.GREEN : Color.RED);
+
         int x = getLifeBarX();
         int y = isFriendly ? getLifeBarY() : getLifeBarY()  + getLifeBarHeight()  + 10;
         g.setColor(Color.BLACK);

@@ -77,6 +77,7 @@ public class ImageIconManager {
 	}
 
 
+	//Setzen der Events für die Icons, wenn man auf einen Button klickt wird entsprechendes Event ausgelöst
 	public void setImageIconButtonsEvents() {
 		
 		if(panel == null) {
@@ -247,7 +248,7 @@ public class ImageIconManager {
 		}
     }
 	
-	
+	//Testen ob der Spieler genügend Münzen hat um jeweiligen Button nutzen zu dürfen
 	public void coinTestingForAllButRemove() {
 		for(JButton button: imageIconButtons) {
 			if(!coinTester(button) && !button.getName().contains("Remove")) {
@@ -287,6 +288,7 @@ public class ImageIconManager {
 		}
 	}
 	
+	//Events für verschiedene Türme
 	
 	private void spawnNormalStoneTower(JButton imageButton) {
 	
@@ -398,7 +400,7 @@ public class ImageIconManager {
 		
 	}
 	
-
+	//Events für verschiedene Einheiten
 	private void spawnNormalLizardEvent(JButton imageButton) {
 	    Beings friend = Beings.FRIENDLY_NORMAL_LIZARD;
 
@@ -487,7 +489,7 @@ public class ImageIconManager {
 	
 	
 
-	
+	//Einheit wird gespawnt wenn man auf den Button drückt
 	private void spawnFriend(Beings friend,Runnable runnable) {
 		
 		if(panel.getFriendlyLivingBeings().size() > 0) {
@@ -504,7 +506,7 @@ public class ImageIconManager {
 		
 	}
 	
-	
+	//Festsetzen eines Startcooldowns
 	private void startCooldown(JButton button) {
 		
 		if(imageIconButtons.size() > 0) {
@@ -525,7 +527,7 @@ public class ImageIconManager {
 	
 	
 	
-	
+	//Einfügen eines Standard-Coolddowns
 	private void defaultCoolDowns(JButton button) {
 		int defaultCoolDown = 1000;
 		
@@ -595,7 +597,7 @@ public class ImageIconManager {
 
     }
     
-    
+    //Switch den Cooldown
     private void coolDownSwitcher(Boolean cooldownActive, Long cooldownEndTime, JButton imageButton) {
     	
     	boolean coinTest =coinTester(imageButton);
@@ -623,7 +625,7 @@ public class ImageIconManager {
     	
     }
     
-    
+    //Prüft ob der Spieler genügend Geld hat
     private boolean coinTester(JButton imageButton) {
     	
     	if(imageButton.getName().equals("NormalLizardButton")) {
@@ -661,7 +663,7 @@ public class ImageIconManager {
     	
     }
     
-    
+    //Zur Cooldown Regulierung
     public void updateOnActionPerformed() {
 
     	if(imageIconButtons.size() > 0) {
@@ -677,7 +679,7 @@ public class ImageIconManager {
     	}
     }
     
-    
+    //Zurücksetzen der Cooldowns
     public void resetCoolDowns() {
     
     	for (Map.Entry<String, Boolean> activeEntry : getCooldownImageIconsMapActive().entrySet()) {
@@ -689,7 +691,7 @@ public class ImageIconManager {
     }
     
     
-    
+    //Alle Icons werden neugeladen beim Wellenwechseln zum Beispiel
     public void refreshImageIcons() throws IOException {
         //panel.removeAll();
     	for(Component comp: panel.getComponents()) {
@@ -716,7 +718,7 @@ public class ImageIconManager {
     	
     }
     
-    
+    //Zürcksetzen der Icons zum Original-LineUp
     public void returnToOriginalLineUp() throws IOException {
     	
     	resetCoolDowns();

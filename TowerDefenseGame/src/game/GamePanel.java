@@ -67,18 +67,30 @@ public class GamePanel extends JPanel implements ActionListener {
 	private Base enemyBase;
 	private BaseLifeBar baseLifeBar;
 	private BeingLifeBar beingLifeBar;
+	//Alle lebenden freundlcihen Lebewesen --> auf unserer Seite
     private LinkedList<LivingBeing> friendlyLivingBeings;
+    //Alle feindlichen Lebewesen --> auf der gegnerischen Seite
     private LinkedList<LivingBeing> enemyLivingBeings;
+    //Temporäre Listen um Iterator-Fehler zu vermeiden
     private LinkedList<LivingBeing> friendlyNewBeings;
     private LinkedList<LivingBeing> enemyNewBeings;
+    
+    //Alle Lebewesen, die sich in einer Warteschlange befinden bzw. auf ihre vorderen Kollegen warten
     private LinkedList<LivingBeing> friendlyWaitingBeings;
     private LinkedList<LivingBeing> enemyWaitingBeings;
+    
+    //Reguliert alle Icons unten in der Anzeige
     private ImageIconManager imageIconManager;
     private Image backgroundImage;
     private int baseWidth;
     private int baseHeight;
+    //Alle Türme --> nur der Spieler besitzt Türme
     private LinkedList<Tower>towers; 
+    
+    //Reguliert die Wellen
     private WaveManager waveManager;
+    
+    //Wird ausgeschaltet, wenn man verleirt oder gewinnt
     private boolean gameStart;
     private JLabel waveLabel; 
     private CardLayout layout;
@@ -92,6 +104,7 @@ public class GamePanel extends JPanel implements ActionListener {
         friendlyWaitingBeings = new LinkedList<>();
         enemyWaitingBeings = new LinkedList<>();
         towers = new LinkedList<>();
+        //Währung des Spielers wird gesetzt auf den Standardwert
         coins=CoinValues.START_COIN_VALUE.getValue();
   
     }
@@ -103,6 +116,8 @@ public class GamePanel extends JPanel implements ActionListener {
     	this.baseHeight=baseHeight;
     	this.waveLabel=waveLabel;
     	this.layout=layout;
+    	
+    	//Setzen der Lebensbalken für Basen und Gegner
     	this.baseLifeBar=new BaseLifeBar(this,100,100,15,(GamePanel.SCREENSIZE.width/2)-500,10);
     	this.beingLifeBar=new BeingLifeBar(this,100,100,15,
     			(GamePanel.SCREENSIZE.width/2)-100,(GamePanel.SCREENSIZE.height/2)+(GamePanel.SCREENSIZE.height/4));
@@ -249,7 +264,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	
 	}
 
-    
+    //Laden des Hintergrunds aus der File
     public void loadBackgroundImage(Path path) {
     	try {
            
@@ -261,13 +276,17 @@ public class GamePanel extends JPanel implements ActionListener {
     	
     }
     
+    
+    //Zeichnen des Hintergrunds
     public void drawBackground(Graphics g) {
     	if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null); 
         }
 	}
     
-    
+    //Zurücksetzen des Spiels, alle Variablen werden zurückgesetzt auf den Ursprungswert
+    //Timer werden gestoppt
+    //Listen geleert etc.
     public void resetGame() throws IOException {
     	gameStart = false;
     	Main.stopAudio();
@@ -301,23 +320,24 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
 
- 
+    //Wenn eine Aktion in der GUI ausgeführt wird
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if(imageIconManager != null) {
-			
+			//Reset der Cooldowns für die Icons // Regulierung
 			if(imageIconManager.getImageIconButtons().size() > 0) {
 				imageIconManager.updateOnActionPerformed();
 			}
 
 		}
 		
-
+		//Spielm läuft nur, wenn das Leben der beiden Basen über null ist
 		if(friendlyBase.getHealth() > 0 && enemyBase.getHealth() > 0 && gameStart && waveManager.getWave() <= waveManager.getWaveMax()) {
 			updateGame(); 
 	        repaint(); 
 		}else {
+			//Spieler hat verloren?
 		    if(friendlyBase.getHealth() <= 0) {
 		    	try {
 					resetGame();
@@ -325,7 +345,9 @@ public class GamePanel extends JPanel implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+		    	
 		    	layout.show(Main.MAINPANEL, "LosingPanel");
+		    //Gegner hat verloren?
 		    }else if(enemyBase.getHealth() <= 0) {
 		    	try {
 					resetGame();
@@ -333,10 +355,8 @@ public class GamePanel extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 		    	layout.show(Main.MAINPANEL, "WinningPanel");
+		    //Maximalwelle überschritten bzw. der Spieler hat überlebt?	
 		    }else if(waveManager.getWave() > waveManager.getWaveMax()){
-		    	
-		    	
-		    	
 		    	
 		    	try {
 					resetGame();
@@ -350,7 +370,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	
+	//Alle Türme, Basen und Lebewesen werden geupdatet
 	private void updateGame() {
 		
 		if(friendlyBase != null) {
@@ -371,7 +391,8 @@ public class GamePanel extends JPanel implements ActionListener {
             }
 		}
 		
-
+		//Alle Lebewesen werden überprüft wenn eins stirbt wird es aus der Liste entfernt
+		//Listen werden aktualisiert
         Iterator<LivingBeing> iterator = friendlyLivingBeings.iterator();
         while (iterator.hasNext()) {
             LivingBeing being = iterator.next();
@@ -400,6 +421,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         
+        //Alle Listen mit den Lebenwesen werden neugeschrieben
         friendlyLivingBeings.addAll(friendlyNewBeings);
         friendlyNewBeings.clear();
         enemyLivingBeings.addAll(enemyNewBeings);
@@ -407,11 +429,16 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 	
 
-	
+	//Alle Lebensbalken werden immer wieder neugezeichnet, alle Lebewesen, alle Türme usw.
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //Hintergrund wird immer zuerst neugezeichnet
         drawBackground(g);
+        
+        //Neuzeichnen der Lebensbalken und dem darunter liegenden schwarzen Balken
+        //Farbiger Balken zeigt aktuelles Leben an
+        //Schwarzer Balken zeigt das verlorene Leben vom Urpsrungsleben an
         baseLifeBar.drawLifeBarBorder(g, true);
         baseLifeBar.drawLifeBarBorder(g, false); 
         baseLifeBar.drawLifeBar(g, friendlyBase.getHealth(), true);
@@ -426,6 +453,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 
                 if(friendlyLivingBeings.size()>0) {
                 	
+                	//Wechseln der Turmanimationen
                 	if(!tower.isAnimationChanged() && (tower instanceof MagicTower)) {
             			tower.setPathImage(Path.IMAGE_MAGIC_TOWER_02.getName());
                     	tower.loadImage();
@@ -459,7 +487,8 @@ public class GamePanel extends JPanel implements ActionListener {
                 		
                     	//tower.update(panel);
                     	
-              
+                		//Neuzeichnen der Projektile und wo sie hinfallen sollen
+                		//Je nachdem ob der Gegner sich bewegt oder stehen bleibt
                     	Iterator<Projectile> iterator = tower.getProjectiles().iterator();
                         while (iterator.hasNext()) {
                         	Projectile projectile = iterator.next();
@@ -484,10 +513,7 @@ public class GamePanel extends JPanel implements ActionListener {
                         	}
                         	
                         	if(projectile.getRect().getY() >= enemyLivingBeings.get(0).getRect().getY()) {
-                        		
-//                        		System.out.println(projectile.getRect().getX());
-//                        		System.out.println(enemyLivingBeings.get(0).getRect().getX());
-                        		
+
                         		
                         		if(projectile.getRect().getX() > enemyLivingBeings.get(0).getRect().getX() && 
                         				projectile.getRect().getX() < enemyLivingBeings.get(0).getRect().getX()+caveDistance) {
@@ -536,6 +562,8 @@ public class GamePanel extends JPanel implements ActionListener {
 			enemyBase.draw(g);
 		}
         
+		
+		//Die Lebensbalken der Lebewesen werden nur neuzeichnet wenn Einheiten der jeweiligen Partei auch existieren
 		for(int i=0; i < friendlyLivingBeings.size();i++) {
 			
 			

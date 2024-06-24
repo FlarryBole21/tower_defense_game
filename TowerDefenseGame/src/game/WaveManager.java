@@ -36,15 +36,15 @@ public class WaveManager {
     	waveTimer = new java.util.Timer();
     }
 	
+    //Reguliert die Wellen
+    //Spiel fängt bei Welle 1, Welle 5 ist die letzte Welle
 	public WaveManager(GamePanel panel,JLabel waveLabel) {
 		this.panel=panel;
 		this.waveLabel=waveLabel;
 		this.wave=1;
 		this.waveDelay=100000;
 		this.waveMax=5;
-//    	updateWaveLabel();
-//    	changeBackground();
-    	//startConfig();
+
 		
 	}
 	
@@ -113,6 +113,7 @@ public class WaveManager {
     }
 	
 	
+	//Reset der Welle auf Welle 1 und reset des Timers
 	public void reset() {
 	    waveTimer.cancel(); 
 	    waveTimer = new java.util.Timer();
@@ -125,6 +126,7 @@ public class WaveManager {
 	    }
 	}
 
+	//Wellen-Timer, nach Wellen-Delay wird um eine Welle erhöt
 	private void waveSpawning(){
 		TimerTask task = new TimerTask() {
             @Override
@@ -132,17 +134,11 @@ public class WaveManager {
             	
             	if(panel.getFriendlyBase().getHealth() > 0 && panel.getEnemyBase().getHealth() >0) {
 	                wave++;
-//	                if(wave==2) {
-//	                	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
-//	                	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
-//	                	
-//	                
-//	                }
+
+	                //Bei Welle 4 werden die meisten Icons aus Welle 1-3 durch neue ausgetauscht
+	                //Neue Icons haben neue Events
 	                if(wave >= 4 && wave <= waveMax) {
-	                	//friendlySpawner.stopSpawning();
-//	                	panel.setFriendlyBase(Bases.FRIENDLY_FORTRESS.getBase());
-//	                	panel.setEnemyBase(Bases.ENEMY_FORTRESS.getBase());
-	                	
+
 	                	panel.getImageIconManager().getImageIconButtons().clear();
 	                	JButton normalStoneTowerImageButton = ButtonSetter.setImageIconButton
 	            				(Path.IMAGE_ICON_NORMAL_STONE_TOWER, "NormalStoneTowerButton", 
@@ -175,13 +171,8 @@ public class WaveManager {
 	                	
 	                	
 	                	enemySpawner.stopSpawning();
-//	                	friendlySpawner = new BearSpawner(30000,panel,true);
-//	                    friendlySpawner.startSpawning();
 	                    enemySpawner = new SecondLineUpSpawner(LINEUPSPAWNERDELAY,panel,false);
 	                    enemySpawner.startSpawning();
-	//                    removeBaseBases();
-	//                    addBaseBases(Bases.FRIENDLY_FORTRESS.getBase(),towersPlayer);
-	//                    addBaseBases(Bases.ENEMY_FORTRESS.getBase(),towersEnemy);
 	                }
 	                updateWaveLabel();
 	                changeBackground();
@@ -195,6 +186,7 @@ public class WaveManager {
 	}
 	
 	
+	//Updaten des Hintergrunds je nach Welle
 	private void changeBackground() {
 		SwingUtilities.invokeLater(() -> {
 			if(wave == 1) {
@@ -206,6 +198,8 @@ public class WaveManager {
         });
 	}
 	
+	
+	//Updaten der Wellenanzeige
 	public void updateWaveLabel() {
         SwingUtilities.invokeLater(() -> {
             waveLabel.setText("Welle " + wave + " Gold " + panel.getCoins());
